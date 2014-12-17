@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" monitorInterval="1800">
+	<Appenders>
+		<Console name="consoleAppender" target="SYSTEM_OUT">
+			<ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
+			<PatternLayout pattern="%m%n" />
+		</Console>
+		<NoSql name="actionAppender" >
+			<MongoDb databaseName="log" collectionName="actionlog"
+				server="192.168.2.66" username="sa" password="sa" />
+		</NoSql>
+	</Appenders>
+	<Loggers>
+		<AsyncLogger name="actionlog" level="debug"
+			includeLocation="true">
+			<AppenderRef ref="actionAppender" />
+		</AsyncLogger>
+		<AsyncRoot level="debug" includeLocation="true">
+			<AppenderRef ref="consoleAppender" />
+		</AsyncRoot>
+	</Loggers>
+</Configuration>
