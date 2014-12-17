@@ -31,6 +31,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:config/mongo.properties</value>
+				<value>classpath:config/redis.properties</value>
 			</list>
 		</property>
 	</bean>
