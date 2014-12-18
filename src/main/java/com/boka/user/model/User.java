@@ -33,6 +33,8 @@ public class User {
 	private String wechatId;
 	//随机盐值
 	private String salt;
+	//激活状态
+	private int activatedStatus;
 	
 	public String getId() {
 		return id;
@@ -111,6 +113,12 @@ public class User {
 	}
 	public void setSalt(String salt) {
 		this.salt = salt;
+	}
+	public int getActivatedStatus() {
+		return activatedStatus;
+	}
+	public void setActivatedStatus(int activatedStatus) {
+		this.activatedStatus = activatedStatus;
 	}
 	
 }

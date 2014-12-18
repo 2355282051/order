@@ -11,6 +11,7 @@ import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
+import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
@@ -47,6 +48,7 @@ public class BaseInfoService {
 		bean.setUpdateDate(Calendar.getInstance().getTime());
 		bean.setLastLoginDate(bean.getCreateDate());
 		bean.setLoc(user.getLoc());
+		bean.setActivatedStatus(StatusConstant.activated);
 		baseInfoRepository.save(bean);
 	}
 

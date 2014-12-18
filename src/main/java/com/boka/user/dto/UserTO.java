@@ -26,6 +26,8 @@ public class UserTO {
 	private String authcode;
 	//产品
 	private String product;
+	//激活状态
+	private int activatedStatus;
 	
 	public String getId() {
 		return id;
@@ -92,6 +94,12 @@ public class UserTO {
 	}
 	public void setProduct(String product) {
 		this.product = product;
+	}
+	public int getActivatedStatus() {
+		return activatedStatus;
+	}
+	public void setActivatedStatus(int activatedStatus) {
+		this.activatedStatus = activatedStatus;
 	}
 	
 }
