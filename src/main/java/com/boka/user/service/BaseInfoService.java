@@ -24,7 +24,7 @@ public class BaseInfoService {
 	@Autowired
 	private AuthUtil authUtil;
 	
-	public String reg(UserTO user) throws CommonException {
+	public void reg(UserTO user) throws CommonException {
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode()))
 		{
@@ -37,10 +37,6 @@ public class BaseInfoService {
 		//MD5加盐
 		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+user.getPassword()));
 		bean = baseInfoRepository.save(bean);
-		user.setId(bean.getId());
-		//生成token返回
-		String access_token = authUtil.getToken(bean.getId());
-		return access_token;
 	}
 
 	public void activate(UserTO user) {
