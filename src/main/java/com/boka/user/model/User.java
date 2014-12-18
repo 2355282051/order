@@ -18,7 +18,7 @@ public class User {
 	//密码
 	private String password;
 	//头像
-	private String headImage;
+	private String avatar;
 	//创建时间
 	private Date createDate;
 	//更新时间
@@ -65,12 +65,6 @@ public class User {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getHeadImage() {
-		return headImage;
-	}
-	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
 	}
 	public Date getCreateDate() {
 		return createDate;
@@ -119,6 +113,12 @@ public class User {
 	}
 	public void setActivatedStatus(int activatedStatus) {
 		this.activatedStatus = activatedStatus;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }

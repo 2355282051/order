@@ -43,7 +43,7 @@ public class BaseInfoService {
 	public void activate(UserTO user) {
 		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setName(user.getName());
-		bean.setHeadImage(user.getHeadImage());
+		bean.setAvatar(user.getAvatar());
 		bean.setSex(user.getSex());
 		bean.setUpdateDate(Calendar.getInstance().getTime());
 		bean.setLastLoginDate(bean.getCreateDate());
@@ -62,6 +62,19 @@ public class BaseInfoService {
 		}
 		String access_token = authUtil.getToken(bean.getId());
 		return access_token;
+	}
+
+	public void add() {
+		User bean = new User();
+		bean.setId("12345678");
+		bean.setName("冰冰");
+		bean.setActivatedStatus(1);
+		bean.setAvatar("http://img1.jgxfw.com/qqtouxiang/2013/09/16/14/142446-20130916910.jpg");
+		bean.setCreateDate(Calendar.getInstance().getTime());
+		bean.setMobile("13818298481");
+		bean.setPassword("12312313");
+		bean.setSex(1);
+		baseInfoRepository.save(bean);
 	}
 	
 }

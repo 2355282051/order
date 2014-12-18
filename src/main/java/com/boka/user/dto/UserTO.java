@@ -15,7 +15,7 @@ public class UserTO {
 	//密码
 	private String password;
 	//头像
-	private String headImage;
+	private String avatar;
 	//最近位置
 	private Location loc;
 	//QQopenId
@@ -59,12 +59,6 @@ public class UserTO {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getHeadImage() {
-		return headImage;
-	}
-	public void setHeadImage(String headImage) {
-		this.headImage = headImage;
-	}
 	public Location getLoc() {
 		return loc;
 	}
@@ -100,6 +94,12 @@ public class UserTO {
 	}
 	public void setActivatedStatus(int activatedStatus) {
 		this.activatedStatus = activatedStatus;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }

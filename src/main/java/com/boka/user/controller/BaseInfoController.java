@@ -34,7 +34,7 @@ public class BaseInfoController {
 		ResultTO result = new ResultTO();
 		String deviceId = null;
 		try {
-			Map<String, String> map = authUtil.auth(requset);
+			Map<String, String> map = authUtil.preAuth(requset);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
 			baseInfoServie.reg(user);
@@ -76,9 +76,13 @@ public class BaseInfoController {
 	}
 	
 	@RequestMapping(value="/beauty/login",method=RequestMethod.POST)
-	public ResultTO loginUser (@RequestBody UserTO user) {
+	public ResultTO loginUser (HttpServletRequest requset, @RequestBody UserTO user) {
 		ResultTO result = new ResultTO();
+		String deviceId = null;
 		try {
+			Map<String, String> map = authUtil.auth(requset);
+			deviceId = map.get("deviceId");
+			user.setProduct(ProductType.BEAUTY);
 			baseInfoServie.login(user);
 		} catch (LoginException le) {
 			result.setCode(401);
@@ -93,7 +97,14 @@ public class BaseInfoController {
 			result.setSuccess(false);
 			e.printStackTrace();
 		}
+		//LogUtil.action("用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
 		return result;
 	}
 	
+	@RequestMapping(value="/add",method=RequestMethod.GET)
+	public ResultTO add (HttpServletRequest requset) {
+		ResultTO result = new ResultTO();
+		baseInfoServie.add();
+		return result;
+	}
 }
