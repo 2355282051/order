@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import com.boka.common.exception.ExceptionCode;
 public class AuthUtil {
 	
 	@Resource(name="redisTemplate")
-	private ValueOperations<String, String> authOps;
+	private HashOperations<String, String, String> hashOps;
 	
 	/**
 	  * 验证用户返回用户ID
@@ -33,7 +34,7 @@ public class AuthUtil {
 		{
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("deviceId", deviceId);
-			result.put("userId", authOps.get(access_token));
+			result.put("userId", hashOps.get(access_token, "userId"));
 			if(Assert.isNotNull(result.get("userId")))
 				return result;
 		}
@@ -55,7 +56,7 @@ public class AuthUtil {
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("deviceId", deviceId);
 			if(Assert.isNotNull(access_token))
-				result.put("userId", authOps.get(access_token));
+				result.put("userId", hashOps.get(access_token, "userId"));
 			
 			return result;
 		}
@@ -69,10 +70,10 @@ public class AuthUtil {
 	  * @param code
 	  * @return
 	  */
-	public boolean authMobile(String mobile, String code) {
+	public boolean authMobile(String mobile, String code, String product) {
 		if(Assert.isNotNull(mobile) && Assert.isNotNull(code))
 		{
-			String authcode = authOps.get(RedisNsUtil.authName(mobile));
+			String authcode = hashOps.get(RedisNsUtil.authName(mobile), product);
 			if(code.equals(authcode))
 				return true;
 		}
@@ -92,8 +93,9 @@ public class AuthUtil {
 		if(Assert.isNotNull(id))
 		{
 			token = TokenUtil.getAccessToken();
-			authOps.set(RedisNsUtil.tokenName(token), id);
+			hashOps.put(RedisNsUtil.tokenName(), "userId", id);
 		}
 		return token;
 	}
+	
 }

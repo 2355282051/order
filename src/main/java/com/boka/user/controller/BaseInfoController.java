@@ -104,7 +104,7 @@ public class BaseInfoController {
 	@RequestMapping(value="/add",method=RequestMethod.GET)
 	public ResultTO add (HttpServletRequest requset) {
 		ResultTO result = new ResultTO();
-		baseInfoServie.add();
+//		baseInfoServie.add();
 		return result;
 	}
 }

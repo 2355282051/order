@@ -6,6 +6,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
@@ -27,7 +28,7 @@ public class BaseInfoService {
 	
 	public void reg(UserTO user) throws CommonException {
 		//验证码检验
-		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode()))
+		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
 		{
 			throw new CommonException(ExceptionCode.AUTH_FAILD);
 		}
@@ -66,7 +67,7 @@ public class BaseInfoService {
 
 	public void add() {
 		User bean = new User();
-		bean.setId("12345678");
+		bean.setId("123456");
 		bean.setName("冰冰");
 		bean.setActivatedStatus(1);
 		bean.setAvatar("http://img1.jgxfw.com/qqtouxiang/2013/09/16/14/142446-20130916910.jpg");

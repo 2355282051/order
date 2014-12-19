@@ -29,10 +29,10 @@ public class RedisNsUtil {
 	private static final String SEPARATOR = ":";
 	
 	public static String authName (String obj) {
-		return AUTH+SEPARATOR+obj+SEPARATOR+ProductType.BEAUTY;
+		return AUTH+SEPARATOR+obj;
 	}
 	
-	public static String tokenName (String obj) {
-		return TOKEN+SEPARATOR+obj;
+	public static String tokenName () {
+		return TOKEN;
 	}
 }
