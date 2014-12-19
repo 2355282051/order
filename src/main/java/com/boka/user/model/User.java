@@ -2,12 +2,14 @@ package com.boka.user.model;
 
 import java.util.Date;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection="user_info")
 public class User {
 
 	//编码
+	@Id
 	private String id;
 	//手机号
 	private String mobile;
