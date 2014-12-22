@@ -83,7 +83,7 @@ public class BaseInfoController {
 			Map<String, String> map = authUtil.preAuth(requset);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
-			baseInfoServie.login(user);
+			result.setResult(baseInfoServie.login(user));
 		} catch (LoginException le) {
 			result.setCode(401);
 			result.setSuccess(false);
