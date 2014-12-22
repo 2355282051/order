@@ -50,7 +50,7 @@ public class AuthUtil {
 	  */
 	public Map<String, String> preAuth(HttpServletRequest requset) throws AuthException {
 		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("deviceId");
+		String deviceId = requset.getHeader("device_id");
 		if(Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();

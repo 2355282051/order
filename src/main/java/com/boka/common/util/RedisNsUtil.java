@@ -1,7 +1,5 @@
 package com.boka.common.util;
 
-import com.boka.common.constant.ProductType;
-
 /**
  * 
  * Title : 缓存中命名空间
