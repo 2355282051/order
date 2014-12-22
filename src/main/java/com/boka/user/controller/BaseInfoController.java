@@ -80,7 +80,7 @@ public class BaseInfoController {
 		ResultTO result = new ResultTO();
 		String deviceId = null;
 		try {
-			Map<String, String> map = authUtil.auth(requset);
+			Map<String, String> map = authUtil.preAuth(requset);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
 			baseInfoServie.login(user);
