@@ -93,7 +93,7 @@ public class AuthUtil {
 		if(Assert.isNotNull(id))
 		{
 			token = TokenUtil.getAccessToken();
-			hashOps.put(RedisNsUtil.tokenName(), "userId", id);
+			hashOps.put(token, "userId", id);
 		}
 		return token;
 	}
