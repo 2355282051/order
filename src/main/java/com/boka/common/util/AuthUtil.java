@@ -7,7 +7,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import com.boka.common.exception.AuthException;
@@ -29,7 +28,7 @@ public class AuthUtil {
 	  */
 	public Map<String, String> auth(HttpServletRequest requset) throws AuthException {
 		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("deviceId");
+		String deviceId = requset.getHeader("device_id");
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
