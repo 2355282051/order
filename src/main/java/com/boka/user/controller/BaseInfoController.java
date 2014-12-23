@@ -61,6 +61,7 @@ public class BaseInfoController {
 			userId = map.get("userId");
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
+			user.setId(userId);
 			baseInfoServie.activate(user);
 		} catch (AuthException ae) {
 			result.setCode(403);
