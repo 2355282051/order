@@ -28,6 +28,8 @@ public class UserTO {
 	private String product;
 	//激活状态
 	private int activatedStatus;
+	//token
+	private String access_token;
 	
 	public String getId() {
 		return id;
@@ -100,6 +102,12 @@ public class UserTO {
 	}
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
+	}
+	public String getAccess_token() {
+		return access_token;
+	}
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
 	}
 	
 }

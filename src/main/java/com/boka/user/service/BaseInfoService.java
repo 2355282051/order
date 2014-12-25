@@ -26,7 +26,7 @@ public class BaseInfoService {
 	@Autowired
 	private AuthUtil authUtil;
 	
-	public void reg(UserTO user) throws CommonException {
+	public String reg(UserTO user) throws CommonException {
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
 		{
@@ -39,6 +39,8 @@ public class BaseInfoService {
 		//MD5加盐
 		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+user.getPassword()));
 		bean = baseInfoRepository.save(bean);
+		//生成token
+		return authUtil.getToken(bean.getId());
 	}
 
 	public void activate(UserTO user) {
@@ -53,7 +55,7 @@ public class BaseInfoService {
 		baseInfoRepository.save(bean);
 	}
 
-	public String login(UserTO user) throws LoginException, CommonException {
+	public UserTO login(UserTO user) throws LoginException, CommonException {
 		User bean = baseInfoRepository.findByMobile(user.getMobile());
 		if(bean ==null) {
 			throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
@@ -61,8 +63,14 @@ public class BaseInfoService {
 		else if(!DigestUtils.md5Hex(bean.getSalt()+user.getPassword()).equals(bean.getPassword())) {
 			throw new LoginException(ExceptionCode.PASSWORD_ERROR);
 		}
-		String access_token = authUtil.getToken(bean.getId());
-		return access_token;
+		UserTO result = new UserTO();
+		result.setAvatar(bean.getAvatar());
+		result.setActivatedStatus(bean.getActivatedStatus());
+		result.setMobile(bean.getMobile());
+		result.setName(bean.getName());
+		result.setSex(bean.getSex());
+		result.setAccess_token(authUtil.getToken(bean.getId()));
+		return result;
 	}
 
 	public void add() {

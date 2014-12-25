@@ -37,7 +37,7 @@ public class BaseInfoController {
 			Map<String, String> map = authUtil.preAuth(requset);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
-			baseInfoServie.reg(user);
+			result.setResult(baseInfoServie.reg(user));
 		} catch (CommonException ce) {
 			result.setCode(500);
 			result.setSuccess(false);
