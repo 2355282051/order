@@ -5,6 +5,8 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.boka.user.constant.URLConstant;
+
 @Document(collection="user_info")
 public class User {
 
@@ -120,7 +122,7 @@ public class User {
 		return avatar;
 	}
 	public void setAvatar(String avatar) {
-		this.avatar = avatar;
+		this.avatar = URLConstant.IMAGE_URL + avatar;
 	}
 	
 }
