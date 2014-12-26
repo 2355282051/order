@@ -128,5 +128,12 @@ public class BaseInfoController {
 		return result;
 	}
 
+	@RequestMapping(value="/beauty/openauth",method=RequestMethod.GET)
+	public ResultTO openAuth (HttpServletRequest requset) {
+		ResultTO result = new ResultTO();
+
+		return result;
+	}
+
 
 }
