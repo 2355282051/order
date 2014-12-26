@@ -101,6 +101,25 @@ public class BaseInfoController {
 		//LogUtil.action("用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
 		return result;
 	}
+
+	@RequestMapping(value="/beauty/logout",method=RequestMethod.POST)
+	public ResultTO logoutUser (HttpServletRequest requset) {
+		ResultTO result = new ResultTO();
+		try {
+			authUtil.removeAuth(requset);
+			result.setResult(new Object());
+		} catch (AuthException le) {
+			result.setCode(403);
+			result.setSuccess(false);
+			result.setMsg(le.getMessage());
+		} catch (Exception e) {
+			result.setCode(500);
+			result.setSuccess(false);
+			e.printStackTrace();
+		}
+		//LogUtil.action("用户登出,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+		return result;
+	}
 	
 	@RequestMapping(value="/add",method=RequestMethod.GET)
 	public ResultTO add (HttpServletRequest requset) {
@@ -108,4 +127,6 @@ public class BaseInfoController {
 //		baseInfoServie.add();
 		return result;
 	}
+
+
 }

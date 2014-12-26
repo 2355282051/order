@@ -61,6 +61,21 @@ public class AuthUtil {
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
+
+	/**
+	 *  用户登出，直接删除Redis数据
+	 * @param requset
+	 * @throws AuthException
+	 */
+	public void removeAuth(HttpServletRequest requset) throws AuthException {
+		String access_token = requset.getHeader("access_token");
+		String deviceId = requset.getHeader("device_id");
+		if(Assert.isNotNull(access_token)){
+			hashOps.delete(access_token, "userId");
+			return;
+		}
+		throw new AuthException(ExceptionCode.AUTH_FAILD);
+	}
 	
 	/**
 	  * 手机验证码验证
