@@ -39,6 +39,11 @@ public class User {
 	private String salt;
 	//激活状态
 	private int activatedStatus;
+	//用户级别
+	private int level = 1;
+	//产品
+	private String product;
+
 	
 	public String getId() {
 		return id;
@@ -122,7 +127,26 @@ public class User {
 		return avatar;
 	}
 	public void setAvatar(String avatar) {
-		this.avatar = URLConstant.IMAGE_URL + avatar;
+		if(avatar.indexOf("http") != -1) {
+			this.avatar = URLConstant.IMAGE_URL + avatar;
+		} else {
+			this.avatar = avatar;
+		}
 	}
-	
+
+	public int getLevel() {
+		return level;
+	}
+
+	public void setLevel(int level) {
+		this.level = level;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
 }

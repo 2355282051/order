@@ -1,15 +1,5 @@
 package com.boka.user.controller;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
@@ -19,6 +9,14 @@ import com.boka.common.util.LogUtil;
 import com.boka.user.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.service.BaseInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 public class BaseInfoController {
@@ -30,11 +28,11 @@ public class BaseInfoController {
 	private AuthUtil authUtil;
 	
 	@RequestMapping(value="/beauty/reg",method=RequestMethod.POST)
-	public ResultTO addUser (HttpServletRequest requset, @RequestBody UserTO user) {
+	public ResultTO addUser (HttpServletRequest request, @RequestBody UserTO user) {
 		ResultTO result = new ResultTO();
 		String deviceId = null;
 		try {
-			Map<String, String> map = authUtil.preAuth(requset);
+			Map<String, String> map = authUtil.preAuth(request);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
 			result.setResult(baseInfoServie.reg(user));
@@ -52,12 +50,12 @@ public class BaseInfoController {
 	}
 	
 	@RequestMapping(value="/beauty/activate",method=RequestMethod.POST)
-	public ResultTO activateUser (HttpServletRequest requset, @RequestBody UserTO user) {
+	public ResultTO activateUser (HttpServletRequest request, @RequestBody UserTO user) {
 		ResultTO result = new ResultTO();
 		String userId = null;
 		String deviceId = null;
 		try {
-			Map<String, String> map = authUtil.auth(requset);
+			Map<String, String> map = authUtil.auth(request);
 			userId = map.get("userId");
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
@@ -77,11 +75,11 @@ public class BaseInfoController {
 	}
 	
 	@RequestMapping(value="/beauty/login",method=RequestMethod.POST)
-	public ResultTO loginUser (HttpServletRequest requset, @RequestBody UserTO user) {
+	public ResultTO loginUser (HttpServletRequest request, @RequestBody UserTO user) {
 		ResultTO result = new ResultTO();
 		String deviceId = null;
 		try {
-			Map<String, String> map = authUtil.preAuth(requset);
+			Map<String, String> map = authUtil.preAuth(request);
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
 			result.setResult(baseInfoServie.login(user));
@@ -103,10 +101,10 @@ public class BaseInfoController {
 	}
 
 	@RequestMapping(value="/beauty/logout",method=RequestMethod.POST)
-	public ResultTO logoutUser (HttpServletRequest requset) {
+	public ResultTO logoutUser (HttpServletRequest request) {
 		ResultTO result = new ResultTO();
 		try {
-			authUtil.removeAuth(requset);
+			authUtil.removeAuth(request);
 			result.setResult(new Object());
 		} catch (AuthException le) {
 			result.setCode(403);
@@ -122,16 +120,28 @@ public class BaseInfoController {
 	}
 	
 	@RequestMapping(value="/add",method=RequestMethod.GET)
-	public ResultTO add (HttpServletRequest requset) {
+	public ResultTO add (HttpServletRequest request) {
 		ResultTO result = new ResultTO();
 //		baseInfoServie.add();
 		return result;
 	}
 
-	@RequestMapping(value="/beauty/openauth",method=RequestMethod.GET)
-	public ResultTO openAuth (HttpServletRequest requset) {
+	@RequestMapping(value="/beauty/openauth",method=RequestMethod.POST)
+	public ResultTO openAuth (HttpServletRequest request, @RequestBody UserTO user) {
 		ResultTO result = new ResultTO();
-
+		String deviceId = null;
+		try {
+			Map<String, String> map = authUtil.openAuth(request, user.getQqId());
+			deviceId = map.get("deviceId");
+			user.setProduct(ProductType.BEAUTY);
+			baseInfoServie.openAuth(user);
+			result.setResult(user);
+		} catch (Exception e) {
+			result.setCode(500);
+			result.setSuccess(false);
+			e.printStackTrace();
+		}
+		LogUtil.action("第三方用户登陆,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
 		return result;
 	}
 

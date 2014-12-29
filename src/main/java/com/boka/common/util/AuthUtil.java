@@ -76,14 +76,14 @@ public class AuthUtil {
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
-	
+
 	/**
-	  * 手机验证码验证
-	  * 
-	  * @param phone
-	  * @param code
-	  * @return
-	  */
+	 * 手机验证码验证
+	 * @param mobile
+	 * @param code
+	 * @param product
+	 * @return
+	 */
 	public boolean authMobile(String mobile, String code, String product) {
 		if(Assert.isNotNull(mobile) && Assert.isNotNull(code))
 		{
@@ -97,8 +97,7 @@ public class AuthUtil {
 	/**
 	  * 生成access_token
 	  * 
-	  * @param phone
-	  * @param code
+	  * @param id
 	  * @return
 	 * @throws CommonException 
 	  */
@@ -110,6 +109,27 @@ public class AuthUtil {
 			hashOps.put(token, "userId", id);
 		}
 		return token;
+	}
+
+	/**
+	 * 第三方OpenID登录
+	 * @param requset
+	 * @param userId
+	 * @return
+	 * @throws AuthException
+	 * @throws CommonException
+	 */
+	public Map<String, String> openAuth(HttpServletRequest requset, String userId)throws AuthException, CommonException {
+		String access_token = requset.getHeader("access_token");
+		String deviceId = requset.getHeader("device_id");
+		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
+		{
+			Map<String, String> result = new HashMap<String, String>();
+			result.put("deviceId", deviceId);
+			result.put("userId", userId);
+			return result;
+		}
+		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
 	
 }

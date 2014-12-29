@@ -1,21 +1,21 @@
 package com.boka.user.service;
 
-import java.util.Calendar;
-
-import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
+import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
+import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
 
 @Service
 public class BaseInfoService {
@@ -43,7 +43,15 @@ public class BaseInfoService {
 		return authUtil.getToken(bean.getId());
 	}
 
-	public void activate(UserTO user) {
+	public void activate(UserTO user) throws CommonException {
+
+		if(Assert.isNotNull(user.getMobile())) {
+			//验证码检验
+			if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
+			{
+				throw new CommonException(ExceptionCode.AUTH_FAILD);
+			}
+		}
 		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setName(user.getName());
 		bean.setAvatar(user.getAvatar());
@@ -52,6 +60,7 @@ public class BaseInfoService {
 		bean.setLastLoginDate(bean.getCreateDate());
 		bean.setLoc(user.getLoc());
 		bean.setActivatedStatus(StatusConstant.activated);
+		bean.setProduct(user.getProduct());
 		baseInfoRepository.save(bean);
 	}
 
@@ -71,6 +80,26 @@ public class BaseInfoService {
 		result.setSex(bean.getSex());
 		result.setAccess_token(authUtil.getToken(bean.getId()));
 		return result;
+	}
+
+	public void openAuth(UserTO user) {
+
+		User bean = baseInfoRepository.findOne(user.getId());
+		if(bean == null) {
+			bean.setCreateDate(Calendar.getInstance().getTime());
+			bean.setSalt(RandomUtil.randomSalt());
+			bean.setAvatar(user.getAvatar());
+			bean.setId(user.getQqId());
+			bean.setSex(user.getSex());
+			bean.setLoc(user.getLoc());
+			bean.setName(user.getName());
+			bean.setProduct(user.getProduct());
+		} else {
+			bean.setAvatar(user.getAvatar());
+			bean.setLoc(user.getLoc());
+			bean.setName(user.getName());
+		}
+		baseInfoRepository.save(bean);
 	}
 
 	public void add() {
