@@ -116,6 +116,31 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<version>3.1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>c3p0</groupId>
+			<artifactId>c3p0</artifactId>
+			<version>0.9.1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.23</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils-core</artifactId>
+			<version>1.8.3</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>user</finalName>
@@ -125,8 +150,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -146,14 +171,14 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<webResources>
+					<!--<webResources>
 						<resource>
 							<directory>src/main/resources</directory>
 							<directory>src/main/conf/${env}</directory>
 							<targetPath>WEB-INF/classes</targetPath>
 							<filtering>true</filtering>
 						</resource>
-					</webResources>
+					</webResources>-->
 					<warName>${project.artifactId}</warName>
 					<outputDirectory>target</outputDirectory>
 				</configuration>
