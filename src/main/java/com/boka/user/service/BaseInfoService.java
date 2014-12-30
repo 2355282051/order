@@ -45,13 +45,13 @@ public class BaseInfoService {
 
 	public void activate(UserTO user) throws CommonException {
 
-		if(Assert.isNotNull(user.getMobile())) {
-			//验证码检验
-			if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
-			{
-				throw new CommonException(ExceptionCode.AUTH_FAILD);
-			}
-		}
+//		if(Assert.isNotNull(user.getMobile())) {
+//			//验证码检验
+//			if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
+//			{
+//				throw new CommonException(ExceptionCode.AUTH_FAILD);
+//			}
+//		}
 		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setName(user.getName());
 		bean.setAvatar(user.getAvatar());
