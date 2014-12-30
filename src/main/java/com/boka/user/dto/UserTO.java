@@ -26,7 +26,7 @@ public class UserTO {
 	private String authcode;
 	//产品
 	private String product;
-	//激活状态
+	//激活状态 0 未激活　１：激活　２:未认证激活
 	private int activatedStatus;
 	//token
 	private String access_token;

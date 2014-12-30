@@ -96,11 +96,11 @@ public class BaseInfoController {
 			result.setSuccess(false);
 			e.printStackTrace();
 		}
-		//LogUtil.action("用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+		LogUtil.action("用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
 		return result;
 	}
 
-	@RequestMapping(value="/beauty/logout",method=RequestMethod.POST)
+	@RequestMapping(value="/beauty/logout",method=RequestMethod.GET)
 	public ResultTO logoutUser (HttpServletRequest request) {
 		ResultTO result = new ResultTO();
 		try {
@@ -134,6 +134,7 @@ public class BaseInfoController {
 			Map<String, String> map = authUtil.openAuth(request, user.getQqId());
 			deviceId = map.get("deviceId");
 			user.setProduct(ProductType.BEAUTY);
+			user.setActivatedStatus(2);
 			baseInfoServie.openAuth(user);
 			result.setResult(user);
 		} catch (Exception e) {
