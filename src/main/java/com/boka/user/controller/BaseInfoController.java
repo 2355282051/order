@@ -101,7 +101,7 @@ public class BaseInfoController {
 		return result;
 	}
 
-	@RequestMapping(value="/beauty/logout",method=RequestMethod.GET)
+	@RequestMapping(value="/beauty/logout",method=RequestMethod.POST)
 	public ResultTO logoutUser (HttpServletRequest request) {
 		ResultTO result = new ResultTO();
 		try {
@@ -159,6 +159,7 @@ public class BaseInfoController {
 			user.setProduct(ProductType.BEAUTY);
 			user.setId(userId);
 			baseInfoServie.bindMobile(user);
+			user.setActivatedStatus(1);
 			result.setResult(user);
 		} catch (Exception e) {
 			result.setCode(500);
