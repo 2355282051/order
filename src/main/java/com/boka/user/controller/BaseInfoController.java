@@ -4,6 +4,7 @@ import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
+import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.dto.ResultTO;
@@ -143,6 +144,28 @@ public class BaseInfoController {
 			e.printStackTrace();
 		}
 		LogUtil.action("第三方用户登陆,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
+		return result;
+	}
+
+	@RequestMapping(value="/beauty/bindmobile",method=RequestMethod.POST)
+	public ResultTO bindMobile(HttpServletRequest request, @RequestBody UserTO user) {
+		ResultTO result = new ResultTO();
+		String userId = null;
+		String deviceId = null;
+		try {
+			Map<String, String> map = authUtil.auth(request);
+			userId = map.get("userId");
+			deviceId = map.get("deviceId");
+			user.setProduct(ProductType.BEAUTY);
+			user.setId(userId);
+			baseInfoServie.bindMobile(user);
+			result.setResult(user);
+		} catch (Exception e) {
+			result.setCode(500);
+			result.setSuccess(false);
+			e.printStackTrace();
+		}
+		LogUtil.action("绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
 		return result;
 	}
 

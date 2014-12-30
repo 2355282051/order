@@ -1,5 +1,6 @@
 package com.boka.user.controller;
 
+import com.boka.common.util.UUIDGenerator;
 import com.boka.device.model.Device;
 import com.boka.device.service.DeviceService;
 import com.boka.user.dto.DeviceDTO;
@@ -25,6 +26,7 @@ public class DeviceController {
         ResultTO result = new ResultTO();
         try {
             Device device = new Device();
+            device.setId(UUIDGenerator.getUUID());
             device.setDeviceId(deviceDTO.getDeviceId());
             device.setPhoneType(deviceDTO.getPhoneType());
             device.setPhone(deviceDTO.getPhone());
@@ -34,7 +36,7 @@ public class DeviceController {
             device.setUserId(deviceDTO.getUserId());
             device.setUserName(device.getUserName());
             deviceService.saveDevice(device);
-            result.setResult(deviceDTO);
+            result.setResult("添加成功");
         }catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

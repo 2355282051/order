@@ -32,6 +32,9 @@ public class BaseInfoService {
 		{
 			throw new CommonException(ExceptionCode.AUTH_FAILD);
 		}
+		if(Assert.isNull(user.getPassword())) {
+			throw new CommonException(ExceptionCode.PARAM_NULL);
+		}
 		User bean = new User();
 		bean.setCreateDate(Calendar.getInstance().getTime());
 		bean.setMobile(user.getMobile());
@@ -45,13 +48,6 @@ public class BaseInfoService {
 
 	public void activate(UserTO user) throws CommonException {
 
-//		if(Assert.isNotNull(user.getMobile())) {
-//			//验证码检验
-//			if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
-//			{
-//				throw new CommonException(ExceptionCode.AUTH_FAILD);
-//			}
-//		}
 		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setName(user.getName());
 		bean.setAvatar(user.getAvatar());
@@ -95,11 +91,31 @@ public class BaseInfoService {
 			bean.setLoc(user.getLoc());
 			bean.setName(user.getName());
 			bean.setProduct(user.getProduct());
+			bean.setActivatedStatus(2);
 		} else {
 			bean.setAvatar(user.getAvatar());
 			bean.setLoc(user.getLoc());
 			bean.setName(user.getName());
 		}
+		baseInfoRepository.save(bean);
+	}
+
+	public void bindMobile(UserTO user) throws CommonException {
+		User bean = baseInfoRepository.findOne(user.getQqId());
+		//验证码检验
+		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
+		{
+			throw new CommonException(ExceptionCode.AUTH_FAILD);
+		}
+		if(Assert.isNull(user.getPassword())) {
+			throw new CommonException(ExceptionCode.PARAM_NULL);
+		}
+
+		bean.setMobile(user.getMobile());
+		bean.setSalt(RandomUtil.randomSalt());
+		bean.setActivatedStatus(1);
+		//MD5加盐
+		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+ user.getPassword()));
 		baseInfoRepository.save(bean);
 	}
 

@@ -7,7 +7,8 @@
 	
 	<!-- 实体 -->
 	<resultMap type="Device"  id="device" >
-		<id property="deviceId" column="deviceId" javaType="java.lang.String" />
+		<id property="id" column="id" javaType="java.lang.String" />
+		<result property="deviceId" column="deviceId" javaType="java.lang.String" />
 		<result property="phone" column="phone" javaType="java.lang.String"/>
 		<result property="phoneType" column="phoneType" javaType="java.lang.String" />
 		<result property="phoneVersion" column="phoneVersion" javaType="java.lang.String" />
@@ -19,8 +20,8 @@
 	</resultMap>
 
 	<insert id="saveDevice" parameterType="Device">
-		insert into t_device(deviceId, phone, phoneType, phoneVersion, appName, appVersion, userId, userName, createTime)
-		values(#{deviceId}, #{phone}, #{phoneType}, #{phoneVersion}, #{appName}, #{appVersion}, #{userId}, #{userName}, #{createTime})
+		insert into t_device(id, deviceId, phone, phoneType, phoneVersion, appName, appVersion, userId, userName, createTime)
+		values(#{id}, #{deviceId}, #{phone}, #{phoneType}, #{phoneVersion}, #{appName}, #{appVersion}, #{userId}, #{userName}, #{createTime})
 	</insert>
 
 

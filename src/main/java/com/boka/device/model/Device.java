@@ -7,6 +7,7 @@ import java.util.Date;
  */
 public class Device {
 
+    private String id;
     private String deviceId; // 设备ID
     private String phone; // 手机号码
     private String phoneType; // 手机类型
@@ -16,6 +17,14 @@ public class Device {
     private String userId; //　用户ID
     private String userName; // 用户名称
     private Date createTime; //　创建时间
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getDeviceId() {
         return deviceId;

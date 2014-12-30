@@ -171,14 +171,14 @@
 					<archive>
 						<addMavenDescriptor>false</addMavenDescriptor>
 					</archive>
-					<!--<webResources>
+					<webResources>
 						<resource>
 							<directory>src/main/resources</directory>
 							<directory>src/main/conf/${env}</directory>
 							<targetPath>WEB-INF/classes</targetPath>
 							<filtering>true</filtering>
 						</resource>
-					</webResources>-->
+					</webResources>
 					<warName>${project.artifactId}</warName>
 					<outputDirectory>target</outputDirectory>
 				</configuration>
