@@ -127,6 +127,7 @@ public class AuthUtil {
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("deviceId", deviceId);
 			result.put("userId", userId);
+			hashOps.put(access_token, "userId", userId);
 			return result;
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
