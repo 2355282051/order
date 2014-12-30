@@ -101,7 +101,6 @@ public class BaseInfoService {
 	}
 
 	public void bindMobile(UserTO user) throws CommonException {
-		User bean = baseInfoRepository.findOne(user.getQqId());
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
 		{
@@ -110,7 +109,7 @@ public class BaseInfoService {
 		if(Assert.isNull(user.getPassword())) {
 			throw new CommonException(ExceptionCode.PARAM_NULL);
 		}
-
+		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setMobile(user.getMobile());
 		bean.setSalt(RandomUtil.randomSalt());
 		bean.setActivatedStatus(1);
@@ -118,18 +117,4 @@ public class BaseInfoService {
 		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+ user.getPassword()));
 		baseInfoRepository.save(bean);
 	}
-
-	public void add() {
-		User bean = new User();
-		bean.setId("123456");
-		bean.setName("冰冰");
-		bean.setActivatedStatus(1);
-		bean.setAvatar("http://img1.jgxfw.com/qqtouxiang/2013/09/16/14/142446-20130916910.jpg");
-		bean.setCreateDate(Calendar.getInstance().getTime());
-		bean.setMobile("13818298481");
-		bean.setPassword("12312313");
-		bean.setSex(1);
-		baseInfoRepository.save(bean);
-	}
-	
 }
