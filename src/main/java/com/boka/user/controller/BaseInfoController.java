@@ -101,7 +101,7 @@ public class BaseInfoController {
 		return result;
 	}
 
-	@RequestMapping(value="/beauty/logout",method=RequestMethod.POST)
+	@RequestMapping(value="/beauty/logout",method=RequestMethod.GET)
 	public ResultTO logoutUser (HttpServletRequest request) {
 		ResultTO result = new ResultTO();
 		try {
