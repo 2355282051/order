@@ -103,6 +103,7 @@ public class BaseInfoService {
 			bean.setAvatar(user.getAvatar());
 			bean.setLoc(user.getLoc());
 			bean.setName(user.getName());
+			bean.setSex(user.getSex());
 		}
 		bean = baseInfoRepository.save(bean);
 		System.out.println(user.getAccess_token());

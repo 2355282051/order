@@ -7,7 +7,7 @@
 		</Console>
 		<NoSql name="actionAppender" >
 			<MongoDb databaseName="log" collectionName="actionlog"
-				server="192.168.2.66" username="sa" password="sa" />
+				server="10.168.242.186" username="boka_app" password="v5OD8uWP" />
 		</NoSql>
 	</Appenders>
 	<Loggers>
