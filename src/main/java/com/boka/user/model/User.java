@@ -40,11 +40,70 @@ public class User {
 	//激活状态
 	private int activatedStatus;
 	//用户级别
-	private int level = 1;
+	private int level = 0;
 	//产品
 	private String product;
+	//博卡连锁代码
+	private String custId;
+	//博卡公司代码
+	private String compId;
+	//博卡员工代码
+	private String empId;
+	//排名
+	private Integer rank;
+	//区域
+	private Region region;
+	//被预约数
+	private int reservedCnt;
 
-	
+	public String getCustId() {
+		return custId;
+	}
+
+	public void setCustId(String custId) {
+		this.custId = custId;
+	}
+
+	public String getCompId() {
+		return compId;
+	}
+
+	public void setCompId(String compId) {
+		this.compId = compId;
+	}
+
+	public String getEmpId() {
+		return empId;
+	}
+
+	public void setEmpId(String empId) {
+		this.empId = empId;
+	}
+
+	public Integer getRank() {
+		return rank;
+	}
+
+	public void setRank(Integer rank) {
+		this.rank = rank;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public int getReservedCnt() {
+		return reservedCnt;
+	}
+
+	public void setReservedCnt(int reservedCnt) {
+		this.reservedCnt = reservedCnt;
+	}
+
 	public String getId() {
 		return id;
 	}

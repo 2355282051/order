@@ -117,4 +117,8 @@ public class BaseInfoService {
 		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+ user.getPassword()));
 		baseInfoRepository.save(bean);
 	}
+
+	public User getUserInfo(String id) {
+		return baseInfoRepository.findOne(id);
+	}
 }
