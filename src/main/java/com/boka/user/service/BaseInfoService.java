@@ -108,10 +108,10 @@ public class BaseInfoService {
 		bean = baseInfoRepository.save(bean);
 		System.out.println(user.getAccess_token());
 		System.out.println(bean.getId());
-		authUtil.saveOpenAuthToken(user.getAccess_token(),bean.getId());
+		authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
 	}
 
-	public void bindMobile(UserTO user) throws CommonException {
+	public UserTO bindMobile(UserTO user) throws CommonException {
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
 		{
@@ -127,6 +127,15 @@ public class BaseInfoService {
 		//MD5加盐
 		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+ user.getPassword()));
 		baseInfoRepository.save(bean);
+		UserTO result = new UserTO();
+		result.setId(bean.getId());
+		result.setQqId(bean.getQqId());
+		result.setAvatar(bean.getAvatar());
+		result.setActivatedStatus(bean.getActivatedStatus());
+		result.setMobile(bean.getMobile());
+		result.setName(bean.getName());
+		result.setSex(bean.getSex());
+		return result;
 	}
 
 	public User getUserInfo(String id) {

@@ -156,9 +156,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
-            baseInfoServie.bindMobile(user);
-            user.setActivatedStatus(1);
-            result.setResult(user);
+            result.setResult(baseInfoServie.bindMobile(user));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
