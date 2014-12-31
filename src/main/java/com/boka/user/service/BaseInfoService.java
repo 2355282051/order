@@ -88,7 +88,6 @@ public class BaseInfoService {
 	}
 
 	public void openAuth(UserTO user) throws Exception {
-
 		User bean = baseInfoRepository.findByQqId(user.getQqId());
 		if(bean == null) {
 			bean = new User();
@@ -106,6 +105,8 @@ public class BaseInfoService {
 			bean.setName(user.getName());
 		}
 		bean = baseInfoRepository.save(bean);
+		System.out.println(user.getAccess_token());
+		System.out.println(bean.getId());
 		authUtil.saveOpenAuthToken(user.getAccess_token(),bean.getId());
 	}
 
