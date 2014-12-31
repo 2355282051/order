@@ -59,7 +59,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
-            baseInfoServie.activate(user);
+			result.setResult(baseInfoServie.activate(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -102,8 +102,12 @@ public class BaseInfoController {
     @RequestMapping(value = "/beauty/logout", method = RequestMethod.GET)
     public ResultTO logoutUser(HttpServletRequest request) {
         ResultTO result = new ResultTO();
+		String deviceId = null;
+		String userId = null;
         try {
-            authUtil.removeAuth(request);
+			Map<String, String> map =authUtil.removeAuth(request);
+			userId = map.get("userId");
+			deviceId = map.get("deviceId");
             result.setResult(new Object());
         } catch (AuthException le) {
             result.setCode(403);
@@ -114,7 +118,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        //LogUtil.action("用户登出,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action("用户登出,{},{},{}", userId, deviceId, ProductType.BEAUTY);
         return result;
     }
 

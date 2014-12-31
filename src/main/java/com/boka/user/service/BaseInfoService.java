@@ -46,7 +46,7 @@ public class BaseInfoService {
 		return authUtil.getToken(bean.getId());
 	}
 
-	public void activate(UserTO user) throws CommonException {
+	public UserTO activate(UserTO user) throws CommonException {
 
 		User bean = baseInfoRepository.findOne(user.getId());
 		bean.setName(user.getName());
@@ -58,6 +58,14 @@ public class BaseInfoService {
 		bean.setActivatedStatus(StatusConstant.activated);
 		bean.setProduct(user.getProduct());
 		baseInfoRepository.save(bean);
+		UserTO result = new UserTO();
+		result.setAvatar(bean.getAvatar());
+		result.setActivatedStatus(bean.getActivatedStatus());
+		result.setMobile(bean.getMobile());
+		result.setName(bean.getName());
+		result.setLoc(user.getLoc());
+		result.setSex(bean.getSex());
+		return result;
 	}
 
 	public UserTO login(UserTO user) throws LoginException, CommonException {
