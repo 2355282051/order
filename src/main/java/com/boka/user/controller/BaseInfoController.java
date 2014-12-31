@@ -126,11 +126,14 @@ public class BaseInfoController {
     public ResultTO openAuth(HttpServletRequest request, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
+        String access_token = null;
         try {
-            Map<String, String> map = authUtil.openAuth(request, user.getQqId());
+            Map<String, String> map = authUtil.openAuth(request);
             deviceId = map.get("deviceId");
+            access_token = map.get("access_token");
             user.setProduct(ProductType.BEAUTY);
             user.setActivatedStatus(2);
+            user.setAccess_token(access_token);
             baseInfoServie.openAuth(user);
             result.setResult(user);
         } catch (Exception e) {

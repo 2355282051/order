@@ -1,6 +1,7 @@
 package com.boka.user.service;
 
 import com.boka.common.constant.ProductType;
+import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
@@ -86,7 +87,7 @@ public class BaseInfoService {
 		return result;
 	}
 
-	public void openAuth(UserTO user) {
+	public void openAuth(UserTO user) throws Exception {
 
 		User bean = baseInfoRepository.findByQqId(user.getQqId());
 		if(bean == null) {
@@ -104,7 +105,8 @@ public class BaseInfoService {
 			bean.setLoc(user.getLoc());
 			bean.setName(user.getName());
 		}
-		baseInfoRepository.save(bean);
+		bean = baseInfoRepository.save(bean);
+		authUtil.saveOpenAuthToken(user.getAccess_token(),bean.getId());
 	}
 
 	public void bindMobile(UserTO user) throws CommonException {

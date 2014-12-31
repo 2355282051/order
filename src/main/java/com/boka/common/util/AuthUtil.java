@@ -115,23 +115,34 @@ public class AuthUtil {
 	}
 
 	/**
-	 * 第三方OpenID登录
-	 * @param requset
-	 * @param userId
+	 * 第三方OpenID检测
 	 * @return
 	 * @throws AuthException
 	 * @throws CommonException
 	 */
-	public Map<String, String> openAuth(HttpServletRequest requset, String userId)throws AuthException, CommonException {
+	public Map<String, String> openAuth(HttpServletRequest requset)throws AuthException, CommonException {
 		String access_token = requset.getHeader("access_token");
 		String deviceId = requset.getHeader("device_id");
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("deviceId", deviceId);
-			result.put("userId", userId);
-			hashOps.put(access_token, "userId", userId);
+			result.put("access_token", access_token);
 			return result;
+		}
+		throw new AuthException(ExceptionCode.AUTH_FAILD);
+	}
+
+	/**
+	 * 第三方OpenID缓存token
+	 * @return
+	 * @throws AuthException
+	 * @throws CommonException
+	 */
+	public void saveOpenAuthToken(String access_token,String userId)throws AuthException, CommonException {
+		if(Assert.isNotNull(access_token) && Assert.isNotNull(userId))
+		{
+			hashOps.put(access_token, "userId", userId);
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
