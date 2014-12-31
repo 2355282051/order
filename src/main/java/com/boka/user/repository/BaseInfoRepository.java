@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface BaseInfoRepository extends MongoRepository<User, String> {
 
 	public User findByMobile(String mobile);
+
+	public User findByQqId(String qqId);
 }

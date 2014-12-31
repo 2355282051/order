@@ -80,13 +80,12 @@ public class BaseInfoService {
 
 	public void openAuth(UserTO user) {
 
-		User bean = baseInfoRepository.findOne(user.getQqId());
+		User bean = baseInfoRepository.findByQqId(user.getQqId());
 		if(bean == null) {
 			bean = new User();
 			bean.setCreateDate(Calendar.getInstance().getTime());
 			bean.setSalt(RandomUtil.randomSalt());
 			bean.setAvatar(user.getAvatar());
-			bean.setId(user.getQqId());
 			bean.setSex(user.getSex());
 			bean.setLoc(user.getLoc());
 			bean.setName(user.getName());
