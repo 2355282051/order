@@ -67,12 +67,15 @@ public class AuthUtil {
 	 * @param requset
 	 * @throws AuthException
 	 */
-	public void removeAuth(HttpServletRequest requset) throws AuthException {
+	public Map<String, String> removeAuth(HttpServletRequest requset) throws AuthException {
 		String access_token = requset.getHeader("access_token");
 		String deviceId = requset.getHeader("device_id");
 		if(Assert.isNotNull(access_token)){
+			Map<String, String> result = new HashMap<String, String>();
+			result.put("deviceId", deviceId);
+			result.put("userId", hashOps.get(access_token, "userId"));
 			hashOps.delete(access_token, "userId");
-			return;
+			return result;
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
