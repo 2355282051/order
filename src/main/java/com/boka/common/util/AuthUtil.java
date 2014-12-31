@@ -143,6 +143,7 @@ public class AuthUtil {
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(userId))
 		{
 			hashOps.put(access_token, "userId", userId);
+			return;
 		}
 		throw new AuthException(ExceptionCode.AUTH_FAILD);
 	}
