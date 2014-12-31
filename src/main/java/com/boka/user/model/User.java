@@ -186,7 +186,7 @@ public class User {
 		return avatar;
 	}
 	public void setAvatar(String avatar) {
-		if(avatar.indexOf("http") != -1) {
+		if(avatar.indexOf("http") == -1) {
 			this.avatar = URLConstant.IMAGE_URL + avatar;
 		} else {
 			this.avatar = avatar;
