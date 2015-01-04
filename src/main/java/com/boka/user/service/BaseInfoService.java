@@ -10,10 +10,8 @@ import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
-import com.boka.user.model.Designer;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
-import com.boka.user.repository.DesignerRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,11 +25,8 @@ public class BaseInfoService {
 	private BaseInfoRepository baseInfoRepository;
 
 	@Autowired
-	private DesignerRepository designerRepository;
-	
-	@Autowired
 	private AuthUtil authUtil;
-	
+
 	public String reg(UserTO user) throws CommonException {
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
@@ -93,9 +88,10 @@ public class BaseInfoService {
 	}
 
 	public UserTO openAuth(UserTO user) throws Exception {
-		User bean = baseInfoRepository.findByQqId(user.getQqId());
+		User bean = baseInfoRepository.findByQqId((Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()));
 		if(bean == null) {
 			bean = new User();
+			bean.setId((Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()));
 			bean.setCreateDate(Calendar.getInstance().getTime());
 			bean.setSalt(RandomUtil.randomSalt());
 			bean.setAvatar(user.getAvatar());
@@ -104,6 +100,8 @@ public class BaseInfoService {
 			bean.setName(user.getName());
 			bean.setProduct(user.getProduct());
 			bean.setActivatedStatus(2);
+			bean.setQqId(user.getQqId());
+			bean.setWechatId(user.getWechatId());
 		} else {
 			bean.setAvatar(user.getAvatar());
 			bean.setLoc(user.getLoc());
@@ -118,6 +116,8 @@ public class BaseInfoService {
 		result.setMobile(bean.getMobile());
 		result.setName(bean.getName());
 		result.setSex(bean.getSex());
+		result.setQqId(bean.getQqId());
+		result.setWechatId(bean.getWechatId());
 		return result;
 
 	}
@@ -149,7 +149,7 @@ public class BaseInfoService {
 		return result;
 	}
 
-	public Designer getUserInfo(String id) {
-		return designerRepository.findOne(id);
+	public User getUserInfo(String id) {
+		return baseInfoRepository.findOne(id);
 	}
 }
