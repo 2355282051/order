@@ -3,7 +3,9 @@ package com.boka.user.service;
 import com.boka.common.util.DistanceUtil;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Location;
+import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
+import com.boka.user.repository.DesignerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +15,14 @@ import java.util.List;
 public class DesignerService {
 
 	@Autowired
-	private BaseInfoRepository baseInfoRepository;
+	private DesignerRepository designerRepository;
 	
 	public List<Designer> findNearDesigners(Location loc, String city, int page) {
-		return baseInfoRepository.findNearDesigners(loc,city,page);
+		return designerRepository.findNearDesigners(loc,city,page);
 	}
 
 	public List<Designer> findCityDesigners(Location loc, String city, int page) {
-		List<Designer> result = baseInfoRepository.findCityDesigners(loc, city, page);
+		List<Designer> result = designerRepository.findCityDesigners(loc, city, page);
 		//计算距离
 		if (loc.getLat() != null && loc.getLng() != null) {
 			for (Designer item : result) {
@@ -33,7 +35,7 @@ public class DesignerService {
 	}
 
 	public List<Designer> findCountyDesigners(Location loc, int page) {
-		List<Designer> result = baseInfoRepository.findCountryDesigners(loc, page);
+		List<Designer> result = designerRepository.findCountryDesigners(loc, page);
 		//计算距离
 		if (loc.getLat() != null && loc.getLng() != null) {
 			for (Designer item : result) {
@@ -43,5 +45,9 @@ public class DesignerService {
 			}
 		}
 		return result;
+	}
+
+	public User getUserInfo(String id) {
+		return designerRepository.findOne(id);
 	}
 }

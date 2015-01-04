@@ -163,18 +163,7 @@ public class BaseInfoController {
         return result;
     }
 
-    @RequestMapping(value = "/beauty/get/{id}", method = RequestMethod.GET)
-    public ResultTO getUserInfo(@PathVariable("id") String id) {
-        ResultTO result = new ResultTO();
-        try {
-            result.setResult(baseInfoService.getUserInfo(id));
-        } catch (Exception e) {
-            result.setCode(500);
-            result.setSuccess(false);
-            e.printStackTrace();
-        }
-        return result;
-    }
+
 
 
 }

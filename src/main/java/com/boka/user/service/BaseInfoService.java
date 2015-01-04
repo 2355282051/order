@@ -12,6 +12,7 @@ import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
+import com.boka.user.repository.DesignerRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class BaseInfoService {
 
 	@Autowired
 	private BaseInfoRepository baseInfoRepository;
+
+	@Autowired
+	private DesignerRepository designerRepository;
 
 	@Autowired
 	private AuthUtil authUtil;
@@ -149,7 +153,4 @@ public class BaseInfoService {
 		return result;
 	}
 
-	public User getUserInfo(String id) {
-		return baseInfoRepository.findOne(id);
-	}
 }

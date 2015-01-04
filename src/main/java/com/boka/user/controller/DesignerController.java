@@ -2,17 +2,16 @@ package com.boka.user.controller;
 
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
-import com.boka.common.exception.CommonException;
-import com.boka.common.exception.LoginException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.dto.ResultTO;
-import com.boka.user.dto.UserTO;
 import com.boka.user.model.Location;
-import com.boka.user.service.BaseInfoService;
 import com.boka.user.service.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -78,7 +77,7 @@ public class DesignerController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
-            result.setResult(designerService.findCountyDesigners(loc,page));
+            result.setResult(designerService.findCountyDesigners(loc, page));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -89,6 +88,19 @@ public class DesignerController {
             e.printStackTrace();
         }
         LogUtil.action("获取全国发型师用户,{},{},{},{}", lat, lng, deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
+    @RequestMapping(value = "/beauty/get/{id}", method = RequestMethod.GET)
+    public ResultTO getUserInfo(@PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(designerService.getUserInfo(id));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
         return result;
     }
 
