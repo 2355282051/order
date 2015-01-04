@@ -4,6 +4,7 @@ import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
+import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.dto.ResultTO;
@@ -130,7 +131,6 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             access_token = map.get("access_token");
             user.setProduct(ProductType.BEAUTY);
-            user.setActivatedStatus(2);
             user.setAccess_token(access_token);
             result.setResult(baseInfoService.openAuth(user));
         } catch (Exception e) {
@@ -138,7 +138,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("第三方用户登陆,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action("第三方用户登陆,{},{},{}", (Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()), deviceId, ProductType.BEAUTY);
         return result;
     }
 
