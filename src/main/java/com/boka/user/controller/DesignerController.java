@@ -48,4 +48,48 @@ public class DesignerController {
         return result;
     }
 
+    @RequestMapping(value = "/designer/city/c/{city}", method = RequestMethod.GET)
+    public ResultTO getCityDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            Location loc = new Location(lat, lng);
+            result.setResult(designerService.findCityDesigners(loc, city, page));
+        } catch (AuthException ae) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action("获取同城发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
+    @RequestMapping(value = "/designer/country", method = RequestMethod.GET)
+    public ResultTO getCountryDesigners(HttpServletRequest request, Double lat, Double lng, int page) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            Location loc = new Location(lat, lng);
+            result.setResult(designerService.findCountyDesigners(loc,page));
+        } catch (AuthException ae) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action("获取全国发型师用户,{},{},{},{}", lat, lng, deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
 }

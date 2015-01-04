@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:p="http://www.springframework.org/schema/p"
 	   xmlns:tx="http://www.springframework.org/schema/tx"
 	   xmlns:context="http://www.springframework.org/schema/context"
 	   xmlns:mongo="http://www.springframework.org/schema/data/mongo"
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
 	         http://www.springframework.org/schema/beans/spring-beans.xsd
 	         http://www.springframework.org/schema/tx
-	         http://www.springframework.org/schema/tx/spring-tx.xsd    
+	         http://www.springframework.org/schema/tx/spring-tx.xsd
 	         http://www.springframework.org/schema/context
 	         http://www.springframework.org/schema/context/spring-context.xsd
 	         http://www.springframework.org/schema/data/mongo
@@ -18,9 +19,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:config/mongo.properties</value>
-				<value>classpath:config/redis.properties</value>
-				<value>classpath:config/jdbc.properties</value>
+				<value>classpath:mongo.properties</value>
+				<value>classpath:redis.properties</value>
+				<value>classpath:jdbc.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -72,7 +73,7 @@
 	</bean>	    
 
 	<!-- redis template definition -->
-	<bean id="redisTemplate"  class="org.springframework.data.redis.core.RedisTemplate"  p:connection-factory-ref="jedisConnFactory" >
+	<bean id="redisTemplate"  class="org.springframework.data.redis.core.RedisTemplate"  p:connectionFactory-ref="jedisConnFactory" >
 		<property name="keySerializer">  
 	        <bean class="org.springframework.data.redis.serializer.StringRedisSerializer" />  
 	    </property>  
@@ -107,7 +108,7 @@
 	<!-- 创建SqlSessionFactory，同时指定数据源与pojo映射文件 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="configLocation" value="classpath:config/mybatis.xml" />
+		<property name="configLocation" value="classpath:mybatis.xml" />
 		<property name="mapperLocations" value="classpath:config/mybatis/*Mapper.xml"></property>
 	</bean>
 

@@ -1,13 +1,14 @@
 package com.boka.user.repository.impl;
 
+import com.boka.common.constant.ProductType;
 import com.boka.user.constant.PageConstant;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Location;
-import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepositoryAdvance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.geo.GeoResult;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.geo.Metrics;
@@ -29,7 +30,7 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 	public List<Designer> findNearDesigners(Location loc, String city, int page) {
 		Point point = new Point(loc.getLng(), loc.getLat());
 		NearQuery nearQuery = NearQuery.near(point, Metrics.KILOMETERS);
-		nearQuery.query(new Query(Criteria.where("region.city").is(city).and("product").is("fzone")));
+		nearQuery.query(new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE)));
 		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
 		nearQuery.with(pageable);
 		GeoResults<Designer> list = ops.geoNear(nearQuery, Designer.class);
@@ -50,5 +51,45 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 			result.add(user);
 		}
 		return result;
+	}
+
+	@Override
+	public List<Designer> findCityDesigners(Location loc, String city, int page) {
+		Query query = new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE));
+		query.fields().include("id");
+		query.fields().include("name");
+		query.fields().include("shop.name");
+		query.fields().include("level");
+		query.fields().include("rank");
+		query.fields().include("score");
+		query.fields().include("avatar");
+		query.fields().include("reservedCnt");
+		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
+		Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "rank");
+		Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "score");
+		Sort sort = new Sort(order, order1, order2);
+		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
+		query.with(pageable).with(sort);
+		return ops.find(query,Designer.class);
+	}
+
+	@Override
+	public List<Designer> findCountryDesigners(Location loc, int page) {
+		Query query = new Query(Criteria.where("product").is(ProductType.FZONE));
+		query.fields().include("id");
+		query.fields().include("name");
+		query.fields().include("shop.name");
+		query.fields().include("level");
+		query.fields().include("rank");
+		query.fields().include("score");
+		query.fields().include("avatar");
+		query.fields().include("reservedCnt");
+		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
+		Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "rank");
+		Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "score");
+		Sort sort = new Sort(order, order1, order2);
+		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
+		query.with(pageable).with(sort);
+		return ops.find(query,Designer.class);
 	}
 }
