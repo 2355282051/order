@@ -45,7 +45,7 @@ public class User {
 	//详细地址
 	private String address;
 	//产品
-	private String product;
+	protected String product;
 	//距离
 	@Transient
 	private Double distance;

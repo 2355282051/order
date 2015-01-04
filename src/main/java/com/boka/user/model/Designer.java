@@ -1,5 +1,9 @@
 package com.boka.user.model;
 
+import com.boka.common.constant.ProductType;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection="user_info")
 public class Designer extends User {
 
 	//用户级别
@@ -16,15 +20,11 @@ public class Designer extends User {
 	private int reservedCnt;
 	//门店
 	private Shop shop;
+	//平均分
+	private Integer score;
 
-	@Override
-	public String getProduct() {
-		return product;
-	}
-
-	@Override
-	public void setProduct(String product) {
-		this.product = product;
+	public Designer() {
+		product = ProductType.FZONE;
 	}
 
 	public int getLevel() {
@@ -83,7 +83,11 @@ public class Designer extends User {
 		this.shop = shop;
 	}
 
-	//产品
-	private String product = "fzone";
+	public Integer getScore() {
+		return score;
+	}
 
+	public void setScore(Integer score) {
+		this.score = score;
+	}
 }
