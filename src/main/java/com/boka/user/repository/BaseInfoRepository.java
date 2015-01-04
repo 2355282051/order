@@ -10,4 +10,6 @@ public interface BaseInfoRepository extends MongoRepository<User, String>, BaseI
 
     public User findByQqId(String qqId);
 
+    public User findByWechatId(String wechatId);
+
 }
