@@ -21,7 +21,7 @@ public class DeviceController {
     @Resource
     private DeviceService deviceService;
 
-    @RequestMapping(value="/device",method= RequestMethod.POST)
+    @RequestMapping(value = "/device", method = RequestMethod.POST)
     public ResultTO addDevice(@RequestBody DeviceDTO deviceDTO) {
         ResultTO result = new ResultTO();
         try {
@@ -37,7 +37,7 @@ public class DeviceController {
             device.setUserName(device.getUserName());
             deviceService.saveDevice(device);
             result.setResult("添加成功");
-        }catch (Exception e) {
+        } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
             e.printStackTrace();

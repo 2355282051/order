@@ -3,6 +3,7 @@ package com.boka.user.model;
 import java.util.Date;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.boka.user.constant.URLConstant;
@@ -39,55 +40,130 @@ public class User {
 	private String salt;
 	//激活状态
 	private int activatedStatus;
-	//用户级别
-	private int level = 0;
-	//产品
-	private String product;
-	//博卡连锁代码
-	private String custId;
-	//博卡公司代码
-	private String compId;
-	//博卡员工代码
-	private String empId;
-	//排名
-	private Integer rank;
 	//区域
 	private Region region;
-	//被预约数
-	private int reservedCnt;
-	//门店
-	private Shop shop;
+	//详细地址
+	private String address;
+	//产品
+	private String product;
+	//距离
+	@Transient
+	private Double distance;
 
-	public String getCustId() {
-		return custId;
+	public String getId() {
+		return id;
 	}
 
-	public void setCustId(String custId) {
-		this.custId = custId;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public String getCompId() {
-		return compId;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setCompId(String compId) {
-		this.compId = compId;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
-	public String getEmpId() {
-		return empId;
+	public String getName() {
+		return name;
 	}
 
-	public void setEmpId(String empId) {
-		this.empId = empId;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-	public Integer getRank() {
-		return rank;
+	public int getSex() {
+		return sex;
 	}
 
-	public void setRank(Integer rank) {
-		this.rank = rank;
+	public void setSex(int sex) {
+		this.sex = sex;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		if(avatar.indexOf("http") == -1) {
+			this.avatar = URLConstant.IMAGE_URL + avatar;
+		} else {
+			this.avatar = avatar;
+		}
+	}
+
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public Date getUpdateDate() {
+		return updateDate;
+	}
+
+	public void setUpdateDate(Date updateDate) {
+		this.updateDate = updateDate;
+	}
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	public Location getLoc() {
+		return loc;
+	}
+
+	public void setLoc(Location loc) {
+		this.loc = loc;
+	}
+
+	public String getQqId() {
+		return qqId;
+	}
+
+	public void setQqId(String qqId) {
+		this.qqId = qqId;
+	}
+
+	public String getWechatId() {
+		return wechatId;
+	}
+
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public int getActivatedStatus() {
+		return activatedStatus;
+	}
+
+	public void setActivatedStatus(int activatedStatus) {
+		this.activatedStatus = activatedStatus;
 	}
 
 	public Region getRegion() {
@@ -98,109 +174,20 @@ public class User {
 		this.region = region;
 	}
 
-	public int getReservedCnt() {
-		return reservedCnt;
+	public String getAddress() {
+		return address;
 	}
 
-	public void setReservedCnt(int reservedCnt) {
-		this.reservedCnt = reservedCnt;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getMobile() {
-		return mobile;
-	}
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getSex() {
-		return sex;
-	}
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	public Date getLastLoginDate() {
-		return lastLoginDate;
-	}
-	public void setLastLoginDate(Date lastLoginDate) {
-		this.lastLoginDate = lastLoginDate;
-	}
-	public Location getLoc() {
-		return loc;
-	}
-	public void setLoc(Location loc) {
-		this.loc = loc;
-	}
-	public String getQqId() {
-		return qqId;
-	}
-	public void setQqId(String qqId) {
-		this.qqId = qqId;
-	}
-	public String getWechatId() {
-		return wechatId;
-	}
-	public void setWechatId(String wechatId) {
-		this.wechatId = wechatId;
-	}
-	public String getSalt() {
-		return salt;
-	}
-	public void setSalt(String salt) {
-		this.salt = salt;
-	}
-	public int getActivatedStatus() {
-		return activatedStatus;
-	}
-	public void setActivatedStatus(int activatedStatus) {
-		this.activatedStatus = activatedStatus;
-	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		if(avatar.indexOf("http") == -1) {
-			this.avatar = URLConstant.IMAGE_URL + avatar;
-		} else {
-			this.avatar = avatar;
-		}
+	public Double getDistance() {
+		return distance;
 	}
 
-	public int getLevel() {
-		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 
 	public String getProduct() {
@@ -209,13 +196,5 @@ public class User {
 
 	public void setProduct(String product) {
 		this.product = product;
-	}
-
-	public Shop getShop() {
-		return shop;
-	}
-
-	public void setShop(Shop shop) {
-		this.shop = shop;
 	}
 }

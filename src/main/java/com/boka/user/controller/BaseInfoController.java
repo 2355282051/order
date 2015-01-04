@@ -19,7 +19,7 @@ import java.util.Map;
 public class BaseInfoController {
 
     @Autowired
-    private BaseInfoService baseInfoServie;
+    private BaseInfoService baseInfoService;
 
     @Autowired
     private AuthUtil authUtil;
@@ -32,7 +32,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
-            result.setResult(baseInfoServie.reg(user));
+            result.setResult(baseInfoService.reg(user));
         } catch (CommonException ce) {
             result.setCode(500);
             result.setSuccess(false);
@@ -57,7 +57,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
-			result.setResult(baseInfoServie.activate(user));
+            result.setResult(baseInfoService.activate(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -79,7 +79,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
-            result.setResult(baseInfoServie.login(user));
+            result.setResult(baseInfoService.login(user));
         } catch (LoginException le) {
             result.setCode(401);
             result.setSuccess(false);
@@ -100,12 +100,12 @@ public class BaseInfoController {
     @RequestMapping(value = "/beauty/logout", method = RequestMethod.GET)
     public ResultTO logoutUser(HttpServletRequest request) {
         ResultTO result = new ResultTO();
-		String deviceId = null;
-		String userId = null;
+        String deviceId = null;
+        String userId = null;
         try {
-			Map<String, String> map =authUtil.removeAuth(request);
-			userId = map.get("userId");
-			deviceId = map.get("deviceId");
+            Map<String, String> map = authUtil.removeAuth(request);
+            userId = map.get("userId");
+            deviceId = map.get("deviceId");
             result.setResult(new Object());
         } catch (AuthException le) {
             result.setCode(403);
@@ -132,7 +132,7 @@ public class BaseInfoController {
             user.setProduct(ProductType.BEAUTY);
             user.setActivatedStatus(2);
             user.setAccess_token(access_token);
-            baseInfoServie.openAuth(user);
+            baseInfoService.openAuth(user);
             result.setResult(user);
         } catch (Exception e) {
             result.setCode(500);
@@ -154,7 +154,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
-            result.setResult(baseInfoServie.bindMobile(user));
+            result.setResult(baseInfoService.bindMobile(user));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
@@ -168,13 +168,12 @@ public class BaseInfoController {
     public ResultTO getUserInfo(@PathVariable("id") String id) {
         ResultTO result = new ResultTO();
         try {
-            result.setResult(baseInfoServie.getUserInfo(id));
+            result.setResult(baseInfoService.getUserInfo(id));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取用户信息接口,{},{}", id, ProductType.BEAUTY);
         return result;
     }
 
