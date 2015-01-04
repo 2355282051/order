@@ -95,7 +95,6 @@ public class BaseInfoService {
 		User bean = baseInfoRepository.findByQqId((Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()));
 		if(bean == null) {
 			bean = new User();
-			bean.setId((Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()));
 			bean.setCreateDate(Calendar.getInstance().getTime());
 			bean.setSalt(RandomUtil.randomSalt());
 			bean.setAvatar(user.getAvatar());
