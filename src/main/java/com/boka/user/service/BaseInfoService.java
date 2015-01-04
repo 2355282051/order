@@ -134,7 +134,7 @@ public class BaseInfoService {
 		if(Assert.isNull(user.getPassword())) {
 			throw new CommonException(ExceptionCode.PARAM_NULL);
 		}
-		User bean = baseInfoRepository.findOne(user.getId());
+		User bean = baseInfoRepository.findByQqId(user.getQqId());
 		bean.setMobile(user.getMobile());
 		bean.setSalt(RandomUtil.randomSalt());
 		bean.setActivatedStatus(1);
