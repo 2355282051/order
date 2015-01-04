@@ -132,8 +132,7 @@ public class BaseInfoController {
             user.setProduct(ProductType.BEAUTY);
             user.setActivatedStatus(2);
             user.setAccess_token(access_token);
-            baseInfoService.openAuth(user);
-            result.setResult(user);
+            result.setResult(baseInfoService.openAuth(user));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

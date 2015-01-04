@@ -87,7 +87,7 @@ public class BaseInfoService {
 		return result;
 	}
 
-	public void openAuth(UserTO user) throws Exception {
+	public UserTO openAuth(UserTO user) throws Exception {
 		User bean = baseInfoRepository.findByQqId(user.getQqId());
 		if(bean == null) {
 			bean = new User();
@@ -106,9 +106,15 @@ public class BaseInfoService {
 			bean.setSex(user.getSex());
 		}
 		bean = baseInfoRepository.save(bean);
-		System.out.println(user.getAccess_token());
-		System.out.println(bean.getId());
 		authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
+		UserTO result = new UserTO();
+		result.setAvatar(bean.getAvatar());
+		result.setActivatedStatus(bean.getActivatedStatus());
+		result.setMobile(bean.getMobile());
+		result.setName(bean.getName());
+		result.setSex(bean.getSex());
+		return result;
+
 	}
 
 	public UserTO bindMobile(UserTO user) throws CommonException {
