@@ -26,7 +26,7 @@ public class DesignerController {
     @Autowired
     private AuthUtil authUtil;
 
-    @RequestMapping(value = "/designer/near", method = RequestMethod.POST)
+    @RequestMapping(value = "/designer/near", method = RequestMethod.GET)
     public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, String city, int page) {
         ResultTO result = new ResultTO();
         String deviceId = null;

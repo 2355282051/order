@@ -46,6 +46,7 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 			user.setName(item.getContent().getName());
 			user.setReservedCnt(item.getContent().getReservedCnt());
 			user.setShop(item.getContent().getShop());
+			user.setScore(item.getContent().getScore());
 			result.add(user);
 		}
 		return result;
