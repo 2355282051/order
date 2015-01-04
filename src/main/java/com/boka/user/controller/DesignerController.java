@@ -91,7 +91,7 @@ public class DesignerController {
         return result;
     }
 
-    @RequestMapping(value = "/beauty/get/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/designer/get/{id}", method = RequestMethod.GET)
     public ResultTO getUserInfo(@PathVariable("id") String id) {
         ResultTO result = new ResultTO();
         try {
