@@ -18,8 +18,6 @@ import java.util.Map;
 @RestController
 public class BaseInfoController {
 
-    private static final String INNERPASSWORD = "1qaz2wsx";
-
     @Autowired
     private BaseInfoService baseInfoServie;
 
@@ -169,12 +167,9 @@ public class BaseInfoController {
     }
 
     @RequestMapping(value = "/beauty/get/{id}", method = RequestMethod.GET)
-    public ResultTO getUserInfo(HttpServletRequest request, @PathVariable("id") String id, String password) {
+    public ResultTO getUserInfo(@PathVariable("id") String id) {
         ResultTO result = new ResultTO();
         try {
-            if (!INNERPASSWORD.equals(password)) {
-                return result;
-            }
             result.setResult(baseInfoServie.getUserInfo(id));
         } catch (Exception e) {
             result.setCode(500);

@@ -55,6 +55,8 @@ public class User {
 	private Region region;
 	//被预约数
 	private int reservedCnt;
+	//门店
+	private Shop shop;
 
 	public String getCustId() {
 		return custId;
@@ -207,5 +209,13 @@ public class User {
 
 	public void setProduct(String product) {
 		this.product = product;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 }
