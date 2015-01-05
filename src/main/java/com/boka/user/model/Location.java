@@ -5,6 +5,9 @@ public class Location {
     private Double lng;
     private Double lat;
 
+    public Location() {
+    }
+
     public Location(Double lat, Double lng) {
         this.lng = lng;
         this.lat = lat;

@@ -26,9 +26,6 @@ public class BaseInfoService {
 	private BaseInfoRepository baseInfoRepository;
 
 	@Autowired
-	private DesignerRepository designerRepository;
-
-	@Autowired
 	private AuthUtil authUtil;
 
 	public String reg(UserTO user) throws CommonException {
