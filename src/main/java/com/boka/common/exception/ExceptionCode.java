@@ -16,6 +16,8 @@ public class ExceptionCode {
 	public static final String TOKEN_NOT_EXISTS = "令牌认证失效!";
 	
 	public static final String AUTH_FAILD = "认证失败!";
+
+	public static final String MOBILE_AUTH_FAILD = "验证码错误!";
 	
 	public static final String GENERATE_TOKEN_FAILD = "令牌生成失败!";
 	

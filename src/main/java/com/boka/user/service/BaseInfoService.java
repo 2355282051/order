@@ -32,7 +32,7 @@ public class BaseInfoService {
 		//验证码检验
 		if(!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY))
 		{
-			throw new CommonException(ExceptionCode.AUTH_FAILD);
+			throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
 		}
 		if(Assert.isNull(user.getPassword())) {
 			throw new CommonException(ExceptionCode.PARAM_NULL);
