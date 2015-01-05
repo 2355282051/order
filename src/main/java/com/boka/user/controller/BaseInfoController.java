@@ -168,8 +168,4 @@ public class BaseInfoController {
         LogUtil.action("绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
         return result;
     }
-
-
-
-
 }

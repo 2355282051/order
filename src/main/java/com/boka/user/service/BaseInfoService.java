@@ -87,8 +87,10 @@ public class BaseInfoService {
     }
 
     public UserTO openAuth(UserTO user) throws Exception {
-        User bean = baseInfoRepository.findByQqId(user.getQqId());
-        if (bean == null) {
+        User bean = null;
+        if(Assert.isNotNull(user.getQqId())) {
+            bean = baseInfoRepository.findByQqId(user.getQqId());
+        } else if(Assert.isNotNull(user.getWechatId())) {
             bean = baseInfoRepository.findByWechatId(user.getWechatId());
         }
         if (bean == null) {
@@ -131,9 +133,11 @@ public class BaseInfoService {
         if (Assert.isNull(user.getPassword())) {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
-        User bean = baseInfoRepository.findByQqId(user.getQqId());
-        if (bean == null) {
+        User bean;
+        if(Assert.isNotNull(user.getWechatId())) {
             bean = baseInfoRepository.findByWechatId(user.getWechatId());
+        } else {
+            bean = baseInfoRepository.findByQqId(user.getQqId());
         }
         bean.setMobile(user.getMobile());
         bean.setSalt(RandomUtil.randomSalt());
