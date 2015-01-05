@@ -42,7 +42,7 @@ public class BaseInfoService {
 		bean.setMobile(user.getMobile());
 		bean.setSalt(RandomUtil.randomSalt());
 		//MD5加盐
-		bean.setPassword(DigestUtils.md5Hex(bean.getSalt()+user.getPassword()));
+		bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
 		bean = baseInfoRepository.save(bean);
 		//生成token
 		return authUtil.getToken(bean.getId());
@@ -89,7 +89,10 @@ public class BaseInfoService {
 	}
 
 	public UserTO openAuth(UserTO user) throws Exception {
-		User bean = baseInfoRepository.findByQqId((Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()));
+		User bean = baseInfoRepository.findByQqId(user.getQqId());
+		if(bean == null) {
+			bean = baseInfoRepository.findByWechatId(user.getWechatId());
+		}
 		if(bean == null) {
 			bean = new User();
 			bean.setCreateDate(Calendar.getInstance().getTime());
@@ -131,7 +134,10 @@ public class BaseInfoService {
 		if(Assert.isNull(user.getPassword())) {
 			throw new CommonException(ExceptionCode.PARAM_NULL);
 		}
-		User bean = baseInfoRepository.findOne(user.getId());
+		User bean = baseInfoRepository.findByQqId(user.getQqId());
+		if(bean == null) {
+			bean = baseInfoRepository.findByWechatId(user.getWechatId());
+		}
 		bean.setMobile(user.getMobile());
 		bean.setSalt(RandomUtil.randomSalt());
 		bean.setActivatedStatus(1);
