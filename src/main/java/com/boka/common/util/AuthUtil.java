@@ -22,13 +22,13 @@ public class AuthUtil {
 	/**
 	  * 验证用户返回用户ID
 	  * 
-	  * @param requset
+	  * @param request
 	  * @return
 	 * @throws AuthException 
 	  */
-	public Map<String, String> auth(HttpServletRequest requset) throws AuthException {
-		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("device_id");
+	public Map<String, String> auth(HttpServletRequest request) throws AuthException {
+		String access_token = request.getHeader("access_token");
+		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
@@ -43,13 +43,13 @@ public class AuthUtil {
 	/**
 	  * 不需要登录,只需要获取信息
 	  * 
-	  * @param requset
+	  * @param request
 	  * @return
 	 * @throws AuthException 
 	  */
-	public Map<String, String> preAuth(HttpServletRequest requset) throws AuthException {
-		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("device_id");
+	public Map<String, String> preAuth(HttpServletRequest request) throws AuthException {
+		String access_token = request.getHeader("access_token");
+		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
@@ -64,12 +64,12 @@ public class AuthUtil {
 
 	/**
 	 *  用户登出，直接删除Redis数据
-	 * @param requset
+	 * @param request
 	 * @throws AuthException
 	 */
-	public Map<String, String> removeAuth(HttpServletRequest requset) throws AuthException {
-		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("device_id");
+	public Map<String, String> removeAuth(HttpServletRequest request) throws AuthException {
+		String access_token = request.getHeader("access_token");
+		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(access_token)){
 			Map<String, String> result = new HashMap<String, String>();
 			result.put("deviceId", deviceId);

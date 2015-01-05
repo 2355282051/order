@@ -30,7 +30,7 @@ public class UserTO {
 	private int activatedStatus;
 	//token
 	private String access_token;
-	
+
 	public String getId() {
 		return id;
 	}
@@ -109,5 +109,5 @@ public class UserTO {
 	public void setAccess_token(String access_token) {
 		this.access_token = access_token;
 	}
-	
+
 }
