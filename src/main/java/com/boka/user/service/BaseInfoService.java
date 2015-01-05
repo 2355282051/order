@@ -133,12 +133,7 @@ public class BaseInfoService {
         if (Assert.isNull(user.getPassword())) {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
-        User bean;
-        if(Assert.isNotNull(user.getWechatId())) {
-            bean = baseInfoRepository.findByWechatId(user.getWechatId());
-        } else {
-            bean = baseInfoRepository.findByQqId(user.getQqId());
-        }
+        User bean = baseInfoRepository.findOne(user.getId());
         bean.setMobile(user.getMobile());
         bean.setSalt(RandomUtil.randomSalt());
         bean.setActivatedStatus(1);
