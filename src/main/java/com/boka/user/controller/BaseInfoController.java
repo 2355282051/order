@@ -1,5 +1,6 @@
 package com.boka.user.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
@@ -10,6 +11,7 @@ import com.boka.common.util.LogUtil;
 import com.boka.user.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.service.BaseInfoService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,8 @@ import java.util.Map;
 
 @RestController
 public class BaseInfoController {
+
+    private static Logger logger = Logger.getLogger(BaseInfoController.class);
 
     @Autowired
     private BaseInfoService baseInfoService;
@@ -123,6 +127,7 @@ public class BaseInfoController {
 
     @RequestMapping(value = "/beauty/openauth", method = RequestMethod.POST)
     public ResultTO openAuth(HttpServletRequest request, @RequestBody UserTO user) {
+        logger.debug(JSON.toJSON(user));
         ResultTO result = new ResultTO();
         String deviceId = null;
         String access_token = null;
@@ -144,6 +149,7 @@ public class BaseInfoController {
 
     @RequestMapping(value = "/beauty/bindmobile", method = RequestMethod.POST)
     public ResultTO bindMobile(HttpServletRequest request, @RequestBody UserTO user) {
+        logger.debug(JSON.toJSON(user));
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
