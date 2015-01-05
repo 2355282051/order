@@ -24,4 +24,6 @@ public class ExceptionCode {
 	public static final String USER_NOT_EXISTS = "用户不存在!";
 	
 	public static final String PASSWORD_ERROR = "密码错误!";
+
+	public static final String MOBILE_EXISTS = "手机号已经被注册";
 }

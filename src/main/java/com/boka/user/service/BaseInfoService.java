@@ -36,7 +36,12 @@ public class BaseInfoService {
         if (Assert.isNull(user.getPassword())) {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
-        User bean = new User();
+
+        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        if(bean != null) {
+            throw new CommonException(ExceptionCode.MOBILE_EXISTS);
+        }
+        bean = new User();
         bean.setCreateDate(Calendar.getInstance().getTime());
         bean.setMobile(user.getMobile());
         bean.setSalt(RandomUtil.randomSalt());
@@ -133,7 +138,11 @@ public class BaseInfoService {
         if (Assert.isNull(user.getPassword())) {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
-        User bean = baseInfoRepository.findOne(user.getId());
+        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        if(bean != null) {
+            throw new CommonException(ExceptionCode.MOBILE_EXISTS);
+        }
+        bean = baseInfoRepository.findOne(user.getId());
         bean.setMobile(user.getMobile());
         bean.setSalt(RandomUtil.randomSalt());
         bean.setActivatedStatus(1);
