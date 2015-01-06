@@ -31,7 +31,7 @@ public class AuthUtil {
 		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
-			Map<String, String> result = new HashMap<String, String>();
+			Map<String, String> result = new HashMap<>();
 			result.put("deviceId", deviceId);
 			result.put("userId", hashOps.get(access_token, "userId"));
 			if(Assert.isNotNull(result.get("userId")))
@@ -52,7 +52,7 @@ public class AuthUtil {
 		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(deviceId))
 		{
-			Map<String, String> result = new HashMap<String, String>();
+			Map<String, String> result = new HashMap<>();
 			result.put("deviceId", deviceId);
 			if(Assert.isNotNull(access_token))
 				result.put("userId", hashOps.get(access_token, "userId"));
@@ -71,7 +71,7 @@ public class AuthUtil {
 		String access_token = request.getHeader("access_token");
 		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(access_token)){
-			Map<String, String> result = new HashMap<String, String>();
+			Map<String, String> result = new HashMap<>();
 			result.put("deviceId", deviceId);
 			result.put("userId", hashOps.get(access_token, "userId"));
 			hashOps.delete(access_token, "userId");
@@ -120,9 +120,9 @@ public class AuthUtil {
 	 * @throws AuthException
 	 * @throws CommonException
 	 */
-	public Map<String, String> openAuth(HttpServletRequest requset)throws AuthException, CommonException {
-		String access_token = requset.getHeader("access_token");
-		String deviceId = requset.getHeader("device_id");
+	public Map<String, String> openAuth(HttpServletRequest request)throws AuthException, CommonException {
+		String access_token = request.getHeader("access_token");
+		String deviceId = request.getHeader("device_id");
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
