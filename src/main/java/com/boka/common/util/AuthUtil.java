@@ -126,6 +126,9 @@ public class AuthUtil {
 	public Map<String, String> openAuth(HttpServletRequest request)throws AuthException, CommonException {
 		String access_token = request.getHeader("access_token");
 		String deviceId = request.getHeader("device_id");
+		System.out.println("____________________________________________________________________");
+		System.out.println("access_token"+access_token);
+		System.out.println("deviceId"+deviceId);
 		if(Assert.isNotNull(access_token) && Assert.isNotNull(deviceId))
 		{
 			Map<String, String> result = new HashMap<String, String>();
