@@ -79,6 +79,15 @@
 	    </property>
 	</bean>
 
+	<!-- RestTemplate -->
+	<bean class="org.springframework.web.client.RestTemplate">
+		<property name="messageConverters">
+			<list>
+				<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
 
 	<!-- 配置c3p0数据源  -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">

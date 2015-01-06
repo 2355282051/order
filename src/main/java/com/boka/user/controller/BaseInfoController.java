@@ -130,13 +130,13 @@ public class BaseInfoController {
         logger.debug(JSON.toJSON(user));
         ResultTO result = new ResultTO();
         String deviceId = null;
-        String access_token = null;
+        String userId = null;
         try {
             Map<String, String> map = authUtil.openAuth(request);
             deviceId = map.get("deviceId");
-            access_token = map.get("access_token");
+            userId = map.get("userId");
             user.setProduct(ProductType.BEAUTY);
-            user.setAccess_token(access_token);
+            user.setId(userId);
             result.setResult(baseInfoService.openAuth(user));
         } catch (Exception e) {
             result.setCode(500);
