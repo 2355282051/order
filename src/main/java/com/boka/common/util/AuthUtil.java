@@ -18,6 +18,8 @@ public class AuthUtil {
 	
 	@Resource(name="redisTemplate")
 	private HashOperations<String, String, String> hashOps;
+
+
 	
 	/**
 	  * 验证用户返回用户ID
@@ -110,6 +112,7 @@ public class AuthUtil {
 		{
 			token = TokenUtil.getAccessToken();
 			hashOps.put(token, "userId", id);
+
 		}
 		return token;
 	}

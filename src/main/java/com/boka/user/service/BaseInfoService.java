@@ -1,7 +1,7 @@
 package com.boka.user.service;
 
+import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
-import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
@@ -9,21 +9,32 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
-import com.boka.user.repository.DesignerRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class BaseInfoService {
 
     @Autowired
     private BaseInfoRepository baseInfoRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Autowired
     private AuthUtil authUtil;
@@ -102,20 +113,22 @@ public class BaseInfoService {
             bean = new User();
             bean.setCreateDate(Calendar.getInstance().getTime());
             bean.setSalt(RandomUtil.randomSalt());
-            bean.setAvatar(user.getAvatar());
-            bean.setSex(user.getSex());
-            bean.setLoc(user.getLoc());
-            bean.setName(user.getName());
             bean.setProduct(user.getProduct());
             bean.setActivatedStatus(2);
             bean.setQqId(user.getQqId());
             bean.setWechatId(user.getWechatId());
         } else {
-            bean.setAvatar(user.getAvatar());
-            bean.setLoc(user.getLoc());
-            bean.setName(user.getName());
-            bean.setSex(user.getSex());
+            bean.setUpdateDate(Calendar.getInstance().getTime());
         }
+        // 同步Show用户信息
+        if(!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
+            syncUser(user);
+        }
+        bean.setAvatar(user.getAvatar());
+        bean.setLoc(user.getLoc());
+        bean.setName(user.getName());
+        bean.setSex(user.getSex());
+        bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
         UserTO result = new UserTO();
@@ -158,6 +171,10 @@ public class BaseInfoService {
         result.setName(bean.getName());
         result.setSex(bean.getSex());
         return result;
+    }
+
+    public ResultTO syncUser(UserTO user) {
+        return restTemplate.postForObject(Constant.SHOW_USER_SYNC_URL, user, ResultTO.class);
     }
 
 }
