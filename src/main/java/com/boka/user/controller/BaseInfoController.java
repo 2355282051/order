@@ -139,6 +139,14 @@ public class BaseInfoController {
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
             result.setResult(baseInfoService.openAuth(user));
+        } catch (AuthException le) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
@@ -161,6 +169,14 @@ public class BaseInfoController {
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
             result.setResult(baseInfoService.bindMobile(user));
+        } catch (AuthException le) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

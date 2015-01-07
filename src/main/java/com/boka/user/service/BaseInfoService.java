@@ -178,11 +178,9 @@ public class BaseInfoService {
     public UserTO bindMobile(UserTO user) throws CommonException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
-            throw new CommonException(ExceptionCode.AUTH_FAILD);
+            throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
-        if (Assert.isNull(user.getPassword())) {
-            throw new CommonException(ExceptionCode.PARAM_NULL);
-        }
+
         User bean = baseInfoRepository.findByMobile(user.getMobile());
         if(bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
@@ -192,6 +190,9 @@ public class BaseInfoService {
             //将第三方登录帐号注销
             baseInfoRepository.updateBindUser(openAuthUser);
         } else {
+            if (Assert.isNull(user.getPassword())) {
+                throw new CommonException(ExceptionCode.PARAM_NULL);
+            }
             bean = baseInfoRepository.findOne(user.getId());
             bean.setMobile(user.getMobile());
             bean.setSalt(RandomUtil.randomSalt());
