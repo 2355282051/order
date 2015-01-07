@@ -120,16 +120,16 @@ public class BaseInfoService {
         } else {
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
-        // 同步Show用户信息
-        if(!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
-            syncUser(user);
-        }
         bean.setAvatar(user.getAvatar());
         bean.setLoc(user.getLoc());
         bean.setName(user.getName());
         bean.setSex(user.getSex());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
+        // 同步Show用户信息
+        if(!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
+            syncUser(user);
+        }
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
         UserTO result = new UserTO();
         result.setAvatar(bean.getAvatar());
