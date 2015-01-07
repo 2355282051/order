@@ -39,7 +39,7 @@ public class User {
     //随机盐值
     private String salt;
     //激活状态
-    private int activatedStatus;
+    private int activatedStatus; // 状态描述： 0:未激活　１:激活　２:第三方登录未激活　-1:注销
     //区域
     private Region region;
     //详细地址

@@ -39,6 +39,12 @@ public class BaseInfoService {
     @Autowired
     private AuthUtil authUtil;
 
+    /**
+     * 用户注册
+     * @param user
+     * @return
+     * @throws CommonException
+     */
     public String reg(UserTO user) throws CommonException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
@@ -63,6 +69,12 @@ public class BaseInfoService {
         return authUtil.getToken(bean.getId());
     }
 
+    /**
+     * 激活保存用户信息
+     * @param user
+     * @return
+     * @throws CommonException
+     */
     public UserTO activate(UserTO user) throws CommonException {
 
         User bean = baseInfoRepository.findOne(user.getId());
@@ -85,6 +97,13 @@ public class BaseInfoService {
         return result;
     }
 
+    /**
+     * 登录
+     * @param user
+     * @return
+     * @throws LoginException
+     * @throws CommonException
+     */
     public UserTO login(UserTO user) throws LoginException, CommonException {
         User bean = baseInfoRepository.findByMobile(user.getMobile());
         if (bean == null) {
@@ -102,6 +121,12 @@ public class BaseInfoService {
         return result;
     }
 
+    /**
+     * 第三方登录
+     * @param user
+     * @return
+     * @throws Exception
+     */
     public UserTO openAuth(UserTO user) throws Exception {
         User bean = null;
         if(Assert.isNotNull(user.getQqId())) {
@@ -114,7 +139,7 @@ public class BaseInfoService {
             bean.setCreateDate(Calendar.getInstance().getTime());
             bean.setSalt(RandomUtil.randomSalt());
             bean.setProduct(user.getProduct());
-            bean.setActivatedStatus(2);
+            bean.setActivatedStatus(StatusConstant.openauth_inactive);
             bean.setQqId(user.getQqId());
             bean.setWechatId(user.getWechatId());
         } else {
@@ -130,6 +155,7 @@ public class BaseInfoService {
         if(!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
             syncUser(user);
         }
+        // 将新的用户ID绑定到access_token上
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
         UserTO result = new UserTO();
         result.setAvatar(bean.getAvatar());
@@ -143,6 +169,12 @@ public class BaseInfoService {
 
     }
 
+    /**
+     * 绑定手机号
+     * @param user
+     * @return
+     * @throws CommonException
+     */
     public UserTO bindMobile(UserTO user) throws CommonException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
@@ -153,14 +185,22 @@ public class BaseInfoService {
         }
         User bean = baseInfoRepository.findByMobile(user.getMobile());
         if(bean != null) {
-            throw new CommonException(ExceptionCode.MOBILE_EXISTS);
+            User openAuthUser = baseInfoRepository.findOne(user.getId());
+            bean.setQqId(openAuthUser.getQqId());
+            bean.setWechatId(openAuthUser.getWechatId());
+            openAuthUser.setActivatedStatus(StatusConstant.removed);
+            //将第三方登录帐号注销
+            baseInfoRepository.updateBindUser(openAuthUser);
+        } else {
+            bean = baseInfoRepository.findOne(user.getId());
+            bean.setMobile(user.getMobile());
+            bean.setSalt(RandomUtil.randomSalt());
+            bean.setActivatedStatus(StatusConstant.activated);
+            //MD5加盐
+            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         }
-        bean = baseInfoRepository.findOne(user.getId());
-        bean.setMobile(user.getMobile());
-        bean.setSalt(RandomUtil.randomSalt());
-        bean.setActivatedStatus(1);
-        //MD5加盐
-        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+        bean.setUpdateDate(Calendar.getInstance().getTime());
+
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
         result.setId(bean.getId());
@@ -173,6 +213,11 @@ public class BaseInfoService {
         return result;
     }
 
+    /**
+     * 同步秀里用户信息
+     * @param user
+     * @return
+     */
     public ResultTO syncUser(UserTO user) {
         return restTemplate.postForObject(Constant.SHOW_USER_SYNC_URL, user, ResultTO.class);
     }

@@ -6,10 +6,6 @@ import com.boka.user.model.User;
 
 public interface BaseInfoRepository extends MongoRepository<User, String>, BaseInfoRepositoryAdvance {
 
-    public User findByMobile(String mobile);
 
-    public User findByQqId(String qqId);
-
-    public User findByWechatId(String wechatId);
 
 }

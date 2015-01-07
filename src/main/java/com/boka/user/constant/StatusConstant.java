@@ -21,5 +21,15 @@ public class StatusConstant {
 	 * 已激活
 	 */
 	public static final int activated = 1;
+
+	/**
+	 *  第三方登录未激活
+	 */
+	public static final int openauth_inactive = 2;
+
+	/**
+	 * 移除状态
+	 */
+	public static final int removed = -1;
 	
 }
