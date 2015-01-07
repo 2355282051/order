@@ -94,19 +94,19 @@ public class DesignerController {
     @RequestMapping(value = "/designer/get/{id}", method = RequestMethod.GET)
     public ResultTO getUserInfo(HttpServletRequest request, @PathVariable("id") String id) {
         ResultTO result = new ResultTO();
-        String deviceId = null;
-        String userId = null;
+//        String deviceId = null;
+//        String userId = null;
         try {
-            Map<String, String> map = authUtil.auth(request);
-            deviceId = map.get("deviceId");
-            userId = map.get("userId");
+//            Map<String, String> map = authUtil.auth(request);
+//            deviceId = map.get("deviceId");
+//            userId = map.get("userId");
             result.setResult(designerService.getUserInfo(id));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取发型师基本信息,{},{},{}", userId, deviceId, id);
+//        LogUtil.action("获取发型师基本信息,{},{},{}", userId, deviceId, id);
         return result;
     }
 
