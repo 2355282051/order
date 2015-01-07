@@ -137,6 +137,7 @@ public class BaseInfoController {
             userId = map.get("userId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
+            user.setAccess_token(request.getHeader("access_token"));
             result.setResult(baseInfoService.openAuth(user));
         } catch (Exception e) {
             result.setCode(500);
