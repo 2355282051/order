@@ -110,4 +110,23 @@ public class DesignerController {
         return result;
     }
 
+    @RequestMapping(value = "/designer/star/today/c/{city}", method = RequestMethod.GET)
+    public ResultTO getTodayStar(HttpServletRequest request, @PathVariable("city") String city) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+            result.setResult(designerService.getDesignerStar(city));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action("获取发型师今日之星信息,{},{},{}", userId, deviceId, city);
+        return result;
+    }
+
 }
