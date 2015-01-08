@@ -142,13 +142,14 @@ public class BaseInfoService {
             bean.setActivatedStatus(StatusConstant.openauth_inactive);
             bean.setQqId(user.getQqId());
             bean.setWechatId(user.getWechatId());
+            bean.setAvatar(user.getAvatar());
+            bean.setName(user.getName());
+            bean.setSex(user.getSex());
         } else {
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
-        bean.setAvatar(user.getAvatar());
+
         bean.setLoc(user.getLoc());
-        bean.setName(user.getName());
-        bean.setSex(user.getSex());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
         // 同步Show用户信息
