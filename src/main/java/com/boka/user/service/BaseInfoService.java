@@ -185,8 +185,12 @@ public class BaseInfoService {
         User bean = baseInfoRepository.findByMobile(user.getMobile());
         if(bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
-            bean.setQqId(openAuthUser.getQqId());
-            bean.setWechatId(openAuthUser.getWechatId());
+            if(Assert.isNotNull(openAuthUser.getQqId())) {
+                bean.setQqId(openAuthUser.getQqId());
+            }
+            if(Assert.isNotNull(openAuthUser.getWechatId())) {
+                bean.setWechatId(openAuthUser.getWechatId());
+            }
             openAuthUser.setActivatedStatus(StatusConstant.removed);
             //将第三方登录帐号注销
             baseInfoRepository.updateBindUser(openAuthUser);
