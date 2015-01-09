@@ -45,7 +45,7 @@ public class BaseInfoService {
      * @return
      * @throws CommonException
      */
-    public String reg(UserTO user) throws CommonException {
+    public String reg(UserTO user, String deviceId) throws CommonException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
@@ -66,7 +66,7 @@ public class BaseInfoService {
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         bean = baseInfoRepository.save(bean);
         //生成token
-        return authUtil.getToken(bean.getId());
+        return authUtil.getToken(bean.getId(), deviceId);
     }
 
     /**
@@ -104,7 +104,7 @@ public class BaseInfoService {
      * @throws LoginException
      * @throws CommonException
      */
-    public UserTO login(UserTO user) throws LoginException, CommonException {
+    public UserTO login(UserTO user, String deviceId) throws LoginException, CommonException {
         User bean = baseInfoRepository.findByMobile(user.getMobile());
         if (bean == null) {
             throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
@@ -117,7 +117,7 @@ public class BaseInfoService {
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
-        result.setAccess_token(authUtil.getToken(bean.getId()));
+        result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
     }
 
@@ -127,7 +127,7 @@ public class BaseInfoService {
      * @return
      * @throws Exception
      */
-    public UserTO openAuth(UserTO user) throws Exception {
+    public UserTO openAuth(UserTO user, String deviceId) throws Exception {
         User bean = null;
         if(Assert.isNotNull(user.getQqId())) {
             bean = baseInfoRepository.findByQqId(user.getQqId());
@@ -157,7 +157,7 @@ public class BaseInfoService {
             syncUser(user);
         }
         // 将新的用户ID绑定到access_token上
-        authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId());
+        authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         UserTO result = new UserTO();
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());

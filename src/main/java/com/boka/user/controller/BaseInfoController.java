@@ -37,7 +37,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
-            result.setResult(baseInfoService.reg(user));
+            result.setResult(baseInfoService.reg(user, deviceId));
         } catch (CommonException ce) {
             result.setCode(500);
             result.setSuccess(false);
@@ -84,7 +84,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
-            result.setResult(baseInfoService.login(user));
+            result.setResult(baseInfoService.login(user, deviceId));
         } catch (LoginException le) {
             result.setCode(401);
             result.setSuccess(false);
@@ -138,7 +138,7 @@ public class BaseInfoController {
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
-            result.setResult(baseInfoService.openAuth(user));
+            result.setResult(baseInfoService.openAuth(user, deviceId));
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
