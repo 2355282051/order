@@ -265,6 +265,9 @@ public class BaseInfoService {
         }
         bean.setName(user.getName());
         bean.setSex(user.getSex());
+        if(user.getLoc() != null) {
+            bean.setLoc(user.getLoc());
+        }
         baseInfoRepository.save(bean);
     }
 
