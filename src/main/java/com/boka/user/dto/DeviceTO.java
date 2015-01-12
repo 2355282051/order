@@ -3,7 +3,7 @@ package com.boka.user.dto;
 /**
  * Created by boka on 14-12-29.
  */
-public class DeviceDTO {
+public class DeviceTO {
 
     private String deviceId; // 设备ID
     private String phone; // 手机号码

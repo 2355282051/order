@@ -2,6 +2,7 @@ package com.boka.user.service;
 
 import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
+import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
@@ -9,6 +10,7 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
@@ -226,6 +228,44 @@ public class BaseInfoService {
      */
     public ResultTO syncUser(UserTO user) {
         return restTemplate.postForObject(Constant.SHOW_USER_SYNC_URL, user, ResultTO.class);
+    }
+
+    /**
+     * 修改密码
+     * @param userId
+     * @param password
+     * @throws CommonException
+     * @throws AuthException
+     */
+    public void changePassword(String userId, PasswordTO password) throws CommonException, AuthException {
+        User user = baseInfoRepository.findOne(userId);
+        if(user == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        String secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getOldPassword());
+        if(!user.getPassword().equals(secretPassword)) {
+            throw new AuthException(ExceptionCode.PASSWORD_ERROR);
+        }
+        secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getNewPassword());
+        user.setPassword(secretPassword);
+        user.setUpdateDate(Calendar.getInstance().getTime());
+        baseInfoRepository.save(user);
+    }
+
+    /**
+     * 修改用户信息
+     * @param user
+     * @throws CommonException
+     */
+    public void edit(UserTO user) throws CommonException {
+
+        User bean = baseInfoRepository.findOne(user.getId());
+        if(bean == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        bean.setName(user.getName());
+        bean.setSex(user.getSex());
+        baseInfoRepository.save(bean);
     }
 
 }

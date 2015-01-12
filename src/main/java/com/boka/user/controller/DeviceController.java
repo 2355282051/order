@@ -3,7 +3,7 @@ package com.boka.user.controller;
 import com.boka.common.util.UUIDGenerator;
 import com.boka.device.model.Device;
 import com.boka.device.service.DeviceService;
-import com.boka.user.dto.DeviceDTO;
+import com.boka.user.dto.DeviceTO;
 import com.boka.user.dto.ResultTO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +22,7 @@ public class DeviceController {
     private DeviceService deviceService;
 
     @RequestMapping(value = "/device", method = RequestMethod.POST)
-    public ResultTO addDevice(@RequestBody DeviceDTO deviceDTO) {
+    public ResultTO addDevice(@RequestBody DeviceTO deviceDTO) {
         ResultTO result = new ResultTO();
         try {
             Device device = new Device();
