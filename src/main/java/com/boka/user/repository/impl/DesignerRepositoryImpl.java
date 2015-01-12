@@ -92,4 +92,23 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.with(pageable).with(sort);
 		return ops.find(query,Designer.class);
 	}
+
+	@Override
+	public List<Designer> findByShop(String id) {
+		Query query = new Query(Criteria.where("product").is(ProductType.FZONE).and("shop._id").is(id));
+		query.fields().include("id");
+		query.fields().include("name");
+		query.fields().include("level");
+		query.fields().include("rank");
+		query.fields().include("score");
+		query.fields().include("avatar");
+		query.fields().include("reservedCnt");
+		query.fields().include("reserveInfo");
+		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
+		Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "rank");
+		Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "score");
+		Sort sort = new Sort(order, order1, order2);
+		query.with(sort);
+		return ops.find(query,Designer.class);
+	}
 }

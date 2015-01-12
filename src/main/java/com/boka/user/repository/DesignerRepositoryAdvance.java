@@ -12,4 +12,6 @@ public interface DesignerRepositoryAdvance {
 	public List<Designer> findCityDesigners(Location loc, String city, int page);
 
 	public List<Designer> findCountryDesigners(Location loc, int page);
+
+	public List<Designer> findByShop(String id);
 }

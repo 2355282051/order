@@ -22,6 +22,8 @@ public class Designer extends User {
     private Shop shop;
     //平均分
     private Integer score;
+    //预约信息
+    private ReserveInfo reserveInfo;
 
     public Designer() {
         product = ProductType.FZONE;
@@ -89,5 +91,13 @@ public class Designer extends User {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public ReserveInfo getReserveInfo() {
+        return reserveInfo;
+    }
+
+    public void setReserveInfo(ReserveInfo reserveInfo) {
+        this.reserveInfo = reserveInfo;
     }
 }

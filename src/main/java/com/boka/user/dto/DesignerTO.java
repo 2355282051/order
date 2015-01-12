@@ -2,6 +2,7 @@ package com.boka.user.dto;
 
 import com.boka.user.model.Designer;
 import com.boka.user.model.Region;
+import com.boka.user.model.ReserveInfo;
 import com.boka.user.model.Shop;
 
 public class DesignerTO {
@@ -30,23 +31,26 @@ public class DesignerTO {
     private String address;
     //距离
     private Double distance;
+    //预约信息
+    private ReserveInfo reserveInfo;
 
     public DesignerTO() {
     }
 
     public DesignerTO(Designer bean) {
-        this.id=bean.getId();
-        this.name=bean.getName();
-        this.sex=bean.getSex();
-        this.avatar=bean.getAvatar();
-        this.level=bean.getLevel();
-        this.rank=bean.getRank();
-        this.reservedCnt=bean.getReservedCnt();
-        this.shop=bean.getShop();
-        this.score=bean.getScore();
-        this.region=bean.getRegion();
-        this.address=bean.getAddress();
-        this.distance=bean.getDistance();
+        this.id = bean.getId();
+        this.name = bean.getName();
+        this.sex = bean.getSex();
+        this.avatar = bean.getAvatar();
+        this.level = bean.getLevel();
+        this.rank = bean.getRank();
+        this.reservedCnt = bean.getReservedCnt();
+        this.shop = bean.getShop();
+        this.score = bean.getScore();
+        this.region = bean.getRegion();
+        this.address = bean.getAddress();
+        this.distance = bean.getDistance();
+        this.reserveInfo = bean.getReserveInfo();
     }
 
     public String getId() {
@@ -145,4 +149,11 @@ public class DesignerTO {
         this.distance = distance;
     }
 
+    public ReserveInfo getReserveInfo() {
+        return reserveInfo;
+    }
+
+    public void setReserveInfo(ReserveInfo reserveInfo) {
+        this.reserveInfo = reserveInfo;
+    }
 }
