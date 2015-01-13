@@ -10,6 +10,30 @@ public class Shop {
     private Region region;
     //地址
     private String address;
+    //博卡连锁代码
+    private String custId;
+    //博卡公司代码
+    private String compId;
+    //S3状态
+    private int s3Status;
+    //连锁URL
+    private String chainUrl;
+
+    public String getCustId() {
+        return custId;
+    }
+
+    public void setCustId(String custId) {
+        this.custId = custId;
+    }
+
+    public String getCompId() {
+        return compId;
+    }
+
+    public void setCompId(String compId) {
+        this.compId = compId;
+    }
 
     public String getId() {
         return id;
@@ -41,5 +65,21 @@ public class Shop {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public int getS3Status() {
+        return s3Status;
+    }
+
+    public void setS3Status(int s3Status) {
+        this.s3Status = s3Status;
+    }
+
+    public String getChainUrl() {
+        return chainUrl;
+    }
+
+    public void setChainUrl(String chainUrl) {
+        this.chainUrl = chainUrl;
     }
 }

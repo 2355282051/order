@@ -4,7 +4,7 @@ import com.boka.common.util.UUIDGenerator;
 import com.boka.device.model.Device;
 import com.boka.device.service.DeviceService;
 import com.boka.user.dto.DeviceTO;
-import com.boka.user.dto.ResultTO;
+import com.boka.common.dto.ResultTO;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

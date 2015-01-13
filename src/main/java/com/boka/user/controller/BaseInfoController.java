@@ -10,7 +10,7 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.dto.PasswordTO;
-import com.boka.user.dto.ResultTO;
+import com.boka.common.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.service.BaseInfoService;
 import org.apache.log4j.Logger;
