@@ -259,7 +259,7 @@ public class BaseInfoService {
         }
 
         User bean = baseInfoRepository.findByMobile(user.getMobile());
-        if(bean == null) {
+        if (bean == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
         //if(user.getPassword() != null) {

@@ -26,14 +26,14 @@ public class DesignerController {
     private AuthUtil authUtil;
 
     @RequestMapping(value = "/designer/near/c/{city}", method = RequestMethod.GET)
-    public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city) {
+    public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
-            result.setResult(designerService.findNearDesigners(loc, city, page));
+            result.setResult(designerService.findNearDesigners(loc, city, keyword, page));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -48,14 +48,14 @@ public class DesignerController {
     }
 
     @RequestMapping(value = "/designer/city/c/{city}", method = RequestMethod.GET)
-    public ResultTO getCityDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city) {
+    public ResultTO getCityDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
-            result.setResult(designerService.findCityDesigners(loc, city, page));
+            result.setResult(designerService.findCityDesigners(loc, city, keyword, page));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);

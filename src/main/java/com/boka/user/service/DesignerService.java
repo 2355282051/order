@@ -1,5 +1,6 @@
 package com.boka.user.service;
 
+import com.boka.common.util.Assert;
 import com.boka.common.util.DistanceUtil;
 import com.boka.user.dto.DesignerTO;
 import com.boka.user.model.Designer;
@@ -30,12 +31,15 @@ public class DesignerService {
     @Autowired
     private S3UserService s3UserService;
 
-    public List<Designer> findNearDesigners(Location loc, String city, int page) {
-        return designerRepository.findNearDesigners(loc, city, page);
+    public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
+        if (loc.getLat() == null || loc.getLng() == null)
+            return findCityDesigners(loc, city, keyword, page);
+        else
+            return designerRepository.findNearDesigners(loc, city, keyword, page);
     }
 
-    public List<Designer> findCityDesigners(Location loc, String city, int page) {
-        List<Designer> result = designerRepository.findCityDesigners(loc, city, page);
+    public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page) {
+        List<Designer> result = designerRepository.findCityDesigners(loc, city, keyword, page);
         //计算距离
         if (loc.getLat() != null && loc.getLng() != null) {
             for (Designer item : result) {

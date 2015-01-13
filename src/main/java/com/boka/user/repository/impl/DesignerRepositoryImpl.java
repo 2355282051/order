@@ -1,6 +1,7 @@
 package com.boka.user.repository.impl;
 
 import com.boka.common.constant.ProductType;
+import com.boka.common.util.Assert;
 import com.boka.user.constant.PageConstant;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Location;
@@ -27,10 +28,14 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 	private MongoOperations ops;
 
 	@Override
-	public List<Designer> findNearDesigners(Location loc, String city, int page) {
+	public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
 		Point point = new Point(loc.getLng(), loc.getLat());
 		NearQuery nearQuery = NearQuery.near(point, Metrics.KILOMETERS);
-		nearQuery.query(new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE)));
+		Query query = new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE));
+		if (Assert.isNotNull(keyword)) {
+			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
+		}
+		nearQuery.query(query);
 		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
 		nearQuery.with(pageable);
 		GeoResults<Designer> list = ops.geoNear(nearQuery, Designer.class);
@@ -54,8 +59,11 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 	}
 
 	@Override
-	public List<Designer> findCityDesigners(Location loc, String city, int page) {
+	public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page) {
 		Query query = new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE));
+		if (Assert.isNotNull(keyword)) {
+			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
+		}
 		query.fields().include("id");
 		query.fields().include("name");
 		query.fields().include("shop.name");
