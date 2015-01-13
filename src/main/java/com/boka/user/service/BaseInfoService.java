@@ -252,6 +252,24 @@ public class BaseInfoService {
         baseInfoRepository.save(user);
     }
 
+    public void forgetPassword(UserTO user) throws CommonException {
+        //验证码检验
+        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
+            throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
+        }
+
+        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        if(bean == null) {
+            throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
+        }
+        if(user.getPassword() != null) {
+            bean.setUpdateDate(Calendar.getInstance().getTime());
+            //MD5加盐
+            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+            baseInfoRepository.save(bean);
+        }
+    }
+
     /**
      * 修改用户信息
      * @param user
