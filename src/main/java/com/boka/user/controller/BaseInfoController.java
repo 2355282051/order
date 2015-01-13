@@ -279,21 +279,16 @@ public class BaseInfoController {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
-        String mobile = null;
-        String authcode = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            HttpSession session = request.getSession();
-            mobile = (String) session.getAttribute("mobile");
-            authcode = (String)session.getAttribute("authcode");
-            if(Assert.isNull(mobile)) {
+            if(Assert.isNull(password.getMobile())) {
                 throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
             }
             UserTO user = new UserTO();
-            user.setMobile(mobile);
-            user.setAuthcode(authcode);
+            user.setMobile(password.getMobile());
+            user.setAuthcode(password.getAuthcode());
             user.setPassword(password.getNewPassword());
             baseInfoService.forgetPassword(user);
         } catch (AuthException le) {
@@ -309,7 +304,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("忘记密码,修改密码,{},{},{},{}", mobile, authcode, deviceId, ProductType.BEAUTY);
+        LogUtil.action("忘记密码,修改密码,{},{},{},{}", password.getMobile(), password.getAuthcode(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
