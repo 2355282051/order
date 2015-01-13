@@ -87,11 +87,12 @@ public class BaseInfoController {
         String deviceId = null;
         String access_token = null;
         try {
-            Map<String, String> map = authUtil.changeAuth(request);
+            Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            access_token = map.get("access_token");
             baseInfoService.changePassword(userId, password);
+            Map<String, String> newAuth = authUtil.changeAuth(request);
+            access_token = newAuth.get("access_token");
             result.setResult(access_token);
         } catch (AuthException ae) {
             result.setCode(403);
@@ -240,39 +241,6 @@ public class BaseInfoController {
         LogUtil.action("绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
         return result;
     }
-
-//    @RequestMapping(value = "/checkcode", method = RequestMethod.GET)
-//    public ResultTO checkCode(HttpServletRequest request, String mobile, String authcode) {
-//        ResultTO result = new ResultTO();
-//        String userId = null;
-//        String deviceId = null;
-//        try {
-//            Map<String, String> map = authUtil.preAuth(request);
-//            userId = map.get("userId");
-//            deviceId = map.get("deviceId");
-//            UserTO user = new UserTO();
-//            HttpSession session = request.getSession();
-//            session.setAttribute("mobile", mobile);
-//            session.setAttribute("authcode", authcode);
-//            user.setMobile(mobile);
-//            user.setAuthcode(authcode);
-//            baseInfoService.forgetPassword(user);
-//        } catch (AuthException le) {
-//            result.setCode(403);
-//            result.setSuccess(false);
-//            result.setMsg(le.getMessage());
-//        } catch (CommonException ce) {
-//            result.setCode(400);
-//            result.setSuccess(false);
-//            result.setMsg(ce.getMessage());
-//        } catch (Exception e) {
-//            result.setCode(500);
-//            result.setSuccess(false);
-//            e.printStackTrace();
-//        }
-//        LogUtil.action("忘记密码,检测验证码,{},{},{},{}", mobile, authcode, deviceId, ProductType.BEAUTY);
-//        return result;
-//    }
 
     @RequestMapping(value = "/forgetpwd", method = RequestMethod.POST)
     public ResultTO forgetPassword(HttpServletRequest request, @RequestBody PasswordTO password) {
