@@ -262,12 +262,12 @@ public class BaseInfoService {
         if (bean == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
-        //if(user.getPassword() != null) {
-        bean.setUpdateDate(Calendar.getInstance().getTime());
-        //MD5加盐
-        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
-        baseInfoRepository.save(bean);
-        //}
+        if(user.getPassword() != null) {
+            bean.setUpdateDate(Calendar.getInstance().getTime());
+            //MD5加盐
+            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+            baseInfoRepository.save(bean);
+        }
     }
 
     /**
