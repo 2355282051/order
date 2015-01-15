@@ -43,7 +43,6 @@ public class DesignerTO {
         this.id = bean.getId();
         this.name = bean.getName();
         this.sex = bean.getSex();
-        this.mobile = bean.getMobile();
         this.avatar = bean.getAvatar();
         this.level = bean.getLevel();
         this.rank = bean.getRank();
@@ -158,5 +157,13 @@ public class DesignerTO {
 
     public void setReserveInfo(ReserveInfo reserveInfo) {
         this.reserveInfo = reserveInfo;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

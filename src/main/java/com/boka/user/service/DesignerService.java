@@ -70,6 +70,7 @@ public class DesignerService {
             return null;
         }
         DesignerTO result = new DesignerTO(bean);
+        result.setMobile(bean.getMobile());
         return result;
     }
 
