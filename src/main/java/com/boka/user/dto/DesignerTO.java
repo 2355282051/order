@@ -84,6 +84,8 @@ public class DesignerTO {
         this.distance = bean.getDistance();
         this.reserveInfo = bean.getReserveInfo();
         this.empId = bean.getEmpId();
+        this.workCount=bean.getWorkCount();
+        this.fansCount=bean.getFansCount();
     }
 
     public String getId() {
