@@ -81,7 +81,9 @@ public class BaseInfoService {
         bean.setUpdateDate(Calendar.getInstance().getTime());
         bean.setLastLoginDate(bean.getCreateDate());
         bean.setLoc(user.getLoc());
-        bean.setActivatedStatus(StatusConstant.activated);
+        if(Assert.isNotNull(bean.getMobile())) {
+            bean.setActivatedStatus(StatusConstant.activated);
+        }
         bean.setProduct(user.getProduct());
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
