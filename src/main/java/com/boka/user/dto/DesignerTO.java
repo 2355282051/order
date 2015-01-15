@@ -35,6 +35,36 @@ public class DesignerTO {
     private Double distance;
     //预约信息
     private ReserveInfo reserveInfo;
+    //员工编码
+    private String empId;
+    //粉丝数
+    private int fansCount;
+    //作品数
+    private int workCount;
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
+    public int getFansCount() {
+        return fansCount;
+    }
+
+    public void setFansCount(int fansCount) {
+        this.fansCount = fansCount;
+    }
+
+    public int getWorkCount() {
+        return workCount;
+    }
+
+    public void setWorkCount(int workCount) {
+        this.workCount = workCount;
+    }
 
     public DesignerTO() {
     }
@@ -53,6 +83,9 @@ public class DesignerTO {
         this.address = bean.getAddress();
         this.distance = bean.getDistance();
         this.reserveInfo = bean.getReserveInfo();
+        this.empId = bean.getEmpId();
+        this.workCount=bean.getWorkCount();
+        this.fansCount=bean.getFansCount();
     }
 
     public String getId() {
