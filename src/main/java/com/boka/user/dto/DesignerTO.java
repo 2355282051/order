@@ -37,6 +37,34 @@ public class DesignerTO {
     private ReserveInfo reserveInfo;
     //员工编码
     private String empId;
+    //粉丝数
+    private int fansCount;
+    //作品数
+    private int workCount;
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
+    public int getFansCount() {
+        return fansCount;
+    }
+
+    public void setFansCount(int fansCount) {
+        this.fansCount = fansCount;
+    }
+
+    public int getWorkCount() {
+        return workCount;
+    }
+
+    public void setWorkCount(int workCount) {
+        this.workCount = workCount;
+    }
 
     public DesignerTO() {
     }
