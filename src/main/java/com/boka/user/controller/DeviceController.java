@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 
 /**
  * Created by boka on 14-12-29.
@@ -35,6 +36,7 @@ public class DeviceController {
             device.setAppVersion(deviceDTO.getAppVersion());
             device.setUserId(deviceDTO.getUserId());
             device.setUserName(device.getUserName());
+            device.setCreateTime(Calendar.getInstance().getTime());
             deviceService.saveDevice(device);
             result.setResult("添加成功");
         } catch (Exception e) {
