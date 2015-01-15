@@ -35,6 +35,8 @@ public class DesignerTO {
     private Double distance;
     //预约信息
     private ReserveInfo reserveInfo;
+    //员工编码
+    private String empId;
 
     public DesignerTO() {
     }
@@ -53,6 +55,7 @@ public class DesignerTO {
         this.address = bean.getAddress();
         this.distance = bean.getDistance();
         this.reserveInfo = bean.getReserveInfo();
+        this.empId = bean.getEmpId();
     }
 
     public String getId() {
