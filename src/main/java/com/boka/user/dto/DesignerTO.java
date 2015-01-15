@@ -11,6 +11,8 @@ public class DesignerTO {
     private String id;
     //昵称
     private String name;
+    //手机号
+    private String mobile;
     //性别
     private int sex;
     //头像
@@ -41,6 +43,7 @@ public class DesignerTO {
         this.id = bean.getId();
         this.name = bean.getName();
         this.sex = bean.getSex();
+        this.mobile = bean.getMobile();
         this.avatar = bean.getAvatar();
         this.level = bean.getLevel();
         this.rank = bean.getRank();
