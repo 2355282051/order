@@ -178,7 +178,7 @@ public class BaseInfoService {
      * @return
      * @throws CommonException
      */
-    public UserTO bindMobile(UserTO user) throws CommonException {
+    public UserTO bindMobile(UserTO user, String deviceId) throws CommonException, AuthException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
@@ -213,11 +213,14 @@ public class BaseInfoService {
         UserTO result = new UserTO();
         result.setId(bean.getId());
         result.setQqId(bean.getQqId());
+        result.setWechatId(bean.getWechatId());
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
+        // 将access_token绑定到新用户ID
+        authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         return result;
     }
 
