@@ -83,7 +83,17 @@ public class DesignerService {
         Shop shop = shopService.getShop(id);
         if (shop.getS3Status() == 1) {
             //取S3员工
-            return s3UserService.getDesigner(shop.getChainUrl(), shop.getCustId(), shop.getCompId());
+            List<Designer> result = s3UserService.getDesigner(shop.getChainUrl(), shop.getCustId(), shop.getCompId());
+            //获取发界ID
+            List<Designer> designers = designerRepository.findByS3Shop(shop.getCustId(), shop.getCompId());
+            for (Designer item : designers) {
+                for (Designer designer : result) {
+                    if (item.getEmpId().equals(designer.getEmpId())) {
+                        designer.setId(item.getId());
+                    }
+                }
+            }
+            return result;
         }
         return designerRepository.findByShop(id);
     }

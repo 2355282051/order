@@ -119,4 +119,15 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.with(sort);
 		return ops.find(query,Designer.class);
 	}
+
+	@Override
+	public List<Designer> findByS3Shop(String custId, String compId) {
+		Query query = new Query(Criteria.where("custId").is(custId).and("compId").is(compId));
+		query.fields().include("id");
+		query.fields().include("name");
+		query.fields().include("custId");
+		query.fields().include("compId");
+		query.fields().include("empId");
+		return ops.find(query,Designer.class);
+	}
 }
