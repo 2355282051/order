@@ -224,7 +224,8 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
-            result.setResult(baseInfoService.bindMobile(user));
+            user.setAccess_token(request.getHeader("access_token"));
+            result.setResult(baseInfoService.bindMobile(user, deviceId));
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
