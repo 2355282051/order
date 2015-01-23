@@ -4,7 +4,7 @@ import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
-import com.boka.user.dto.ResultTO;
+import com.boka.common.dto.ResultTO;
 import com.boka.user.model.Location;
 import com.boka.user.service.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,14 @@ public class DesignerController {
     private AuthUtil authUtil;
 
     @RequestMapping(value = "/designer/near/c/{city}", method = RequestMethod.GET)
-    public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city) {
+    public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
-            result.setResult(designerService.findNearDesigners(loc, city, page));
+            result.setResult(designerService.findNearDesigners(loc, city, keyword, page));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -48,14 +48,14 @@ public class DesignerController {
     }
 
     @RequestMapping(value = "/designer/city/c/{city}", method = RequestMethod.GET)
-    public ResultTO getCityDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city) {
+    public ResultTO getCityDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
-            result.setResult(designerService.findCityDesigners(loc, city, page));
+            result.setResult(designerService.findCityDesigners(loc, city, keyword, page));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -126,6 +126,25 @@ public class DesignerController {
             e.printStackTrace();
         }
         LogUtil.action("获取发型师今日之星信息,{},{},{}", userId, deviceId, city);
+        return result;
+    }
+
+    @RequestMapping(value = "/designer/shop/{id}/get", method = RequestMethod.GET)
+    public ResultTO getShopDesigner(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+//            Map<String, String> map = authUtil.preAuth(request);
+//            deviceId = map.get("deviceId");
+//            userId = map.get("userId");
+            result.setResult(designerService.getShopDesigner(id));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action("获取门店的发型师信息,{},{},{}", userId, deviceId, id);
         return result;
     }
 

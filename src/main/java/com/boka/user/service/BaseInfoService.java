@@ -2,6 +2,7 @@ package com.boka.user.service;
 
 import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
+import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -11,23 +12,15 @@ import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.PasswordTO;
-import com.boka.user.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class BaseInfoService {
@@ -43,6 +36,7 @@ public class BaseInfoService {
 
     /**
      * 用户注册
+     *
      * @param user
      * @return
      * @throws CommonException
@@ -57,7 +51,7 @@ public class BaseInfoService {
         }
 
         User bean = baseInfoRepository.findByMobile(user.getMobile());
-        if(bean != null) {
+        if (bean != null) {
             throw new CommonException(ExceptionCode.MOBILE_EXISTS);
         }
         bean = new User();
@@ -73,6 +67,7 @@ public class BaseInfoService {
 
     /**
      * 激活保存用户信息
+     *
      * @param user
      * @return
      * @throws CommonException
@@ -86,7 +81,9 @@ public class BaseInfoService {
         bean.setUpdateDate(Calendar.getInstance().getTime());
         bean.setLastLoginDate(bean.getCreateDate());
         bean.setLoc(user.getLoc());
-        bean.setActivatedStatus(StatusConstant.activated);
+        if(Assert.isNotNull(bean.getMobile())) {
+            bean.setActivatedStatus(StatusConstant.activated);
+        }
         bean.setProduct(user.getProduct());
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
@@ -101,6 +98,7 @@ public class BaseInfoService {
 
     /**
      * 登录
+     *
      * @param user
      * @return
      * @throws LoginException
@@ -125,15 +123,16 @@ public class BaseInfoService {
 
     /**
      * 第三方登录
+     *
      * @param user
      * @return
      * @throws Exception
      */
     public UserTO openAuth(UserTO user, String deviceId) throws Exception {
         User bean = null;
-        if(Assert.isNotNull(user.getQqId())) {
+        if (Assert.isNotNull(user.getQqId())) {
             bean = baseInfoRepository.findByQqId(user.getQqId());
-        } else if(Assert.isNotNull(user.getWechatId())) {
+        } else if (Assert.isNotNull(user.getWechatId())) {
             bean = baseInfoRepository.findByWechatId(user.getWechatId());
         }
         if (bean == null) {
@@ -155,7 +154,7 @@ public class BaseInfoService {
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
         // 同步Show用户信息
-        if(!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
+        if (!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
             syncUser(user);
         }
         // 将新的用户ID绑定到access_token上
@@ -174,23 +173,24 @@ public class BaseInfoService {
 
     /**
      * 绑定手机号
+     *
      * @param user
      * @return
      * @throws CommonException
      */
-    public UserTO bindMobile(UserTO user) throws CommonException {
+    public UserTO bindMobile(UserTO user, String deviceId) throws CommonException, AuthException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
         User bean = baseInfoRepository.findByMobile(user.getMobile());
-        if(bean != null) {
+        if (bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
-            if(Assert.isNotNull(openAuthUser.getQqId())) {
+            if (Assert.isNotNull(openAuthUser.getQqId())) {
                 bean.setQqId(openAuthUser.getQqId());
             }
-            if(Assert.isNotNull(openAuthUser.getWechatId())) {
+            if (Assert.isNotNull(openAuthUser.getWechatId())) {
                 bean.setWechatId(openAuthUser.getWechatId());
             }
             openAuthUser.setActivatedStatus(StatusConstant.removed);
@@ -213,16 +213,20 @@ public class BaseInfoService {
         UserTO result = new UserTO();
         result.setId(bean.getId());
         result.setQqId(bean.getQqId());
+        result.setWechatId(bean.getWechatId());
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
+        // 将access_token绑定到新用户ID
+        authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         return result;
     }
 
     /**
      * 同步秀里用户信息
+     *
      * @param user
      * @return
      */
@@ -232,6 +236,7 @@ public class BaseInfoService {
 
     /**
      * 修改密码
+     *
      * @param userId
      * @param password
      * @throws CommonException
@@ -239,11 +244,11 @@ public class BaseInfoService {
      */
     public void changePassword(String userId, PasswordTO password) throws CommonException, AuthException {
         User user = baseInfoRepository.findOne(userId);
-        if(user == null) {
+        if (user == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         String secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getOldPassword());
-        if(!user.getPassword().equals(secretPassword)) {
+        if (!user.getPassword().equals(secretPassword)) {
             throw new AuthException(ExceptionCode.PASSWORD_ERROR);
         }
         secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getNewPassword());
@@ -252,20 +257,39 @@ public class BaseInfoService {
         baseInfoRepository.save(user);
     }
 
+    public void forgetPassword(UserTO user) throws CommonException {
+        //验证码检验
+        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
+            throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
+        }
+
+        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        if (bean == null) {
+            throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
+        }
+        if(user.getPassword() != null) {
+            bean.setUpdateDate(Calendar.getInstance().getTime());
+            //MD5加盐
+            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+            baseInfoRepository.save(bean);
+        }
+    }
+
     /**
      * 修改用户信息
+     *
      * @param user
      * @throws CommonException
      */
     public void edit(UserTO user) throws CommonException {
 
         User bean = baseInfoRepository.findOne(user.getId());
-        if(bean == null) {
+        if (bean == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         bean.setName(user.getName());
         bean.setSex(user.getSex());
-        if(user.getLoc() != null) {
+        if (user.getLoc() != null) {
             bean.setLoc(user.getLoc());
         }
         baseInfoRepository.save(bean);

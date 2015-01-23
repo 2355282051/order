@@ -22,6 +22,28 @@ public class Designer extends User {
     private Shop shop;
     //平均分
     private Integer score;
+    //预约信息
+    private ReserveInfo reserveInfo;
+    //粉丝数
+    private int fansCount;
+    //作品数
+    private int workCount;
+
+    public int getFansCount() {
+        return fansCount;
+    }
+
+    public void setFansCount(int fansCount) {
+        this.fansCount = fansCount;
+    }
+
+    public int getWorkCount() {
+        return workCount;
+    }
+
+    public void setWorkCount(int workCount) {
+        this.workCount = workCount;
+    }
 
     public Designer() {
         product = ProductType.FZONE;
@@ -89,5 +111,13 @@ public class Designer extends User {
 
     public void setScore(Integer score) {
         this.score = score;
+    }
+
+    public ReserveInfo getReserveInfo() {
+        return reserveInfo;
+    }
+
+    public void setReserveInfo(ReserveInfo reserveInfo) {
+        this.reserveInfo = reserveInfo;
     }
 }
