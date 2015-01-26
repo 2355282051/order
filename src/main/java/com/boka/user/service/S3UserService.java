@@ -40,6 +40,7 @@ public class S3UserService {
         } finally {
             httpClient.close();
         }
+        System.out.println("test:"+result);
         List<Designer> designers = new ArrayList<>();
         List<S3DesignerTO> list = JSON.parseArray(result, S3DesignerTO.class);
         for (S3DesignerTO item : list) {
