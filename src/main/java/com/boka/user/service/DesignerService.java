@@ -81,6 +81,9 @@ public class DesignerService {
 
     public List<Designer> getShopDesigner(String id) throws IOException {
         Shop shop = shopService.getShop(id);
+        if (shop == null) {
+            return null;
+        }
         if (shop.getS3Status() == 1) {
             //取S3员工
             List<Designer> result = s3UserService.getDesigner(shop.getChainUrl(), shop.getCustId(), shop.getCompId());

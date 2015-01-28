@@ -31,7 +31,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 	public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
 		Point point = new Point(loc.getLng(), loc.getLat());
 		NearQuery nearQuery = NearQuery.near(point, Metrics.KILOMETERS);
-		Query query = new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE));
+		Query query = new Query(Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE));
 		if (Assert.isNotNull(keyword)) {
 			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
 		}
@@ -60,7 +60,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 
 	@Override
 	public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page) {
-		Query query = new Query(Criteria.where("region.city").is(city).and("product").is(ProductType.FZONE));
+		Query query = new Query(Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE));
 		if (Assert.isNotNull(keyword)) {
 			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
 		}
