@@ -76,7 +76,18 @@ public class DesignerService {
 
     public List<DesignerStar> getDesignerStar(String city) {
         Sort sort = new Sort(Sort.Direction.ASC, "index");
-        return designerStarRepository.findByCity(city, sort);
+        List<DesignerStar> result = designerStarRepository.findByCity(city, sort);
+        if (result != null && result.size() == 4) {
+            return result;
+        }else if (result == null){
+            result = designerStarRepository.findByCity("310000", sort);
+        }else if (result.size() < 4){
+            List<DesignerStar> other = designerStarRepository.findByCity("310000", sort);
+            for (int i = 0; i<4 - result.size(); i++) {
+                result.add(other.get(i));
+            }
+        }
+        return result;
     }
 
     public List<Designer> getShopDesigner(String id) throws IOException {
