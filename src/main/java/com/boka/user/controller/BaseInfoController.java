@@ -310,6 +310,29 @@ public class BaseInfoController {
         return result;
     }
 
+    @RequestMapping(value = "/auth", method = RequestMethod.GET)
+    public ResultTO auth(HttpServletRequest request) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.auth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+            result.setResult(true);
+        } catch (AuthException le) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action("校验用户登陆,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
 
 
 
