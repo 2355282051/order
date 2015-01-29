@@ -41,6 +41,7 @@ public class S3UserService {
             httpClient.close();
         }
         List<Designer> designers = new ArrayList<>();
+        System.out.println("S3designer:"+result);
         List<S3DesignerTO> list = JSON.parseArray(result, S3DesignerTO.class);
         for (S3DesignerTO item : list) {
             if (("1").equals(item.getHaa46i())) {
