@@ -91,7 +91,7 @@ public class DesignerService {
             List<Designer> designers = designerRepository.findByS3Shop(shop.getCustId(), shop.getCompId());
             for (Designer item : designers) {
                 for (Designer designer : result) {
-                    if (item.getEmpId().equals(designer.getEmpId())) {
+                    if (item.getEmpId() != null && item.getEmpId().equals(designer.getEmpId())) {
                         designer.setId(item.getId());
                     }
                 }
