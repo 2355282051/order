@@ -155,6 +155,7 @@ public class BaseInfoService {
         bean = baseInfoRepository.save(bean);
         // 同步Show用户信息
         if (!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
+            user.setId(bean.getId());
             syncUser(user);
         }
         // 将新的用户ID绑定到access_token上
