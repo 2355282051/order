@@ -2,11 +2,10 @@ package com.boka.user.model;
 
 import java.util.Date;
 
+import com.boka.common.constant.URLConstant;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import com.boka.user.constant.URLConstant;
 
 @Document(collection = "user_info")
 public class User {
@@ -96,7 +95,7 @@ public class User {
 
     public void setAvatar(String avatar) {
         if (avatar != null && avatar.indexOf("http") == -1) {
-            this.avatar = URLConstant.IMAGE_URL + avatar;
+            this.avatar = URLConstant.BEAUTY_IMAGE_URL + avatar;
         } else {
             this.avatar = avatar;
         }

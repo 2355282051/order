@@ -24,12 +24,12 @@
 		<dependency>
 			<groupId>com.boka</groupId>
 			<artifactId>common-http</artifactId>
-			<version>1.0.RELEASE</version>
+			<version>1.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.boka</groupId>
 			<artifactId>common-db</artifactId>
-			<version>1.0.RELEASE</version>
+			<version>1.0.0.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
