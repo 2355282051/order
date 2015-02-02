@@ -150,4 +150,17 @@ public class DesignerController {
         return result;
     }
 
+    @RequestMapping(value="/inc/{id}/reserve",method=RequestMethod.POST)
+    public ResultTO incReserveCount(@PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            designerService.incReserveCount(id);
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

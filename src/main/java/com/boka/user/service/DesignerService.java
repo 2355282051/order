@@ -115,4 +115,8 @@ public class DesignerService {
         }
         return designerRepository.findByShop(id);
     }
+
+    public void incReserveCount(String id) {
+        designerRepository.incReserveCount(id);
+    }
 }
