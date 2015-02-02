@@ -29,6 +29,13 @@ public class Designer extends User {
     //作品数
     private int workCount;
 
+    // 用户等级
+    private String grade;
+    // 剪发价格
+    private double haircutPrice;
+    // 洗发价格
+    private double shampooPrice;
+
     public int getFansCount() {
         return fansCount;
     }
@@ -119,5 +126,29 @@ public class Designer extends User {
 
     public void setReserveInfo(ReserveInfo reserveInfo) {
         this.reserveInfo = reserveInfo;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public double getHaircutPrice() {
+        return haircutPrice;
+    }
+
+    public void setHaircutPrice(double haircutPrice) {
+        this.haircutPrice = haircutPrice;
+    }
+
+    public double getShampooPrice() {
+        return shampooPrice;
+    }
+
+    public void setShampooPrice(double shampooPrice) {
+        this.shampooPrice = shampooPrice;
     }
 }

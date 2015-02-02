@@ -42,6 +42,13 @@ public class DesignerTO {
     //作品数
     private int workCount;
 
+    // 用户等级
+    private String grade;
+    // 剪发价格
+    private double haircutPrice;
+    // 洗发价格
+    private double shampooPrice;
+
     public String getEmpId() {
         return empId;
     }
@@ -86,6 +93,9 @@ public class DesignerTO {
         this.empId = bean.getEmpId();
         this.workCount=bean.getWorkCount();
         this.fansCount=bean.getFansCount();
+        this.haircutPrice = bean.getHaircutPrice();
+        this.grade = bean.getGrade();
+        this.shampooPrice = bean.getShampooPrice();
     }
 
     public String getId() {
@@ -198,5 +208,29 @@ public class DesignerTO {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public double getHaircutPrice() {
+        return haircutPrice;
+    }
+
+    public void setHaircutPrice(double haircutPrice) {
+        this.haircutPrice = haircutPrice;
+    }
+
+    public double getShampooPrice() {
+        return shampooPrice;
+    }
+
+    public void setShampooPrice(double shampooPrice) {
+        this.shampooPrice = shampooPrice;
     }
 }
