@@ -1,8 +1,8 @@
 package com.boka.user.repository.impl;
 
+import com.boka.common.constant.PageConstant;
 import com.boka.common.constant.ProductType;
 import com.boka.common.util.Assert;
-import com.boka.user.constant.PageConstant;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Location;
 import com.boka.user.repository.DesignerRepositoryAdvance;
