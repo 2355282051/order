@@ -16,4 +16,6 @@ public interface DesignerRepositoryAdvance {
 	public List<Designer> findByShop(String id);
 
 	public List<Designer> findByS3Shop(String custId, String compId);
+
+	public void incReserveCount(String id);
 }

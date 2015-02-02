@@ -18,6 +18,7 @@ import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,5 +130,12 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("compId");
 		query.fields().include("empId");
 		return ops.find(query,Designer.class);
+	}
+
+	@Override
+	public void incReserveCount(String id) {
+		Query query = new Query(Criteria.where("_id").is(id));
+		Update update = new Update().inc("reservedCnt", 1);
+		ops.updateFirst(query, update, Designer.class);
 	}
 }

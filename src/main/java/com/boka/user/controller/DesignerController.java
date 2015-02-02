@@ -1,6 +1,7 @@
 package com.boka.user.controller;
 
 import com.boka.common.constant.ProductType;
+import com.boka.common.constant.ServiceType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
@@ -44,7 +45,7 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取附近发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "获取附近发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -66,7 +67,7 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取同城发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "获取同城发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -88,19 +89,14 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取全国发型师用户,{},{},{},{}", lat, lng, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "获取全国发型师用户,{},{},{},{}", lat, lng, deviceId, ProductType.BEAUTY);
         return result;
     }
 
     @RequestMapping(value = "/designer/get/{id}", method = RequestMethod.GET)
     public ResultTO getUserInfo(HttpServletRequest request, @PathVariable("id") String id) {
         ResultTO result = new ResultTO();
-//        String deviceId = null;
-//        String userId = null;
         try {
-//            Map<String, String> map = authUtil.auth(request);
-//            deviceId = map.get("deviceId");
-//            userId = map.get("userId");
             result.setResult(designerService.getUserInfo(id));
         } catch (Exception e) {
             result.setCode(500);
@@ -126,7 +122,7 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取发型师今日之星信息,{},{},{}", userId, deviceId, city);
+        LogUtil.action(ServiceType.USER, "获取发型师今日之星信息,{},{},{}", userId, deviceId, city);
         return result;
     }
 
@@ -136,9 +132,9 @@ public class DesignerController {
         String deviceId = null;
         String userId = null;
         try {
-//            Map<String, String> map = authUtil.preAuth(request);
-//            deviceId = map.get("deviceId");
-//            userId = map.get("userId");
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
             result.setResult(designerService.getShopDesigner(id));
         } catch (IOException ie) {
         } catch (Exception e) {
@@ -146,7 +142,20 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("获取门店的发型师信息,{},{},{}", userId, deviceId, id);
+        LogUtil.action(ServiceType.USER, "获取门店的发型师信息,{},{},{}", userId, deviceId, id);
+        return result;
+    }
+
+    @RequestMapping(value="/inc/{id}/reserve",method=RequestMethod.POST)
+    public ResultTO incReserveCount(@PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            designerService.incReserveCount(id);
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
         return result;
     }
 

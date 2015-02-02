@@ -2,6 +2,7 @@ package com.boka.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
+import com.boka.common.constant.ServiceType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -51,7 +52,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户注册,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -76,7 +77,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户激活,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户激活,{},{},{}", userId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -103,7 +104,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户激活,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "修改密码,{},{},{}", userId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -128,7 +129,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户激活,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户编辑,{},{},{}", userId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -154,7 +155,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -177,7 +178,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("用户登出,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户登出,{},{},{}", userId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -208,7 +209,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("第三方用户登陆,{},{},{}", (Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "第三方用户登陆,{},{},{}", (Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -239,7 +240,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -272,7 +273,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("忘记密码,检测验证码,{},{},{},{}", mobile, authcode, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "忘记密码,检测验证码,{},{},{},{}", mobile, authcode, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -306,7 +307,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("忘记密码,修改密码,{},{},{},{}", password.getMobile(), password.getAuthcode(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "忘记密码,修改密码,{},{},{},{}", password.getMobile(), password.getAuthcode(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -329,7 +330,7 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action("校验用户登陆,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "校验用户登陆,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
