@@ -35,6 +35,10 @@ public class Designer extends User {
     private double haircutPrice;
     // 洗发价格
     private double shampooPrice;
+    //评论数
+    private Integer commentCount;
+    //喜欢数
+    private Integer likeCount;
 
     public int getFansCount() {
         return fansCount;
@@ -150,5 +154,21 @@ public class Designer extends User {
 
     public void setShampooPrice(double shampooPrice) {
         this.shampooPrice = shampooPrice;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(Integer likeCount) {
+        this.likeCount = likeCount;
     }
 }
