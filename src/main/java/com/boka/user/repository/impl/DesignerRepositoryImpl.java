@@ -103,6 +103,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("shampooPrice");
 		query.fields().include("commentCount");
 		query.fields().include("likeCount");
+		query.fields().include("likeCount");
 		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
 		Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "rank");
 		Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "score");

@@ -55,6 +55,8 @@ public class DesignerTO {
     //喜欢数
     private int likeCount;
 
+    private String signature;
+
     public String getEmpId() {
         return empId;
     }
@@ -105,6 +107,7 @@ public class DesignerTO {
         this.rowNumber = bean.getRank();
         this.commentCount = bean.getCommentCount();
         this.likeCount = bean.getLikeCount();
+        this.signature = bean.getSignature();
     }
 
     public String getId() {
@@ -265,5 +268,13 @@ public class DesignerTO {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }

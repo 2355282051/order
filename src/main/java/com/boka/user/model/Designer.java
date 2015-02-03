@@ -39,6 +39,9 @@ public class Designer extends User {
     private int commentCount;
     //喜欢数
     private int likeCount;
+    //签名
+    private String signature;
+
 
     public int getFansCount() {
         return fansCount;
@@ -170,5 +173,13 @@ public class Designer extends User {
 
     public void setLikeCount(int likeCount) {
         this.likeCount = likeCount;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
     }
 }
