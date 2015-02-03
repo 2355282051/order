@@ -21,6 +21,8 @@ public class DesignerTO {
     private int level = 0;
     //排名
     private Integer rank;
+    //兼容排名
+    private Integer rowNumber;
     //被预约数
     private int reserveCnt;
     //门店
@@ -96,6 +98,7 @@ public class DesignerTO {
         this.haircutPrice = bean.getHaircutPrice();
         this.grade = bean.getGrade();
         this.shampooPrice = bean.getShampooPrice();
+        this.rowNumber = bean.getRank();
     }
 
     public String getId() {
@@ -224,5 +227,21 @@ public class DesignerTO {
 
     public void setShampooPrice(double shampooPrice) {
         this.shampooPrice = shampooPrice;
+    }
+
+    public int getReserveCnt() {
+        return reserveCnt;
+    }
+
+    public void setReserveCnt(int reserveCnt) {
+        this.reserveCnt = reserveCnt;
+    }
+
+    public Integer getRowNumber() {
+        return rowNumber;
+    }
+
+    public void setRowNumber(Integer rowNumber) {
+        this.rowNumber = rowNumber;
     }
 }
