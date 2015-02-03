@@ -50,6 +50,10 @@ public class DesignerTO {
     private double haircutPrice;
     // 洗发价格
     private double shampooPrice;
+    //评论数
+    private int commentCount;
+    //喜欢数
+    private int likeCount;
 
     public String getEmpId() {
         return empId;
@@ -99,6 +103,8 @@ public class DesignerTO {
         this.grade = bean.getGrade();
         this.shampooPrice = bean.getShampooPrice();
         this.rowNumber = bean.getRank();
+        this.commentCount = bean.getCommentCount();
+        this.likeCount = bean.getLikeCount();
     }
 
     public String getId() {
@@ -243,5 +249,21 @@ public class DesignerTO {
 
     public void setRowNumber(Integer rowNumber) {
         this.rowNumber = rowNumber;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
     }
 }
