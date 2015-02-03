@@ -51,7 +51,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 			user.setRegion(item.getContent().getRegion());
 			user.setLevel(item.getContent().getLevel());
 			user.setName(item.getContent().getName());
-			user.setReservedCnt(item.getContent().getReservedCnt());
+			user.setReserveCnt(item.getContent().getReserveCnt());
 			user.setShop(item.getContent().getShop());
 			user.setScore(item.getContent().getScore());
 			result.add(user);
