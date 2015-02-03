@@ -100,14 +100,6 @@ public class Designer extends User {
         this.rank = rank;
     }
 
-    public int getReservedCnt() {
-        return reservedCnt;
-    }
-
-    public void setReservedCnt(int reservedCnt) {
-        this.reservedCnt = reservedCnt;
-    }
-
     public Shop getShop() {
         return shop;
     }
