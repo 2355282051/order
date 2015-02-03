@@ -1,9 +1,8 @@
 package com.boka.user.dto;
 
-import com.boka.user.model.Designer;
-import com.boka.user.model.Region;
-import com.boka.user.model.ReserveInfo;
-import com.boka.user.model.Shop;
+import com.boka.user.model.*;
+
+import java.util.List;
 
 public class DesignerTO {
 
@@ -54,8 +53,10 @@ public class DesignerTO {
     private int commentCount;
     //喜欢数
     private int likeCount;
-
+    // 个性签名
     private String signature;
+    // 评论
+    private List<Comment> comments;
 
     public String getEmpId() {
         return empId;
@@ -276,5 +277,13 @@ public class DesignerTO {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }
