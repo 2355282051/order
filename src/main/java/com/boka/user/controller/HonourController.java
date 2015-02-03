@@ -29,7 +29,7 @@ public class HonourController {
 	private AuthUtil authUtil;
 
 
-	@RequestMapping(value="/{designerId}/honour",method= RequestMethod.GET)
+	@RequestMapping(value="/designer/{designerId}/honour",method= RequestMethod.GET)
 	public ResultTO getDesignerHonours(HttpServletRequest request, @PathVariable String designerId, int page) {
 		ResultTO result = new ResultTO();
 		String userId = null;
