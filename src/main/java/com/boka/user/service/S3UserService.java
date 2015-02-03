@@ -52,6 +52,7 @@ public class S3UserService {
                 designer.setName(item.getHaa02c());
                 designer.setEmpId(item.getHaa01c());
                 designer.setSex(1);
+                designer.setMobile(item.getHaa20c());
                 ReserveInfo reserveInfo = new ReserveInfo();
                 reserveInfo.setStatus(1);
                 designer.setReserveInfo(reserveInfo);
