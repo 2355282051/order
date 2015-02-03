@@ -17,7 +17,7 @@ public class Designer extends User {
     //排名
     private Integer rank;
     //被预约数
-    private int reservedCnt;
+    private int reserveCnt;
     //门店
     private Shop shop;
     //平均分
@@ -96,14 +96,6 @@ public class Designer extends User {
         this.rank = rank;
     }
 
-    public int getReservedCnt() {
-        return reservedCnt;
-    }
-
-    public void setReservedCnt(int reservedCnt) {
-        this.reservedCnt = reservedCnt;
-    }
-
     public Shop getShop() {
         return shop;
     }
@@ -150,5 +142,13 @@ public class Designer extends User {
 
     public void setShampooPrice(double shampooPrice) {
         this.shampooPrice = shampooPrice;
+    }
+
+    public int getReserveCnt() {
+        return reserveCnt;
+    }
+
+    public void setReserveCnt(int reserveCnt) {
+        this.reserveCnt = reserveCnt;
     }
 }

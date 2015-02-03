@@ -22,7 +22,7 @@ public class DesignerTO {
     //排名
     private Integer rank;
     //被预约数
-    private int reservedCnt;
+    private int reserveCnt;
     //门店
     private Shop shop;
     //平均分
@@ -83,7 +83,7 @@ public class DesignerTO {
         this.avatar = bean.getAvatar();
         this.level = bean.getLevel();
         this.rank = bean.getRank();
-        this.reservedCnt = bean.getReservedCnt();
+        this.reserveCnt = bean.getReserveCnt();
         this.shop = bean.getShop();
         this.score = bean.getScore();
         this.region = bean.getRegion();
@@ -144,14 +144,6 @@ public class DesignerTO {
 
     public void setRank(Integer rank) {
         this.rank = rank;
-    }
-
-    public int getReservedCnt() {
-        return reservedCnt;
-    }
-
-    public void setReservedCnt(int reservedCnt) {
-        this.reservedCnt = reservedCnt;
     }
 
     public Shop getShop() {
