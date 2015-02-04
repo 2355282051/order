@@ -132,9 +132,9 @@ public class DesignerController {
         String deviceId = null;
         String userId = null;
         try {
-//            Map<String, String> map = authUtil.preAuth(request);
-//            deviceId = map.get("deviceId");
-//            userId = map.get("userId");
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
             result.setResult(designerService.getShopDesigner(id));
         } catch (Exception e) {
             result.setCode(500);
