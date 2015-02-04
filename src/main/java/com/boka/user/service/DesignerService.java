@@ -126,7 +126,9 @@ public class DesignerService {
             for (Designer item : designers) {
                 for (Designer designer : result) {
                     if (item.getId() != null && item.getId().equals(designer.getId())) {
-                        designer.setAvatar(item.getAvatar());
+                        if (item.getAvatar() != null) {
+                            designer.setAvatar(item.getAvatar());
+                        }
                     }
                     item.setShop(shop);
                 }
