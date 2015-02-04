@@ -55,6 +55,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.MOBILE_EXISTS);
         }
         bean = new User();
+        bean.setProduct(user.getProduct());
         bean.setCreateDate(Calendar.getInstance().getTime());
         bean.setMobile(user.getMobile());
         bean.setSalt(RandomUtil.randomSalt());
@@ -149,7 +150,6 @@ public class BaseInfoService {
         } else {
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
-
         bean.setLoc(user.getLoc());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);

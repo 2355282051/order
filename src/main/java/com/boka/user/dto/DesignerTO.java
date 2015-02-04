@@ -1,9 +1,8 @@
 package com.boka.user.dto;
 
-import com.boka.user.model.Designer;
-import com.boka.user.model.Region;
-import com.boka.user.model.ReserveInfo;
-import com.boka.user.model.Shop;
+import com.boka.user.model.*;
+
+import java.util.List;
 
 public class DesignerTO {
 
@@ -50,6 +49,14 @@ public class DesignerTO {
     private double haircutPrice;
     // 洗发价格
     private double shampooPrice;
+    //评论数
+    private int commentCount;
+    //喜欢数
+    private int likeCount;
+    // 个性签名
+    private String signature;
+    // 评论
+    private List<Comment> comments;
 
     public String getEmpId() {
         return empId;
@@ -99,6 +106,9 @@ public class DesignerTO {
         this.grade = bean.getGrade();
         this.shampooPrice = bean.getShampooPrice();
         this.rowNumber = bean.getRank();
+        this.commentCount = bean.getCommentCount();
+        this.likeCount = bean.getLikeCount();
+        this.signature = bean.getSignature();
     }
 
     public String getId() {
@@ -243,5 +253,37 @@ public class DesignerTO {
 
     public void setRowNumber(Integer rowNumber) {
         this.rowNumber = rowNumber;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getLikeCount() {
+        return likeCount;
+    }
+
+    public void setLikeCount(int likeCount) {
+        this.likeCount = likeCount;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
 }

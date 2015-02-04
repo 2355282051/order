@@ -16,8 +16,8 @@ public class Comment implements Serializable {
 	private String designerId;
 	// 用户
 	private User user;
-	// 是否满意
-	private boolean satisfied;
+	// 满意度
+	private int satisfy;
 	// 内容
 	private String content;
 	// 评论时间
@@ -49,12 +49,12 @@ public class Comment implements Serializable {
 		this.user = user;
 	}
 
-	public boolean isSatisfied() {
-		return satisfied;
+	public int getSatisfy() {
+		return satisfy;
 	}
 
-	public void setSatisfied(boolean satisfied) {
-		this.satisfied = satisfied;
+	public void setSatisfy(int satisfy) {
+		this.satisfy = satisfy;
 	}
 
 	public String getContent() {
