@@ -112,6 +112,7 @@ public class DesignerService {
                 for (Designer designer : result) {
                     if (item.getEmpId().equals(designer.getEmpId())) {
                         designer.setId(item.getId());
+                        designer.setAvatar(item.getAvatar());
                     }
                 }
             }
