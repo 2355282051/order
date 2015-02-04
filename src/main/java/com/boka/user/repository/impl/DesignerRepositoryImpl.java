@@ -140,6 +140,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("custId");
 		query.fields().include("compId");
 		query.fields().include("empId");
+		query.fields().include("avatar");
 		return ops.find(query,Designer.class);
 	}
 
