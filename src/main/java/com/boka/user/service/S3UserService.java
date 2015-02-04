@@ -47,19 +47,17 @@ public class S3UserService {
 
         List<S3DesignerTO> list = JSON.parseArray(result, S3DesignerTO.class);
         for (S3DesignerTO item : list) {
-            if (("1").equals(item.getHaa46i())) {
-                Designer designer = new Designer();
-                designer.setName(item.getHaa02c());
-                designer.setEmpId(item.getHaa01c());
-                designer.setSex(1);
-                designer.setMobile(item.getHaa20c());
-                ReserveInfo reserveInfo = new ReserveInfo();
-                reserveInfo.setStatus(1);
-                designer.setReserveInfo(reserveInfo);
-                designer.setAvatar("http://" + chainUrl + "/downloadPic.action?compid=" + compId + "&stype=3&wpid=" + item.getHaa01c());
-                //TODO 获取发界头像覆盖
-                designers.add(designer);
-            }
+            Designer designer = new Designer();
+            designer.setName(item.getHaa02c());
+            designer.setEmpId(item.getHaa01c());
+            designer.setSex(1);
+            designer.setMobile(item.getHaa20c());
+            ReserveInfo reserveInfo = new ReserveInfo();
+            reserveInfo.setStatus(1);
+            designer.setReserveInfo(reserveInfo);
+            designer.setAvatar("http://" + chainUrl + "/downloadPic.action?compid=" + compId + "&stype=3&wpid=" + item.getHaa01c());
+            //TODO 获取发界头像覆盖
+            designers.add(designer);
         }
         return designers;
     }
