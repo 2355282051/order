@@ -1,6 +1,5 @@
 package com.boka.user.service;
 
-import com.boka.common.util.Assert;
 import com.boka.common.util.DistanceUtil;
 import com.boka.user.dto.DesignerTO;
 import com.boka.user.model.Designer;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +30,9 @@ public class DesignerService {
 
     @Autowired
     private S3UserService s3UserService;
+
+    @Autowired
+    private DesktopService desktopService;
 
     public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
         if (loc.getLat() == null || loc.getLng() == null)
@@ -91,13 +94,14 @@ public class DesignerService {
     }
 
     public List<Designer> getShopDesigner(String id) throws IOException {
+        List<Designer> result;
         Shop shop = shopService.getShop(id);
         if (shop == null) {
             return null;
         }
         if (shop.getS3Status() == 1) {
             //取S3员工
-            List<Designer> result = s3UserService.getDesigner(shop.getChainUrl(), shop.getCustId(), shop.getCompId());
+            result = s3UserService.getDesigner(shop.getChainUrl(), shop.getCustId(), shop.getCompId());
 
             if (result == null)
                 return null;
@@ -112,8 +116,13 @@ public class DesignerService {
                 }
             }
             return result;
+        }else {
+            result = desktopService.getDesigner(id);
+            if (result == null || result.size() == 0) {
+                result = designerRepository.findByShop(id);
+            }
         }
-        return designerRepository.findByShop(id);
+        return result;
     }
 
     public void incReserveCount(String id) {
