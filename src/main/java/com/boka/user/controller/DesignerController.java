@@ -136,7 +136,6 @@ public class DesignerController {
             deviceId = map.get("deviceId");
             userId = map.get("userId");
             result.setResult(designerService.getShopDesigner(id));
-        } catch (IOException ie) {
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
