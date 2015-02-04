@@ -105,22 +105,20 @@ public class DesignerService {
 
             if (result == null)
                 return null;
-
-            //获取发界ID
-            List<Designer> designers = designerRepository.findByS3Shop(shop.getCustId(), shop.getCompId());
-            for (Designer item : designers) {
-                for (Designer designer : result) {
-                    if (item.getEmpId().equals(designer.getEmpId())) {
-                        designer.setId(item.getId());
-                        designer.setAvatar(item.getAvatar());
-                    }
-                }
-            }
-            return result;
         }else {
             result = desktopService.getDesigner(id);
             if (result == null || result.size() == 0) {
                 result = designerRepository.findByShop(id);
+            }
+        }
+        //获取发界ID
+        List<Designer> designers = designerRepository.findByS3Shop(shop.getCustId(), shop.getCompId());
+        for (Designer item : designers) {
+            for (Designer designer : result) {
+                if (item.getEmpId().equals(designer.getEmpId())) {
+                    designer.setId(item.getId());
+                    designer.setAvatar(item.getAvatar());
+                }
             }
         }
         return result;
