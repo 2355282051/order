@@ -189,9 +189,15 @@ public class BaseInfoService {
         if (bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
             if (Assert.isNotNull(openAuthUser.getQqId())) {
+                if(Assert.isNotNull(bean.getQqId())) {
+                    throw new CommonException("手机号已被绑定");
+                }
                 bean.setQqId(openAuthUser.getQqId());
             }
             if (Assert.isNotNull(openAuthUser.getWechatId())) {
+                if(Assert.isNotNull(bean.getWechatId())) {
+                    throw new CommonException("手机号已被绑定");
+                }
                 bean.setWechatId(openAuthUser.getWechatId());
             }
             openAuthUser.setActivatedStatus(StatusConstant.removed);
