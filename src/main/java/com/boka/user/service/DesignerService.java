@@ -121,16 +121,23 @@ public class DesignerService {
             if (result == null || result.size() == 0) {
                 result = designerRepository.findByShop(id);
             }
-
-            List<Designer> designers = designerRepository.findByShop(id);
-            for (Designer item : designers) {
-                for (Designer designer : result) {
-                    if (item.getId() != null && item.getId().equals(designer.getId())) {
-                        if (item.getAvatar() != null) {
-                            designer.setAvatar(item.getAvatar());
+            List<String> ids = new ArrayList<>();
+            if (result != null && result.size() != 0) {
+                for (Designer d : result) {
+                    ids.add(d.getId());
+                    d.setShop(shop);
+                }
+            }
+            if (result != null && ids.size() != 0) {
+                List<Designer> designers = designerRepository.findByIds(ids);
+                for (Designer item : designers) {
+                    for (Designer designer : result) {
+                        if (item.getId() != null && item.getId().equals(designer.getId())) {
+                            if (item.getAvatar() != null) {
+                                designer.setAvatar(item.getAvatar());
+                            }
                         }
                     }
-                    item.setShop(shop);
                 }
             }
         }

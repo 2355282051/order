@@ -150,4 +150,10 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		Update update = new Update().inc("reservedCnt", 1);
 		ops.updateFirst(query, update, Designer.class);
 	}
+
+	@Override
+	public List<Designer> findByIds(List<String> ids) {
+		Query query = new Query(Criteria.where("_id").in(ids));
+		return ops.find(query, Designer.class);
+	}
 }
