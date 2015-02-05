@@ -28,7 +28,7 @@ public class S3UserService {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         try {
             HttpGet httpGet = new HttpGet("http://" + chainUrl + "/loadHam01.action?compId=" + compId);
-            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(2000).setConnectTimeout(2000).build();
+            RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(10000).build();
             httpGet.setConfig(requestConfig);
             CloseableHttpResponse response = httpClient.execute(httpGet);
             try {
