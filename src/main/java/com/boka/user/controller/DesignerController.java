@@ -2,10 +2,10 @@ package com.boka.user.controller;
 
 import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
+import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
-import com.boka.common.dto.ResultTO;
 import com.boka.user.model.Location;
 import com.boka.user.service.DesignerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -97,7 +96,7 @@ public class DesignerController {
     public ResultTO getUserInfo(HttpServletRequest request, @PathVariable("id") String id) {
         ResultTO result = new ResultTO();
         try {
-            result.setResult(designerService.getUserInfo(id));
+            result.setResult(designerService.getUserInfo(id, request.getHeader("access_token"), request.getHeader("device_id")));
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

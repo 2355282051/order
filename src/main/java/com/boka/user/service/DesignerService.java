@@ -81,10 +81,12 @@ public class DesignerService {
         }
 
         DesignerTO result = new DesignerTO(bean);
-        List<CommentTO> comments = commentService.getReserveComment(designerId, accessToken, deviceId);
-        if(comments != null) {
-            result.setCommentCount(comments.size());
-            result.setComments(comments);
+        if(accessToken != null) {
+            List<CommentTO> comments = commentService.getReserveComment(designerId, accessToken, deviceId);
+            if(comments != null) {
+                result.setCommentCount(comments.size());
+                result.setComments(comments);
+            }
         }
         result.setMobile(bean.getMobile());
         return result;
