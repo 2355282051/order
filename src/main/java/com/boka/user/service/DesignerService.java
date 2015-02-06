@@ -1,6 +1,9 @@
 package com.boka.user.service;
 
+import com.boka.common.exception.CommonException;
+import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.DistanceUtil;
+import com.boka.user.dto.CommentTO;
 import com.boka.user.dto.DesignerTO;
 import com.boka.user.model.Designer;
 import com.boka.user.model.DesignerStar;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,9 @@ public class DesignerService {
 
     @Autowired
     private DesktopService desktopService;
+
+    @Resource
+    private CommentService commentService;
 
     public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
         if (loc.getLat() == null || loc.getLng() == null)
@@ -67,12 +74,18 @@ public class DesignerService {
         return result;
     }
 
-    public DesignerTO getUserInfo(String id) {
-        Designer bean = designerRepository.findOne(id);
+    public DesignerTO getUserInfo(String designerId, String accessToken, String deviceId) throws CommonException {
+        Designer bean = designerRepository.findOne(designerId);
         if (bean == null) {
-            return null;
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
+
         DesignerTO result = new DesignerTO(bean);
+        List<CommentTO> comments = commentService.getReserveComment(designerId, accessToken, deviceId);
+        if(comments != null) {
+            result.setCommentCount(comments.size());
+            result.setComments(comments);
+        }
         result.setMobile(bean.getMobile());
         return result;
     }

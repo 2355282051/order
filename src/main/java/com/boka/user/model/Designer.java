@@ -43,6 +43,8 @@ public class Designer extends User {
     private String signature;
 
 
+
+
     public int getFansCount() {
         return fansCount;
     }
