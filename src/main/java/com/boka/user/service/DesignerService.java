@@ -86,6 +86,9 @@ public class DesignerService {
             if(comments != null) {
                 result.setCommentCount(comments.size());
                 result.setComments(comments);
+            } else {
+                result.setCommentCount(0);
+                result.setComments(new ArrayList<CommentTO>());
             }
         }
         result.setMobile(bean.getMobile());
