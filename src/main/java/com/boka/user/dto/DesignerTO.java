@@ -50,8 +50,8 @@ public class DesignerTO {
     private String grade;
     // 剪发价格
     private double haircutPrice;
-    // 洗发价格
-    private double shampooPrice;
+    // 烫染价格
+    private double modelingPrice;
     //评论数
     private int commentCount;
     //喜欢数
@@ -107,7 +107,7 @@ public class DesignerTO {
         this.fansCount=bean.getFansCount();
         this.haircutPrice = bean.getHaircutPrice();
         this.grade = bean.getGrade();
-        this.shampooPrice = bean.getShampooPrice();
+        this.modelingPrice = bean.getModelingPrice();
         this.rowNumber = bean.getRank();
         this.commentCount = bean.getCommentCount();
         this.likeCount = bean.getLikeCount();
@@ -234,14 +234,6 @@ public class DesignerTO {
         this.haircutPrice = haircutPrice;
     }
 
-    public double getShampooPrice() {
-        return shampooPrice;
-    }
-
-    public void setShampooPrice(double shampooPrice) {
-        this.shampooPrice = shampooPrice;
-    }
-
     public int getReserveCnt() {
         return reserveCnt;
     }
@@ -288,5 +280,13 @@ public class DesignerTO {
 
     public void setComments(List<CommentTO> comments) {
         this.comments = comments;
+    }
+
+    public double getModelingPrice() {
+        return modelingPrice;
+    }
+
+    public void setModelingPrice(double modelingPrice) {
+        this.modelingPrice = modelingPrice;
     }
 }
