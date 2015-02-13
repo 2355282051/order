@@ -88,6 +88,7 @@ public class BaseInfoService {
         bean.setProduct(user.getProduct());
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
+        result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
@@ -113,6 +114,7 @@ public class BaseInfoService {
             throw new LoginException(ExceptionCode.PASSWORD_ERROR);
         }
         UserTO result = new UserTO();
+        result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
@@ -161,6 +163,7 @@ public class BaseInfoService {
         // 将新的用户ID绑定到access_token上
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         UserTO result = new UserTO();
+        result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
