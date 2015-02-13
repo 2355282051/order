@@ -136,8 +136,6 @@ public class DesignerController {
             userId = map.get("userId");
             result.setResult(designerService.getShopDesigner(id));
         } catch (Exception e) {
-            result.setCode(500);
-            result.setSuccess(false);
             e.printStackTrace();
         }
         LogUtil.action(ServiceType.USER, "获取门店的发型师信息,{},{},{}", userId, deviceId, id);
