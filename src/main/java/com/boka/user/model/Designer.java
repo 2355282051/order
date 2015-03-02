@@ -18,6 +18,9 @@ public class Designer extends User {
     private Integer rank;
     //被预约数
     private int reserveCnt;
+    //被预约数
+    private int reservedCnt;
+
     //门店
     private Shop shop;
     //平均分
@@ -42,6 +45,13 @@ public class Designer extends User {
     //签名
     private String signature;
 
+    public int getReservedCnt() {
+        return reservedCnt;
+    }
+
+    public void setReservedCnt(int reservedCnt) {
+        this.reservedCnt = reservedCnt;
+    }
 
     public int getFansCount() {
         return fansCount;
