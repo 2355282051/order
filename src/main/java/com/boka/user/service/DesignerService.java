@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("designerService")
 public class DesignerService {
 
     @Autowired
@@ -165,5 +165,25 @@ public class DesignerService {
 
     public void incReserveCount(String id) {
         designerRepository.incReserveCount(id);
+    }
+
+    public void syncDesktopDesigner(Designer designer) {
+        Designer item = designerRepository.findOne(designer.getId());
+        if (item == null)
+            return;
+
+        if (designer.getReserveInfo().getStatus() != null)
+            item.getReserveInfo().setStatus(designer.getReserveInfo().getStatus());
+
+        if (designer.getReserveInfo().getStartTime() != null)
+            item.getReserveInfo().setStartTime(designer.getReserveInfo().getStartTime());
+
+        if (designer.getReserveInfo().getEndTime() != null)
+            item.getReserveInfo().setEndTime(designer.getReserveInfo().getEndTime());
+
+        if (designer.getReserveInfo().getInterval() != 0)
+            item.getReserveInfo().setInterval(designer.getReserveInfo().getInterval());
+
+        designerRepository.save(item);
     }
 }
