@@ -24,7 +24,7 @@
 		<dependency>
 			<groupId>com.boka</groupId>
 			<artifactId>common-http</artifactId>
-			<version>1.0.3.RELEASE</version>
+			<version>1.0.11.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>com.boka</groupId>

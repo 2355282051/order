@@ -184,7 +184,6 @@ public class BaseInfoController {
 
     @RequestMapping(value = "/openauth", method = RequestMethod.POST)
     public ResultTO openAuth(HttpServletRequest request, @RequestBody UserTO user) {
-        logger.debug(JSON.toJSON(user));
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -317,20 +316,17 @@ public class BaseInfoController {
         String deviceId = null;
         String userId = null;
         try {
-            Map<String, String> map = authUtil.auth(request);
-            deviceId = map.get("deviceId");
-            userId = map.get("userId");
+            authUtil.auth(request);
+            //Map<String, String> map =
+            //deviceId = map.get("deviceId");
+            //userId = map.get("userId");
             result.setResult(true);
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
             result.setMsg(le.getMessage());
-        } catch (Exception e) {
-            result.setCode(500);
-            result.setSuccess(false);
-            e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "校验用户登陆,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "校验用户登录,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
         return result;
     }
 
