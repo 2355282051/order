@@ -1,6 +1,5 @@
 package com.boka.user.repository.impl;
 
-import com.boka.common.constant.ProductType;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepositoryAdvance;
@@ -18,8 +17,8 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 
 
 	@Override
-	public User findByMobile(String mobile) {
-		Query query = new Query(Criteria.where("mobile").is(mobile).and("product").is(ProductType.BEAUTY).and("activatedStatus").gte(StatusConstant.inactive));
+	public User findByMobile(String mobile, String product) {
+		Query query = new Query(Criteria.where("mobile").is(mobile).and("product").is(product).and("activatedStatus").gte(StatusConstant.inactive));
 		return ops.findOne(query, User.class);
 	}
 

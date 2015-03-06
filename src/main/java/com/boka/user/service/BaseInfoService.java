@@ -50,7 +50,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
             throw new CommonException(ExceptionCode.MOBILE_EXISTS);
         }
@@ -107,7 +107,7 @@ public class BaseInfoService {
      * @throws CommonException
      */
     public UserTO login(UserTO user, String deviceId) throws LoginException, CommonException {
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
         } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
@@ -188,7 +188,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
             if (Assert.isNotNull(openAuthUser.getQqId())) {
@@ -273,7 +273,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
