@@ -43,7 +43,7 @@ public class BaseInfoService {
      */
     public String reg(UserTO user, String deviceId) throws CommonException {
         //验证码检验
-        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
+        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
         if (Assert.isNull(user.getPassword())) {
@@ -58,6 +58,7 @@ public class BaseInfoService {
         bean.setProduct(user.getProduct());
         bean.setCreateDate(Calendar.getInstance().getTime());
         bean.setMobile(user.getMobile());
+        bean.setActivatedStatus(user.getActivatedStatus());
         bean.setSalt(RandomUtil.randomSalt());
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));

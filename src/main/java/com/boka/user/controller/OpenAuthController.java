@@ -7,6 +7,7 @@ import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
+import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.service.BaseInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +78,7 @@ public class OpenAuthController {
             user.setPassword(password);
             user.setAuthcode(authCode);
             user.setProduct(product);
+            user.setActivatedStatus(StatusConstant.activated);
             result.setResult(baseInfoService.reg(user, deviceId));
         } catch (AuthException ae) {
             result.setCode(403);
