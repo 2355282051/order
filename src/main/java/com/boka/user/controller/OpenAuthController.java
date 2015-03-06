@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/open")
 @RestController
 public class OpenAuthController {
 
