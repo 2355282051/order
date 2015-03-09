@@ -1,6 +1,7 @@
 package com.boka.user.dto;
 
 import com.boka.user.model.Location;
+import com.boka.user.model.Region;
 
 import java.util.Date;
 
@@ -20,6 +21,8 @@ public class UserTO {
     private String avatar;
     //最近位置
     private Location loc;
+    //地理信息
+    private Region region;
     //QQopenId
     private String qqId;
     //微信openId
@@ -156,5 +159,13 @@ public class UserTO {
 
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
     }
 }

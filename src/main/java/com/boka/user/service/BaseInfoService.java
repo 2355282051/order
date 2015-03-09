@@ -306,6 +306,9 @@ public class BaseInfoService {
         if (user.getLoc() != null) {
             bean.setLoc(user.getLoc());
         }
+        if(user.getRegion() != null) {
+            bean.setRegion(user.getRegion());
+        }
         baseInfoRepository.save(bean);
     }
 
