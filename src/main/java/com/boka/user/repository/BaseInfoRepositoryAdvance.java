@@ -5,7 +5,7 @@ import com.boka.user.model.User;
 public interface BaseInfoRepositoryAdvance {
 
 
-    public User findByMobile(String mobile);
+    public User findByMobile(String mobile, String product);
 
     public User findByQqId(String qqId);
 

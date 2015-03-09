@@ -1,6 +1,9 @@
 package com.boka.user.dto;
 
 import com.boka.user.model.Location;
+import com.boka.user.model.Region;
+
+import java.util.Date;
 
 public class UserTO {
 
@@ -18,6 +21,8 @@ public class UserTO {
     private String avatar;
     //最近位置
     private Location loc;
+    //地理信息
+    private Region region;
     //QQopenId
     private String qqId;
     //微信openId
@@ -30,6 +35,11 @@ public class UserTO {
     private int activatedStatus;
     //token
     private String access_token;
+
+    private Date createDate; // 注册时间
+
+    private String inviteCode; // 邀请码
+
 
     public String getId() {
         return id;
@@ -135,4 +145,27 @@ public class UserTO {
         this.access_token = access_token;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public void setRegion(Region region) {
+        this.region = region;
+    }
 }

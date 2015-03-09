@@ -10,6 +10,7 @@ import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
+import com.boka.common.util.StringUtils;
 import com.boka.user.dto.PasswordTO;
 import com.boka.common.dto.ResultTO;
 import com.boka.user.dto.UserTO;
@@ -117,7 +118,8 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            user.setProduct(ProductType.BEAUTY);
+            if(StringUtils.isStringEmpty(user.getProduct()))
+                user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
             baseInfoService.edit(user);
         } catch (AuthException ae) {

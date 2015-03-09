@@ -41,16 +41,16 @@ public class BaseInfoService {
      * @return
      * @throws CommonException
      */
-    public String reg(UserTO user, String deviceId) throws CommonException {
+    public UserTO reg(UserTO user, String deviceId) throws CommonException {
         //验证码检验
-        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
+        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
         if (Assert.isNull(user.getPassword())) {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
             throw new CommonException(ExceptionCode.MOBILE_EXISTS);
         }
@@ -58,12 +58,16 @@ public class BaseInfoService {
         bean.setProduct(user.getProduct());
         bean.setCreateDate(Calendar.getInstance().getTime());
         bean.setMobile(user.getMobile());
+        bean.setActivatedStatus(user.getActivatedStatus());
         bean.setSalt(RandomUtil.randomSalt());
+        bean.setInviteCode(user.getInviteCode());
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         bean = baseInfoRepository.save(bean);
+        user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        user.setCreateDate(bean.getCreateDate());
         //生成token
-        return authUtil.getToken(bean.getId(), deviceId);
+        return user;
     }
 
     /**
@@ -107,7 +111,7 @@ public class BaseInfoService {
      * @throws CommonException
      */
     public UserTO login(UserTO user, String deviceId) throws LoginException, CommonException {
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
         } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
@@ -188,7 +192,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
             User openAuthUser = baseInfoRepository.findOne(user.getId());
             if (Assert.isNotNull(openAuthUser.getQqId())) {
@@ -273,7 +277,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
-        User bean = baseInfoRepository.findByMobile(user.getMobile());
+        User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
@@ -301,6 +305,9 @@ public class BaseInfoService {
         bean.setSex(user.getSex());
         if (user.getLoc() != null) {
             bean.setLoc(user.getLoc());
+        }
+        if(user.getRegion() != null) {
+            bean.setRegion(user.getRegion());
         }
         baseInfoRepository.save(bean);
     }

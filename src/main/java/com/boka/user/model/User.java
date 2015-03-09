@@ -49,6 +49,8 @@ public class User {
     @Transient
     private Double distance;
 
+    private String inviteCode; // 邀请码
+
     public String getId() {
         return id;
     }
@@ -195,5 +197,13 @@ public class User {
 
     public void setProduct(String product) {
         this.product = product;
+    }
+
+    public String getInviteCode() {
+        return inviteCode;
+    }
+
+    public void setInviteCode(String inviteCode) {
+        this.inviteCode = inviteCode;
     }
 }
