@@ -62,12 +62,23 @@ public class OpenAuthController {
     }
 
 
+    /**
+     *
+     * @param request
+     * @param mobile
+     * @param password
+     * @param authCode
+     * @param product
+     * @param inviteCode 邀请码
+     * @return
+     */
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     public ResultTO addUser(HttpServletRequest request,
                             @RequestParam String mobile,
                             @RequestParam  String password,
                             @RequestParam  String authCode,
-                            @RequestParam  String product) {
+                            @RequestParam  String product,
+                            @RequestParam(required = false) String inviteCode) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
@@ -79,6 +90,7 @@ public class OpenAuthController {
             user.setAuthcode(authCode);
             user.setProduct(product);
             user.setActivatedStatus(StatusConstant.activated);
+            user.setInviteCode(inviteCode);
             result.setResult(baseInfoService.reg(user, deviceId));
         } catch (AuthException ae) {
             result.setCode(403);

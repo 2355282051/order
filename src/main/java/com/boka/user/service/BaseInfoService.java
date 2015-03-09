@@ -41,7 +41,7 @@ public class BaseInfoService {
      * @return
      * @throws CommonException
      */
-    public String reg(UserTO user, String deviceId) throws CommonException {
+    public UserTO reg(UserTO user, String deviceId) throws CommonException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
@@ -60,11 +60,14 @@ public class BaseInfoService {
         bean.setMobile(user.getMobile());
         bean.setActivatedStatus(user.getActivatedStatus());
         bean.setSalt(RandomUtil.randomSalt());
+        bean.setInviteCode(user.getInviteCode());
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         bean = baseInfoRepository.save(bean);
+        user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        user.setCreateDate(bean.getCreateDate());
         //生成token
-        return authUtil.getToken(bean.getId(), deviceId);
+        return user;
     }
 
     /**
