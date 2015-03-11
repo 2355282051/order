@@ -170,7 +170,6 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.removeAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            result.setResult(new Object());
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
