@@ -31,11 +31,11 @@ public class SyncListener implements ServletContextListener {
         final DesignerService designerService = context.getBean("designerService", DesignerService.class);
 
         Properties properties = new Properties();
-        properties.put(PropertyKeyConst.ConsumerId, "CID_1772604614-111");
+        properties.put(PropertyKeyConst.ConsumerId, "CID_1772604614-107");
         properties.put(PropertyKeyConst.AccessKey, "YXax9hijbGKnkmAx");
         properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
         Consumer consumer = ONSFactory.createConsumer(properties);
-        consumer.subscribe("designer_sync_test", "desktop2new", new MessageListener() {
+        consumer.subscribe("designer_sync", "desktop2new", new MessageListener() {
             @Override
             public Action consume(Message message, ConsumeContext consumeContext) {
                 try {
