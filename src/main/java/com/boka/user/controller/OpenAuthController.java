@@ -109,4 +109,26 @@ public class OpenAuthController {
         return result;
     }
 
+    @RequestMapping(value = "/logout", method = RequestMethod.DELETE)
+    public ResultTO logoutUser(HttpServletRequest request) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.removeAuth(request);
+            userId = map.get("userId");
+            deviceId = map.get("deviceId");
+        } catch (AuthException le) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "用户登出,{},{},{}", userId, deviceId);
+        return result;
+    }
+
 }
