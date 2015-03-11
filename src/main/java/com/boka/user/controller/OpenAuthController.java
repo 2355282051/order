@@ -8,15 +8,19 @@ import com.boka.common.exception.LoginException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.dto.OrderTO;
 import com.boka.user.dto.UserTO;
+import com.boka.user.model.User;
+import com.boka.user.model.VipPack;
 import com.boka.user.service.BaseInfoService;
+import com.boka.user.service.OrderService;
+import com.boka.user.service.VipPackService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.util.Calendar;
 import java.util.Map;
 
 @RequestMapping(value = "/open")
@@ -25,6 +29,10 @@ public class OpenAuthController {
 
     @Autowired
     private BaseInfoService baseInfoService;
+    @Resource
+    private OrderService orderService;
+    @Resource
+    private VipPackService vipPackService;
 
     @Autowired
     private AuthUtil authUtil;
@@ -128,6 +136,64 @@ public class OpenAuthController {
             e.printStackTrace();
         }
         LogUtil.action(ServiceType.USER, "用户登出,{},{},{}", userId, deviceId);
+        return result;
+    }
+
+
+    @RequestMapping(value = "/order/v/{vipPackId}", method = RequestMethod.POST)
+    public ResultTO buyVIP(HttpServletRequest request, @PathVariable String vipPackId, @RequestParam String product) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.auth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+
+            VipPack vipPack = vipPackService.getVipPackById(vipPackId);
+            if(vipPack == null) {
+                throw new CommonException("会员套餐不存在");
+            }
+
+            OrderTO order = new OrderTO();
+            User user = baseInfoService.getUserById(userId);
+            order.setObjectId(vipPackId);
+            order.setAmount(vipPack.getPay());
+            order.setAvatar(user.getAvatar());
+            order.setCreateDate(Calendar.getInstance().getTime());
+            order.setMobile(user.getMobile());
+            order.setName(user.getName());
+            order.setProduct(product);
+            result.setResult(orderService.generateOrder(order, request.getHeader("access_token"), deviceId));
+        } catch (AuthException le) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "购买会员,{},{},{},{}", userId, deviceId, vipPackId, product);
+        return result;
+    }
+
+
+    @RequestMapping(value = "/upgrade/vip", method = RequestMethod.POST)
+    public ResultTO upgradeVIP(HttpServletRequest request, String userId, String vipPackId) {
+        ResultTO result = new ResultTO();
+        try {
+            VipPack vipPack = vipPackService.getVipPackById(vipPackId);
+            if(vipPack == null) {
+                throw new CommonException("会员套餐不存在");
+            }
+            baseInfoService.upgradeVIP(userId, vipPack.getMonth());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "用户购买会员，升级完成{}", userId);
         return result;
     }
 

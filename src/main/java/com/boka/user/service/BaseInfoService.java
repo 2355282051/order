@@ -124,6 +124,7 @@ public class BaseInfoService {
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
+        result.setExpireDate(bean.getExpireDate());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
     }
@@ -310,6 +311,29 @@ public class BaseInfoService {
             bean.setRegion(user.getRegion());
         }
         baseInfoRepository.save(bean);
+    }
+
+    /**
+     * 购买会员时长
+     * @param userId
+     * @param month
+     */
+    public void upgradeVIP(String userId, int month) {
+        User bean = baseInfoRepository.findOne(userId);
+        if (bean == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        Calendar calendar = Calendar.getInstance();
+        if(bean.getExpireDate() != null) {
+            calendar.setTime(bean.getExpireDate());
+        }
+        calendar.add(Calendar.MONTH, month);
+        bean.setExpireDate(calendar.getTime());
+        baseInfoRepository.save(bean);
+    }
+
+    public User getUserById(String userId) {
+        return baseInfoRepository.findOne(userId);
     }
 
 }

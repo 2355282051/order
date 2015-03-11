@@ -51,6 +51,8 @@ public class User {
 
     private String inviteCode; // 邀请码
 
+    private Date expireDate; // 会员失效时间
+
     public String getId() {
         return id;
     }
@@ -205,5 +207,13 @@ public class User {
 
     public void setInviteCode(String inviteCode) {
         this.inviteCode = inviteCode;
+    }
+
+    public Date getExpireDate() {
+        return expireDate;
+    }
+
+    public void setExpireDate(Date expireDate) {
+        this.expireDate = expireDate;
     }
 }

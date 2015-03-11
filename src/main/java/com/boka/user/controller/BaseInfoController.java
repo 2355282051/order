@@ -42,7 +42,9 @@ public class BaseInfoController {
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
-            user.setProduct(ProductType.BEAUTY);
+            if(Assert.isNull(user.getProduct())) {
+                user.setProduct(ProductType.BEAUTY);
+            }
             result.setResult(baseInfoService.reg(user, deviceId));
         } catch (CommonException ce) {
             result.setCode(500);
@@ -66,7 +68,9 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            user.setProduct(ProductType.BEAUTY);
+            if(Assert.isNull(user.getProduct())) {
+                user.setProduct(ProductType.BEAUTY);
+            }
             user.setId(userId);
             result.setResult(baseInfoService.activate(user));
         } catch (AuthException ae) {
@@ -118,7 +122,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            if(StringUtils.isStringEmpty(user.getProduct()))
+            if(Assert.isNull(user.getProduct()))
                 user.setProduct(ProductType.BEAUTY);
             user.setId(userId);
             baseInfoService.edit(user);
@@ -142,7 +146,9 @@ public class BaseInfoController {
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
-            user.setProduct(ProductType.BEAUTY);
+            if(Assert.isNull(user.getProduct())) {
+                user.setProduct(ProductType.BEAUTY);
+            }
             result.setResult(baseInfoService.login(user, deviceId));
         } catch (LoginException le) {
             result.setCode(401);
@@ -192,7 +198,9 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.openAuth(request);
             deviceId = map.get("deviceId");
             userId = map.get("userId");
-            user.setProduct(ProductType.BEAUTY);
+            if(Assert.isNull(user.getProduct())) {
+                user.setProduct(ProductType.BEAUTY);
+            }
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
             result.setResult(baseInfoService.openAuth(user, deviceId));

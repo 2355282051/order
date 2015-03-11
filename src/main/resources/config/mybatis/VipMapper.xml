@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.boka.user.mapper.VipPackMapper">
+
+
+	<insert id="saveVipPack" parameterType="VipPack">
+		insert into t_vipPack(vipPackId, vipPackName, vipPackDesc, month, price, pay, discount, createDate, updateDate)
+		values(#{vipPackId}, #{vipPackName}, #{vipPackDesc}, #{month}, #{price}, #{pay}, #{discount}, #{createDate}, #{updateDate})
+	</insert>
+
+	<select id="queryAllVipPack" resultType="VipPack">
+        select * from t_vipPack
+    </select>
+
+    <select id="queryVipPackById" resultType="VipPack">
+        select * from t_vipPack where vipPackId = #{vipPackId}
+    </select>
+</mapper>
