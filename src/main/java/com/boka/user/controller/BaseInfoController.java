@@ -287,7 +287,7 @@ public class BaseInfoController {
 
     @RequestMapping(value = "/forgetpwd", method = RequestMethod.POST)
     public ResultTO forgetPassword(HttpServletRequest request, @RequestBody PasswordTO password,
-                                   @RequestParam(required = false, value = ProductType.BEAUTY) String product) {
+                                   @RequestParam(required = false, defaultValue = ProductType.BEAUTY) String product) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
