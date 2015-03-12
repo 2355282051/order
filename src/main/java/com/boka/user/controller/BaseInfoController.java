@@ -286,7 +286,8 @@ public class BaseInfoController {
     }
 
     @RequestMapping(value = "/forgetpwd", method = RequestMethod.POST)
-    public ResultTO forgetPassword(HttpServletRequest request, @RequestBody PasswordTO password) {
+    public ResultTO forgetPassword(HttpServletRequest request, @RequestBody PasswordTO password,
+                                   @RequestParam(required = false, value = ProductType.BEAUTY) String product) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -301,6 +302,7 @@ public class BaseInfoController {
             user.setMobile(password.getMobile());
             user.setAuthcode(password.getAuthcode());
             user.setPassword(password.getNewPassword());
+            user.setProduct(product);
             baseInfoService.forgetPassword(user);
         } catch (AuthException le) {
             result.setCode(403);
