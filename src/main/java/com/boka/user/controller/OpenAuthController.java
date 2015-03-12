@@ -5,6 +5,7 @@ import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
+import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.DateUtil;
 import com.boka.common.util.LogUtil;
@@ -163,7 +164,11 @@ public class OpenAuthController {
             order.setUserId(userId);
             order.setAvatar(user.getAvatar());
             order.setMobile(user.getMobile());
-            order.setName(user.getName());
+            if(Assert.isNotNull(user.getName())){
+                order.setName(user.getName());
+            } else {
+                order.setName(user.getMobile());
+            }
             order.setContent(vipPack.getVipPackName());
             order.setProduct(product);
             order.setSource(product);
