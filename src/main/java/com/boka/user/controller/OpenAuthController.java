@@ -6,6 +6,7 @@ import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
 import com.boka.common.util.AuthUtil;
+import com.boka.common.util.DateUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.OrderTO;
@@ -159,16 +160,21 @@ public class OpenAuthController {
             User user = baseInfoService.getUserById(userId);
             order.setObjectId(vipPackId);
             order.setAmount(vipPack.getPay());
+            order.setUserId(userId);
             order.setAvatar(user.getAvatar());
-            order.setCreateDate(Calendar.getInstance().getTime());
             order.setMobile(user.getMobile());
             order.setName(user.getName());
             order.setProduct(product);
-            result.setResult(orderService.generateOrder(order, request.getHeader("access_token"), deviceId));
-        } catch (AuthException le) {
+            order.setSource(product);
+            return orderService.generateOrder(order, request.getHeader("access_token"), deviceId);
+        } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
-            result.setMsg(le.getMessage());
+            result.setMsg(ae.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
