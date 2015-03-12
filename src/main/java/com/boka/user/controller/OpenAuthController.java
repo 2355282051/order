@@ -169,6 +169,7 @@ public class OpenAuthController {
             } else {
                 order.setName(user.getMobile());
             }
+            order.setQuantity(vipPack.getMonth());
             order.setContent(vipPack.getVipPackName());
             order.setProduct(product);
             order.setSource(product);
