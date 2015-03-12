@@ -328,6 +328,10 @@ public class BaseInfoService {
             calendar.setTime(bean.getExpireDate());
         }
         calendar.add(Calendar.MONTH, month);
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
         bean.setExpireDate(calendar.getTime());
         baseInfoRepository.save(bean);
     }
