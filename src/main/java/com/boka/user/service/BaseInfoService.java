@@ -274,7 +274,7 @@ public class BaseInfoService {
 
     public void forgetPassword(UserTO user) throws CommonException {
         //验证码检验
-        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), ProductType.BEAUTY)) {
+        if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
