@@ -164,6 +164,7 @@ public class OpenAuthController {
             order.setAvatar(user.getAvatar());
             order.setMobile(user.getMobile());
             order.setName(user.getName());
+            order.setContent(vipPack.getVipPackName());
             order.setProduct(product);
             order.setSource(product);
             return orderService.generateOrder(order, request.getHeader("access_token"), deviceId);
