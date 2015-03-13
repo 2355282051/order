@@ -9,7 +9,7 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
   <listener>
-    <listener-class>com.boka.common.listener.InitConfigListener</listener-class>
+    <listener-class>com.boka.user.listener.InitConfigListener</listener-class>
   </listener>
   <listener>
     <listener-class>com.boka.user.listener.SyncListener</listener-class>
