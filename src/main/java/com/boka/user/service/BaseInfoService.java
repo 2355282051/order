@@ -304,6 +304,7 @@ public class BaseInfoService {
         }
         bean.setName(user.getName());
         bean.setSex(user.getSex());
+        bean.setAvatar(user.getAvatar());
         if (user.getLoc() != null) {
             bean.setLoc(user.getLoc());
         }
