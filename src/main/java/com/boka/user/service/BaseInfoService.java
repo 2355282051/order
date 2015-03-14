@@ -296,7 +296,7 @@ public class BaseInfoService {
      * @param user
      * @throws CommonException
      */
-    public void edit(UserTO user) throws CommonException {
+    public UserTO edit(UserTO user) throws CommonException {
 
         User bean = baseInfoRepository.findOne(user.getId());
         if (bean == null) {
@@ -314,6 +314,16 @@ public class BaseInfoService {
             bean.setRegion(user.getRegion());
         }
         baseInfoRepository.save(bean);
+        UserTO result = new UserTO();
+        result.setId(bean.getId());
+        result.setQqId(bean.getQqId());
+        result.setWechatId(bean.getWechatId());
+        result.setAvatar(bean.getAvatar());
+        result.setActivatedStatus(bean.getActivatedStatus());
+        result.setMobile(bean.getMobile());
+        result.setName(bean.getName());
+        result.setSex(bean.getSex());
+        return result;
     }
 
     /**

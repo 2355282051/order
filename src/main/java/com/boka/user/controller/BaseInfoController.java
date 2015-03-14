@@ -120,7 +120,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(product);
             user.setId(userId);
-            baseInfoService.edit(user);
+            result.setResult(baseInfoService.edit(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
