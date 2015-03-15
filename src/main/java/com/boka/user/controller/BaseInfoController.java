@@ -23,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Map;
 
-@RequestMapping(value = "/beauty")
 @RestController
 public class BaseInfoController {
 
@@ -31,19 +30,18 @@ public class BaseInfoController {
 
     @Autowired
     private BaseInfoService baseInfoService;
-
     @Autowired
     private AuthUtil authUtil;
 
-    @RequestMapping(value = "/reg", method = RequestMethod.POST)
-    public ResultTO addUser(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/reg", method = RequestMethod.POST)
+    public ResultTO addUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             if(Assert.isNull(user.getProduct())) {
-                user.setProduct(ProductType.BEAUTY);
+                user.setProduct(product);
             }
             result.setResult(baseInfoService.reg(user, deviceId));
         } catch (CommonException ce) {
@@ -55,12 +53,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/activate", method = RequestMethod.POST)
-    public ResultTO activateUser(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/activate", method = RequestMethod.POST)
+    public ResultTO activateUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -68,9 +66,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            if(Assert.isNull(user.getProduct())) {
-                user.setProduct(ProductType.BEAUTY);
-            }
+            user.setProduct(product);
             user.setId(userId);
             result.setResult(baseInfoService.activate(user));
         } catch (AuthException ae) {
@@ -82,12 +78,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户激活,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户激活,{},{},{}", userId, deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/changepwd", method = RequestMethod.POST)
-    public ResultTO ChangePassword(HttpServletRequest request, @RequestBody PasswordTO password) {
+    @RequestMapping(value = "/{product}/changepwd", method = RequestMethod.POST)
+    public ResultTO ChangePassword(HttpServletRequest request, @PathVariable String product, @RequestBody PasswordTO password) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -109,12 +105,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "修改密码,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "修改密码,{},{},{}", userId, deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public ResultTO editUser(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/edit", method = RequestMethod.POST)
+    public ResultTO editUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -122,10 +118,9 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            if(Assert.isNull(user.getProduct()))
-                user.setProduct(ProductType.BEAUTY);
+            user.setProduct(product);
             user.setId(userId);
-            baseInfoService.edit(user);
+            result.setResult(baseInfoService.edit(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -135,20 +130,18 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户编辑,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户编辑,{},{},{}", userId, deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResultTO loginUser(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/login", method = RequestMethod.POST)
+    public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
-            if(Assert.isNull(user.getProduct())) {
-                user.setProduct(ProductType.BEAUTY);
-            }
+            user.setProduct(product);
             result.setResult(baseInfoService.login(user, deviceId));
         } catch (LoginException le) {
             result.setCode(401);
@@ -163,12 +156,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public ResultTO logoutUser(HttpServletRequest request) {
+    @RequestMapping(value = "/{product}/logout", method = RequestMethod.GET)
+    public ResultTO logoutUser(HttpServletRequest request, @PathVariable String product) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -185,12 +178,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户登出,{},{},{}", userId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "用户登出,{},{},{}", userId, deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/openauth", method = RequestMethod.POST)
-    public ResultTO openAuth(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/openauth", method = RequestMethod.POST)
+    public ResultTO openAuth(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -198,9 +191,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.openAuth(request);
             deviceId = map.get("deviceId");
             userId = map.get("userId");
-            if(Assert.isNull(user.getProduct())) {
-                user.setProduct(ProductType.BEAUTY);
-            }
+            user.setProduct(product);
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
             result.setResult(baseInfoService.openAuth(user, deviceId));
@@ -217,12 +208,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "第三方用户登陆,{},{},{}", (Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "第三方用户登陆,{},{},{}", (Assert.isNull(user.getQqId()) ?  user.getWechatId() : user.getQqId()), deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/bindmobile", method = RequestMethod.POST)
-    public ResultTO bindMobile(HttpServletRequest request, @RequestBody UserTO user) {
+    @RequestMapping(value = "/{product}/bindmobile", method = RequestMethod.POST)
+    public ResultTO bindMobile(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         logger.debug(JSON.toJSON(user));
         ResultTO result = new ResultTO();
         String userId = null;
@@ -231,7 +222,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            user.setProduct(ProductType.BEAUTY);
+            user.setProduct(product);
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
             result.setResult(baseInfoService.bindMobile(user, deviceId));
@@ -248,12 +239,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "绑定手机号,{},{},{}", user.getQqId(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "绑定手机号,{},{},{}", user.getQqId(), deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/checkcode", method = RequestMethod.GET)
-    public ResultTO checkCode(HttpServletRequest request, String mobile, String authcode) {
+    @RequestMapping(value = "/{product}/checkcode", method = RequestMethod.GET)
+    public ResultTO checkCode(HttpServletRequest request, String mobile, String authcode, @PathVariable String product) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -281,13 +272,12 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "忘记密码,检测验证码,{},{},{},{}", mobile, authcode, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "忘记密码,检测验证码,{},{},{},{}", mobile, authcode, deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/forgetpwd", method = RequestMethod.POST)
-    public ResultTO forgetPassword(HttpServletRequest request, @RequestBody PasswordTO password,
-                                   @RequestParam(required = false, defaultValue = ProductType.BEAUTY) String product) {
+    @RequestMapping(value = "/{product}/forgetpwd", method = RequestMethod.POST)
+    public ResultTO forgetPassword(HttpServletRequest request, @PathVariable String product, @RequestBody PasswordTO password) {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
@@ -317,27 +307,26 @@ public class BaseInfoController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "忘记密码,修改密码,{},{},{},{}", password.getMobile(), password.getAuthcode(), deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "忘记密码,修改密码,{},{},{},{}", password.getMobile(), password.getAuthcode(), deviceId, product);
         return result;
     }
 
-    @RequestMapping(value = "/auth", method = RequestMethod.GET)
-    public ResultTO auth(HttpServletRequest request) {
+    @RequestMapping(value = "/{product}/auth", method = RequestMethod.GET)
+    public ResultTO auth(HttpServletRequest request, @PathVariable String product) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
         try {
-            authUtil.auth(request);
-            //Map<String, String> map =
-            //deviceId = map.get("deviceId");
-            //userId = map.get("userId");
+            Map<String, String> map = authUtil.auth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
             result.setResult(true);
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
             result.setMsg(le.getMessage());
         }
-        LogUtil.action(ServiceType.USER, "校验用户登录,{},{},{}", deviceId, deviceId, ProductType.BEAUTY);
+        LogUtil.action(ServiceType.USER, "校验用户登录,{},{},{}", userId, deviceId, product);
         return result;
     }
 
