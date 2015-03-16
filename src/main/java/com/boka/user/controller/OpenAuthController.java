@@ -17,6 +17,7 @@ import com.boka.user.model.VipPack;
 import com.boka.user.service.BaseInfoService;
 import com.boka.user.service.OrderService;
 import com.boka.user.service.VipPackService;
+import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,10 @@ public class OpenAuthController {
             result.setCode(401);
             result.setSuccess(false);
             result.setMsg(le.getMessage());
+        } catch (AuthException ae) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
         } catch (CommonException ce) {
             result.setCode(400);
             result.setSuccess(false);
