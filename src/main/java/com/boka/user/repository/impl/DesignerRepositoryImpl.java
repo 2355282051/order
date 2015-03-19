@@ -122,6 +122,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("rank");
 		query.fields().include("score");
 		query.fields().include("avatar");
+		query.fields().include("shop");
 		query.fields().include("reservedCnt");
 		query.fields().include("reserveInfo");
 		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
