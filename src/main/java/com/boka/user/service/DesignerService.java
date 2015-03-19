@@ -144,7 +144,10 @@ public class DesignerService {
             if (result != null && result.size() != 0) {
                 for (Designer d : result) {
                     ids.add(d.getId());
-                    d.setShop(shop);
+                    Shop s = new Shop();
+                    s.setId(shop.getId());
+                    s.setName(s.getName());
+                    d.setShop(s);
                 }
             }
             if (result != null && ids.size() != 0) {
