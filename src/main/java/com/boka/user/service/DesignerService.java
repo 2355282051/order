@@ -194,6 +194,9 @@ public class DesignerService {
         if (designer.getShop() != null && Assert.isNotNull(designer.getShop().getId()))
             item.getShop().setId(designer.getShop().getId());
 
+        if (Assert.isNotNull(designer.getName()))
+            item.setName(designer.getName());
+
         designerRepository.save(item);
     }
 }
