@@ -89,6 +89,7 @@ public class BaseInfoController {
         String deviceId = null;
         String access_token = null;
         try {
+            logger.debug("忘记修改用户密码:" + JSON.toJSONString(password));
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
@@ -249,6 +250,7 @@ public class BaseInfoController {
         String userId = null;
         String deviceId = null;
         try {
+
             Map<String, String> map = authUtil.preAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
@@ -282,6 +284,7 @@ public class BaseInfoController {
         String userId = null;
         String deviceId = null;
         try {
+            logger.debug("忘记修改用户密码:" + JSON.toJSONString(password));
             Map<String, String> map = authUtil.preAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
