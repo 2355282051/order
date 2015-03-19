@@ -2,6 +2,7 @@ package com.boka.user.service;
 
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
+import com.boka.common.util.Assert;
 import com.boka.common.util.DistanceUtil;
 import com.boka.user.dto.CommentTO;
 import com.boka.user.dto.DesignerTO;
@@ -143,7 +144,10 @@ public class DesignerService {
             if (result != null && result.size() != 0) {
                 for (Designer d : result) {
                     ids.add(d.getId());
-                    d.setShop(shop);
+                    Shop s = new Shop();
+                    s.setId(shop.getId());
+                    s.setName(shop.getName());
+                    d.setShop(s);
                 }
             }
             if (result != null && ids.size() != 0) {
@@ -183,6 +187,15 @@ public class DesignerService {
 
         if (designer.getReserveInfo().getInterval() != 0)
             item.getReserveInfo().setInterval(designer.getReserveInfo().getInterval());
+
+        if (Assert.isNotNull(designer.getEmpId()))
+            item.setEmpId(designer.getEmpId());
+
+        if (designer.getShop() != null && Assert.isNotNull(designer.getShop().getId()))
+            item.getShop().setId(designer.getShop().getId());
+
+        if (Assert.isNotNull(designer.getName()))
+            item.setName(designer.getName());
 
         designerRepository.save(item);
     }
