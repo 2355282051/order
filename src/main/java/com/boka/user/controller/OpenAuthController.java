@@ -197,8 +197,10 @@ public class OpenAuthController {
     }
 
 
-    @RequestMapping(value = "/upgrade/vip", method = RequestMethod.POST)
-    public ResultTO upgradeVIP(HttpServletRequest request, String userId, String vipPackId) {
+    @RequestMapping(value = "{userId}/upgrade/v/{vipPackId}", method = RequestMethod.POST)
+    public ResultTO upgradeVIP(HttpServletRequest request,
+                               @PathVariable String userId,
+                               @PathVariable String vipPackId) {
         ResultTO result = new ResultTO();
         try {
             VipPack vipPack = vipPackService.getVipPackById(vipPackId);
