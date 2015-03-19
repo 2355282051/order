@@ -146,7 +146,7 @@ public class DesignerService {
                     ids.add(d.getId());
                     Shop s = new Shop();
                     s.setId(shop.getId());
-                    s.setName(s.getName());
+                    s.setName(shop.getName());
                     d.setShop(s);
                 }
             }
