@@ -7,7 +7,6 @@ import com.boka.common.exception.CommonException;
 import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
-import com.boka.common.util.DateUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.OrderTO;
@@ -17,13 +16,11 @@ import com.boka.user.model.VipPack;
 import com.boka.user.service.BaseInfoService;
 import com.boka.user.service.OrderService;
 import com.boka.user.service.VipPackService;
-import org.apache.http.auth.AUTH;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Calendar;
 import java.util.Map;
 
 @RequestMapping(value = "/open")
@@ -39,6 +36,33 @@ public class OpenAuthController {
 
     @Autowired
     private AuthUtil authUtil;
+
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
+    public ResultTO getUserInfo(HttpServletRequest request) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.auth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+            result.setResult(baseInfoService.getUserById(userId));
+        } catch (AuthException ae) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "第三方系统获取用户信息,{},{},{}", userId, deviceId);
+        return result;
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResultTO loginUser(HttpServletRequest request,
