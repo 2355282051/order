@@ -302,8 +302,12 @@ public class BaseInfoService {
         if (bean == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
-        bean.setName(user.getName());
-        bean.setSex(user.getSex());
+        if(user.getName() != null) {
+            bean.setName(user.getName());
+        }
+        if(user.getSex() != 0) {
+            bean.setSex(user.getSex());
+        }
         if(user.getAvatar() != null) {
             bean.setAvatar(user.getAvatar());
         }
