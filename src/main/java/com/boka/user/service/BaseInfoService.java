@@ -264,7 +264,7 @@ public class BaseInfoService {
         }
         String secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getOldPassword());
         if (!user.getPassword().equals(secretPassword)) {
-            throw new AuthException(ExceptionCode.PASSWORD_ERROR);
+            throw new CommonException(ExceptionCode.PASSWORD_ERROR);
         }
         secretPassword = DigestUtils.md5Hex(user.getSalt() + password.getNewPassword());
         user.setPassword(secretPassword);
