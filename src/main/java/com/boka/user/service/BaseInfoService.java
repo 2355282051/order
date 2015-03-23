@@ -124,12 +124,18 @@ public class BaseInfoService {
      * @throws CommonException
      */
     public UserTO login(UserTO user, String deviceId) throws LoginException, CommonException {
+        //靓丽前台用户用发界用户
+        if (user.getProduct().equals(ProductType.DESKTOP)) {
+            user.setProduct(ProductType.FZONE);
+        }
+
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
         } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
             throw new LoginException(ExceptionCode.PASSWORD_ERROR);
         }
+
         UserTO result = new UserTO();
         result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
