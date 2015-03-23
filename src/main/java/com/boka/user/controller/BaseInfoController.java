@@ -48,6 +48,10 @@ public class BaseInfoController {
             result.setCode(500);
             result.setSuccess(false);
             result.setMsg(ce.getMessage());
+        } catch (LoginException le) {
+            result.setCode(409);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

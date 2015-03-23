@@ -41,7 +41,7 @@ public class BaseInfoService {
      * @return
      * @throws CommonException
      */
-    public UserTO reg(UserTO user, String deviceId) throws CommonException {
+    public UserTO reg(UserTO user, String deviceId) throws CommonException, LoginException {
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
@@ -53,6 +53,12 @@ public class BaseInfoService {
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
             throw new CommonException(ExceptionCode.MOBILE_EXISTS);
+        }else if (user.getProduct().equals(ProductType.DESKTOP)) {
+            //如果使用发界账号注册靓丽前台,则返回提示使用发界账号登陆
+            bean = baseInfoRepository.findByMobile(user.getMobile(), ProductType.FZONE);
+            if (bean != null) {
+                throw new LoginException(ExceptionCode.MOBILE_EXISTS);
+            }
         }
         bean = new User();
         bean.setProduct(user.getProduct());
