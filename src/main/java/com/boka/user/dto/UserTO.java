@@ -31,6 +31,8 @@ public class UserTO {
     private String authcode;
     //产品
     private String product;
+    //注册产品
+    private String regProduct;
     //激活状态 0 未激活　1:激活　2:未认证激活
     private int activatedStatus;
     //token
@@ -177,5 +179,13 @@ public class UserTO {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public String getRegProduct() {
+        return regProduct;
+    }
+
+    public void setRegProduct(String regProduct) {
+        this.regProduct = regProduct;
     }
 }

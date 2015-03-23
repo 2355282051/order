@@ -45,8 +45,12 @@ public class User {
     private String address;
     //产品
     protected String product;
+    //注册产品
+    protected String regProduct;
+
     //距离
     @Transient
+
     private Double distance;
 
     private String inviteCode; // 邀请码
@@ -103,6 +107,14 @@ public class User {
         } else {
             this.avatar = avatar;
         }
+    }
+
+    public String getRegProduct() {
+        return regProduct;
+    }
+
+    public void setRegProduct(String regProduct) {
+        this.regProduct = regProduct;
     }
 
     public Date getCreateDate() {

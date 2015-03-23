@@ -50,20 +50,27 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.PARAM_NULL);
         }
 
+        //靓丽前台用户都注册为发界用户
+        if (user.getProduct().equals(ProductType.DESKTOP)) {
+            user.setProduct(ProductType.FZONE);
+            user.setRegProduct(ProductType.DESKTOP);
+        }
+
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean != null) {
-            throw new CommonException(ExceptionCode.MOBILE_EXISTS);
-        }else if (user.getProduct().equals(ProductType.DESKTOP)) {
-            //如果使用发界账号注册靓丽前台,则返回提示使用发界账号登陆
-            bean = baseInfoRepository.findByMobile(user.getMobile(), ProductType.FZONE);
-            if (bean != null) {
+            //靓丽前台注册时发现已注册发界账号,则需要特殊提示
+            if (bean.getProduct().equals(ProductType.FZONE) && ProductType.DESKTOP.equals(user.getRegProduct())) {
                 throw new LoginException(ExceptionCode.MOBILE_EXISTS);
+            } else {
+                throw new CommonException(ExceptionCode.MOBILE_EXISTS);
             }
+
         }
         bean = new User();
         bean.setProduct(user.getProduct());
         bean.setCreateDate(Calendar.getInstance().getTime());
         bean.setMobile(user.getMobile());
+        bean.setRegProduct(user.getRegProduct());
         bean.setActivatedStatus(user.getActivatedStatus());
         bean.setSalt(RandomUtil.randomSalt());
         bean.setInviteCode(user.getInviteCode());
