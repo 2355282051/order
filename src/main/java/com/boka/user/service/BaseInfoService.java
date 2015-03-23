@@ -13,8 +13,10 @@ import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
+import com.boka.user.model.Employee;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
+import com.boka.user.repository.EmployeeRepository;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,9 @@ public class BaseInfoService {
 
     @Autowired
     private BaseInfoRepository baseInfoRepository;
+
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -124,9 +129,9 @@ public class BaseInfoService {
      * @throws CommonException
      */
     public UserTO login(UserTO user, String deviceId) throws LoginException, CommonException {
-        //靓丽前台用户用发界用户
+        //靓丽前台登陆
         if (user.getProduct().equals(ProductType.DESKTOP)) {
-            user.setProduct(ProductType.FZONE);
+            return desktopLogin(user, deviceId);
         }
 
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
@@ -144,6 +149,37 @@ public class BaseInfoService {
         result.setName(bean.getName());
         result.setSex(bean.getSex());
         result.setExpireDate(bean.getExpireDate());
+        result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        return result;
+    }
+
+    /**
+     * 靓丽前台登录
+     *
+     * @param user
+     * @return
+     * @throws LoginException
+     * @throws CommonException
+     */
+    private UserTO desktopLogin(UserTO user, String deviceId) throws LoginException, CommonException {
+        user.setProduct(ProductType.FZONE);
+        Employee bean = employeeRepository.findByMobile(user.getMobile(), user.getProduct());
+        if (bean == null) {
+            throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
+        } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
+            throw new LoginException(ExceptionCode.PASSWORD_ERROR);
+        }
+
+        UserTO result = new UserTO();
+        result.setId(bean.getId());
+        result.setAvatar(bean.getAvatar());
+        result.setActivatedStatus(bean.getActivatedStatus());
+        result.setMobile(bean.getMobile());
+        result.setName(bean.getName());
+        result.setSex(bean.getSex());
+        result.setExpireDate(bean.getExpireDate());
+        result.setAdminStatus(bean.getAdminStatus());
+        result.setShop(bean.getShop());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
     }

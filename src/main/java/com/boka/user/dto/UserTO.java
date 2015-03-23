@@ -2,6 +2,7 @@ package com.boka.user.dto;
 
 import com.boka.user.model.Location;
 import com.boka.user.model.Region;
+import com.boka.user.model.Shop;
 
 import java.util.Date;
 
@@ -38,12 +39,23 @@ public class UserTO {
     //token
     private String access_token;
 
-    private Date createDate; // 注册时间
+    // 注册时间
+    private Date createDate;
 
-    private String inviteCode; // 邀请码
+    // 邀请码
+    private String inviteCode;
 
-    private Date expireDate; // 会员失效时间
+    // 会员失效时间
+    private Date expireDate;
 
+    //门店
+    private Shop shop;
+
+    //管理员状态
+    private Integer adminStatus;
+
+    //员工编码
+    private String empId;
 
     public String getId() {
         return id;
@@ -187,5 +199,29 @@ public class UserTO {
 
     public void setRegProduct(String regProduct) {
         this.regProduct = regProduct;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
+    }
+
+    public Integer getAdminStatus() {
+        return adminStatus;
+    }
+
+    public void setAdminStatus(Integer adminStatus) {
+        this.adminStatus = adminStatus;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 }
