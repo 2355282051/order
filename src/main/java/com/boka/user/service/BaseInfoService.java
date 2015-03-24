@@ -138,11 +138,15 @@ public class BaseInfoService {
             }
             bean.setShop(shop);
             //更新门店管理员信息
-            shopService.updateShopAdmin(shop);
+            if (!shopService.updateShopAdmin(shop)) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
         } else if (user.getShop().getCreator() != null) {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
-            shopService.addShop(user.getShop());
+            if (!shopService.addShop(user.getShop())) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
         }else {
             //加入门店
             if (shop == null) {

@@ -26,11 +26,19 @@ public class ShopService {
             return null;
     }
 
-    public void updateShopAdmin(Shop shop) {
-
+    public boolean updateShopAdmin(Shop shop) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/update/admin", shop, ResultTO.class);
+        if (result.getResult() != null)
+            return result.isSuccess();
+        else
+            return false;
     }
 
-    public void addShop(Shop shop) {
-
+    public boolean addShop(Shop shop) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/add", shop, ResultTO.class);
+        if (result.getResult() != null)
+            return result.isSuccess();
+        else
+            return false;
     }
 }
