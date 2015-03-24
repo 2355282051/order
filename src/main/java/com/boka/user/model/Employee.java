@@ -8,7 +8,8 @@ public class Employee extends Designer {
 
     //职业
     private int profession;
-
+    //真实姓名
+    private String realName;
     //管理员状态
     private Integer adminStatus;
 
@@ -31,5 +32,13 @@ public class Employee extends Designer {
 
     public void setAdminStatus(Integer adminStatus) {
         this.adminStatus = adminStatus;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

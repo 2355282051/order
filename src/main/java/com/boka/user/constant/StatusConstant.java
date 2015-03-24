@@ -31,5 +31,15 @@ public class StatusConstant {
 	 * 移除状态
 	 */
 	public static final int removed = -1;
+
+    /**
+     * 是
+     */
+    public static final int TRUE = 1;
+
+    /**
+     * 否
+     */
+    public static final int FALSE = 0;
 	
 }

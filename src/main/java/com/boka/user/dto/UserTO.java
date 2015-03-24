@@ -57,6 +57,9 @@ public class UserTO {
     //员工编码
     private String empId;
 
+    //真实姓名
+    private String realName;
+
     public String getId() {
         return id;
     }
@@ -223,5 +226,13 @@ public class UserTO {
 
     public void setEmpId(String empId) {
         this.empId = empId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 }

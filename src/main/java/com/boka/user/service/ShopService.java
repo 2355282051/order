@@ -26,4 +26,11 @@ public class ShopService {
             return null;
     }
 
+    public void updateShopAdmin(Shop shop) {
+
+    }
+
+    public void addShop(Shop shop) {
+
+    }
 }

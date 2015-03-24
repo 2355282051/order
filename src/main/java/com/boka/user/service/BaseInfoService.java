@@ -14,6 +14,7 @@ import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
+import com.boka.user.model.Shop;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
 import com.boka.user.repository.EmployeeRepository;
@@ -32,6 +33,9 @@ public class BaseInfoService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private ShopService shopService;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -96,6 +100,9 @@ public class BaseInfoService {
      * @throws CommonException
      */
     public UserTO activate(UserTO user) throws CommonException {
+        if (user.getProduct().equals(ProductType.DESKTOP)) {
+            return desktopActivate(user);
+        }
 
         User bean = baseInfoRepository.findOne(user.getId());
         bean.setName(user.getName());
@@ -115,6 +122,52 @@ public class BaseInfoService {
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
+        result.setLoc(user.getLoc());
+        result.setSex(bean.getSex());
+        return result;
+    }
+
+    private UserTO desktopActivate(UserTO user) {
+        Employee bean = employeeRepository.findOne(user.getId());
+        Shop shop = shopService.getShop(user.getShop().getId());
+        if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
+            //认领门店
+            user.setAdminStatus(StatusConstant.TRUE);
+            if (shop == null) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
+            bean.setShop(shop);
+            //更新门店管理员信息
+            shopService.updateShopAdmin(shop);
+        } else if (user.getShop().getCreator() != null) {
+            //注册门店
+            user.setAdminStatus(StatusConstant.TRUE);
+            shopService.addShop(user.getShop());
+        }else {
+            //加入门店
+            if (shop == null) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
+            bean.setShop(shop);
+        }
+        bean.setName(user.getName());
+        bean.setAvatar(user.getAvatar());
+        bean.setSex(user.getSex());
+        bean.setUpdateDate(Calendar.getInstance().getTime());
+        bean.setLastLoginDate(bean.getCreateDate());
+        bean.setLoc(user.getLoc());
+        if(Assert.isNotNull(bean.getMobile())) {
+            bean.setActivatedStatus(StatusConstant.activated);
+        }
+        bean.setProduct(user.getProduct());
+        employeeRepository.save(bean);
+        UserTO result = new UserTO();
+        result.setId(bean.getId());
+        result.setAvatar(bean.getAvatar());
+        result.setActivatedStatus(bean.getActivatedStatus());
+        result.setMobile(bean.getMobile());
+        result.setName(bean.getName());
+        result.setShop(user.getShop());
         result.setLoc(user.getLoc());
         result.setSex(bean.getSex());
         return result;

@@ -18,6 +18,36 @@ public class Shop {
     private int s3Status;
     //连锁URL
     private String chainUrl;
+    // 创建人
+    private String creator;
+    // 管理人
+    private String admin;
+    // 管理时间
+    private String adminDate;
+
+    public String getCreator() {
+        return creator;
+    }
+
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
+
+    public String getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(String admin) {
+        this.admin = admin;
+    }
+
+    public String getAdminDate() {
+        return adminDate;
+    }
+
+    public void setAdminDate(String adminDate) {
+        this.adminDate = adminDate;
+    }
 
     public String getCustId() {
         return custId;
