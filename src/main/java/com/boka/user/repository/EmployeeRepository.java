@@ -4,6 +4,6 @@ import com.boka.user.model.Designer;
 import com.boka.user.model.Employee;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface EmployeeRepository extends MongoRepository<Designer, String>, EmployeeRepositoryAdvance {
+public interface EmployeeRepository extends MongoRepository<Employee, String>, EmployeeRepositoryAdvance {
 
 }
