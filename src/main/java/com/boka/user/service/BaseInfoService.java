@@ -191,6 +191,9 @@ public class BaseInfoService {
         if (bean == null) {
             throw new LoginException(ExceptionCode.USER_NOT_EXISTS);
         } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
+            System.out.println(bean.getSalt());
+            System.out.println(user.getPassword());
+            System.out.println(bean.getPassword());
             throw new LoginException(ExceptionCode.PASSWORD_ERROR);
         }
 
