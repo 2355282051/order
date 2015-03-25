@@ -19,7 +19,6 @@ public class ShopService {
     private RestTemplate restTemplate;
 
     public Shop getShop(String id) {
-        System.out.println(Constant.GET_SHOP_INFO_URL);
         ResultTO result = restTemplate.getForObject(Constant.GET_SHOP_INFO_URL, ResultTO.class, id);
         if (result.getResult() != null)
             return JSON.parseObject(result.getResult().toString(), Shop.class);

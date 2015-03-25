@@ -129,8 +129,9 @@ public class BaseInfoService {
 
     private UserTO desktopActivate(UserTO user) {
         Employee bean = employeeRepository.findOne(user.getId());
-        Shop shop = shopService.getShop(user.getShop().getId());
+
         if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
+            Shop shop = shopService.getShop(user.getShop().getId());
             //认领门店
             user.setAdminStatus(StatusConstant.TRUE);
             if (shop == null) {
@@ -149,6 +150,7 @@ public class BaseInfoService {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
             }
         }else {
+            Shop shop = shopService.getShop(user.getShop().getId());
             //加入门店
             if (shop == null) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
