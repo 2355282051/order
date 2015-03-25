@@ -1,5 +1,7 @@
 package com.boka.user.model;
 
+import java.util.Date;
+
 public class Shop {
 
     //编码
@@ -23,7 +25,7 @@ public class Shop {
     // 管理人
     private String admin;
     // 管理时间
-    private String adminDate;
+    private Date adminDate;
 
     public String getCreator() {
         return creator;
@@ -39,14 +41,6 @@ public class Shop {
 
     public void setAdmin(String admin) {
         this.admin = admin;
-    }
-
-    public String getAdminDate() {
-        return adminDate;
-    }
-
-    public void setAdminDate(String adminDate) {
-        this.adminDate = adminDate;
     }
 
     public String getCustId() {
@@ -111,5 +105,13 @@ public class Shop {
 
     public void setChainUrl(String chainUrl) {
         this.chainUrl = chainUrl;
+    }
+
+    public Date getAdminDate() {
+        return adminDate;
+    }
+
+    public void setAdminDate(Date adminDate) {
+        this.adminDate = adminDate;
     }
 }
