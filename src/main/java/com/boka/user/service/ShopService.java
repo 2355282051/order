@@ -34,11 +34,11 @@ public class ShopService {
             return false;
     }
 
-    public boolean addShop(Shop shop) {
+    public Shop addShop(Shop shop) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/add", shop, ResultTO.class);
         if (result != null)
-            return result.isSuccess();
+            return JSON.parseObject(result.getResult().toString(), Shop.class);
         else
-            return false;
+            return null;
     }
 }

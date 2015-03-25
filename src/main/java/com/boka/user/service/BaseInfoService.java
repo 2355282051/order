@@ -129,16 +129,12 @@ public class BaseInfoService {
 
     private UserTO desktopActivate(UserTO user) {
         Employee bean = employeeRepository.findOne(user.getId());
-
+        Shop shop;
         if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
-            Shop shop = shopService.getShop(user.getShop().getId());
             //认领门店
+            shop = shopService.getShop(user.getShop().getId());
             user.setAdminStatus(StatusConstant.TRUE);
-            if (shop == null) {
-                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-            }
             shop.setAdmin(user.getShop().getAdmin());
-            bean.setShop(shop);
             //更新门店管理员信息
             if (!shopService.updateShopAdmin(shop)) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
@@ -146,17 +142,15 @@ public class BaseInfoService {
         } else if (user.getShop().getCreator() != null) {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
-            if (!shopService.addShop(user.getShop())) {
-                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-            }
+            shop = shopService.addShop(user.getShop());
         }else {
-            Shop shop = shopService.getShop(user.getShop().getId());
             //加入门店
-            if (shop == null) {
-                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-            }
-            bean.setShop(shop);
+            shop = shopService.getShop(user.getShop().getId());
         }
+        if (shop == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        bean.setShop(shop);
         bean.setName(user.getName());
         bean.setAvatar(user.getAvatar());
         bean.setSex(user.getSex());
