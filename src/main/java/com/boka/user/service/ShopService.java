@@ -28,7 +28,7 @@ public class ShopService {
 
     public boolean updateShopAdmin(Shop shop) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/update/admin", shop, ResultTO.class);
-        if (result.getResult() != null)
+        if (result != null)
             return result.isSuccess();
         else
             return false;
