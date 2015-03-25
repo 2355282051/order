@@ -136,6 +136,7 @@ public class BaseInfoService {
             if (shop == null) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
             }
+            shop.setAdmin(user.getShop().getAdmin());
             bean.setShop(shop);
             //更新门店管理员信息
             if (!shopService.updateShopAdmin(shop)) {
