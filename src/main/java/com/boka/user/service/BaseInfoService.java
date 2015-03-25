@@ -158,6 +158,7 @@ public class BaseInfoService {
         bean.setName(user.getName());
         bean.setAvatar(user.getAvatar());
         bean.setSex(user.getSex());
+        bean.setAdminStatus(user.getAdminStatus());
         bean.setUpdateDate(Calendar.getInstance().getTime());
         bean.setLastLoginDate(bean.getCreateDate());
         bean.setLoc(user.getLoc());
