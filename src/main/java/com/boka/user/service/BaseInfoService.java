@@ -142,6 +142,7 @@ public class BaseInfoService {
         } else if (user.getShop().getCreator() != null) {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
+            user.getShop().setAdmin(user.getShop().getCreator());
             shop = shopService.addShop(user.getShop());
         }else {
             //加入门店
