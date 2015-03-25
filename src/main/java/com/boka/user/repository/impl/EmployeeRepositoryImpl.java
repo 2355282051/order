@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
 
@@ -32,4 +33,18 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
         query.fields().include("password");
 		return ops.findOne(query, Employee.class);
 	}
+
+    @Override
+    public void updateRefuse(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().set("acceptStatus",0).set("shop", null);
+        ops.updateFirst(query,update,Employee.class);
+    }
+
+    @Override
+    public void updateAccept(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        Update update = new Update().set("acceptStatus",1);
+        ops.updateFirst(query,update,Employee.class);
+    }
 }

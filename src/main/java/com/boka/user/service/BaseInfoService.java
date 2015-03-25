@@ -139,11 +139,13 @@ public class BaseInfoService {
             if (!shopService.updateShopAdmin(shop)) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
             }
+
         } else if (user.getShop().getCreator() != null) {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
             user.getShop().setAdmin(user.getShop().getCreator());
             shop = shopService.addShop(user.getShop());
+
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
@@ -163,6 +165,7 @@ public class BaseInfoService {
             bean.setActivatedStatus(StatusConstant.activated);
         }
         employeeRepository.save(bean);
+
         UserTO result = new UserTO();
         result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
@@ -466,5 +469,6 @@ public class BaseInfoService {
     public User getUserById(String userId) {
         return baseInfoRepository.findOne(userId);
     }
+
 
 }
