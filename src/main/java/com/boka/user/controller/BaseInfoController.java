@@ -123,6 +123,9 @@ public class BaseInfoController {
         ResultTO result = new ResultTO();
         String userId = null;
         String deviceId = null;
+
+        String access_token = request.getHeader("access_token");
+        deviceId = request.getHeader("device_id");
         try {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
@@ -255,20 +258,17 @@ public class BaseInfoController {
     @RequestMapping(value = "/{product}/checkcode", method = RequestMethod.GET)
     public ResultTO checkCode(HttpServletRequest request, String mobile, String authcode, @PathVariable String product) {
         ResultTO result = new ResultTO();
-        String userId = null;
+        //String userId = null;
         String deviceId = null;
         try {
 
             Map<String, String> map = authUtil.preAuth(request);
-            userId = map.get("userId");
+            //userId = map.get("userId");
             deviceId = map.get("deviceId");
-            UserTO user = new UserTO();
-            HttpSession session = request.getSession();
-            session.setAttribute("mobile", mobile);
-            session.setAttribute("authcode", authcode);
-            user.setMobile(mobile);
-            user.setAuthcode(authcode);
-            baseInfoService.forgetPassword(user);
+            //验证码检验
+            if (!authUtil.authMobile(mobile, authcode, product)) {
+                throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
+            }
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
