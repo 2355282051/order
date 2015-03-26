@@ -14,6 +14,7 @@ import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
+import com.boka.user.model.ReserveInfo;
 import com.boka.user.model.Shop;
 import com.boka.user.model.User;
 import com.boka.user.repository.BaseInfoRepository;
@@ -61,8 +62,7 @@ public class BaseInfoService {
 
         //靓丽前台用户都注册为发界用户
         if (user.getProduct().equals(ProductType.DESKTOP)) {
-            user.setProduct(ProductType.FZONE);
-            user.setRegProduct(ProductType.DESKTOP);
+            return desktopReg(user, deviceId);
         }
 
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
@@ -86,6 +86,59 @@ public class BaseInfoService {
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         bean = baseInfoRepository.save(bean);
+        user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        user.setCreateDate(bean.getCreateDate());
+        //生成token
+        return user;
+    }
+
+    private UserTO desktopReg(UserTO user, String deviceId) throws CommonException, LoginException {
+        user.setProduct(ProductType.FZONE);
+        user.setRegProduct(ProductType.DESKTOP);
+
+        Employee bean = employeeRepository.findByMobile(user.getMobile(), user.getProduct());
+        if (bean != null) {
+            //靓丽前台注册时发现已注册发界账号,则需要特殊提示
+            if (bean.getProduct().equals(ProductType.FZONE) && ProductType.DESKTOP.equals(user.getRegProduct())) {
+                throw new LoginException(ExceptionCode.MOBILE_EXISTS);
+            } else {
+                throw new CommonException(ExceptionCode.MOBILE_EXISTS);
+            }
+
+        }
+        bean = new Employee();
+        bean.setProduct(user.getProduct());
+        bean.setCreateDate(Calendar.getInstance().getTime());
+        bean.setMobile(user.getMobile());
+        bean.setRegProduct(user.getRegProduct());
+        bean.setActivatedStatus(user.getActivatedStatus());
+        bean.setSalt(RandomUtil.randomSalt());
+        bean.setInviteCode(user.getInviteCode());
+        ReserveInfo reserveInfo = new ReserveInfo();
+        reserveInfo.setInAdvanceMin(0);
+        reserveInfo.setInAdvanceMax(10);
+        reserveInfo.setInterval(30);
+
+        reserveInfo.setStatus(0);
+        Calendar start = Calendar.getInstance();
+        start.set(Calendar.HOUR_OF_DAY, 10);
+        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setStartTime(start.getTime());
+        Calendar end = Calendar.getInstance();
+        end.set(Calendar.HOUR_OF_DAY, 22);
+        end.set(Calendar.MINUTE, 0);
+        end.set(Calendar.SECOND, 0);
+        end.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setEndTime(end.getTime());
+        reserveInfo.setInterval(30);
+        reserveInfo.setInAdvanceMin(0);
+        reserveInfo.setInAdvanceMax(10);
+        bean.setReserveInfo(reserveInfo);
+        //MD5加盐
+        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+        bean = employeeRepository.save(bean);
         user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         user.setCreateDate(bean.getCreateDate());
         //生成token
