@@ -31,6 +31,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
 		query.fields().include("shop.name");
         query.fields().include("salt");
         query.fields().include("password");
+        query.fields().include("resetStatus");
 		return ops.findOne(query, Employee.class);
 	}
 

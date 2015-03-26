@@ -284,6 +284,7 @@ public class BaseInfoService {
         UserTO result = new UserTO();
         result.setId(bean.getId());
         result.setAvatar(bean.getAvatar());
+        result.setResetStatus(bean.getResetStatus());
         result.setActivatedStatus(bean.getActivatedStatus());
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());

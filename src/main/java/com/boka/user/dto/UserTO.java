@@ -60,6 +60,9 @@ public class UserTO {
     //真实姓名
     private String realName;
 
+    //重置密码状态
+    private Integer resetStatus;
+
     public String getId() {
         return id;
     }
@@ -234,5 +237,13 @@ public class UserTO {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public Integer getResetStatus() {
+        return resetStatus;
+    }
+
+    public void setResetStatus(Integer resetStatus) {
+        this.resetStatus = resetStatus;
     }
 }

@@ -50,14 +50,11 @@ public class User {
 
     //距离
     @Transient
-
     private Double distance;
 
     private String inviteCode; // 邀请码
 
     private Date expireDate; // 会员失效时间
-
-    private int acceptStatus; // 接受加入状态
 
     public String getId() {
         return id;
@@ -229,13 +226,5 @@ public class User {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
-    }
-
-    public int getAcceptStatus() {
-        return acceptStatus;
-    }
-
-    public void setAcceptStatus(int acceptStatus) {
-        this.acceptStatus = acceptStatus;
     }
 }

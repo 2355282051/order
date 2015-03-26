@@ -12,6 +12,10 @@ public class Employee extends Designer {
     private String realName;
     //管理员状态
     private Integer adminStatus;
+    //重置密码状态
+    private Integer resetStatus;
+    // 接受加入状态
+    private int acceptStatus;
 
     public Employee() {
         product = ProductType.FZONE;
@@ -40,5 +44,21 @@ public class Employee extends Designer {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public Integer getResetStatus() {
+        return resetStatus;
+    }
+
+    public void setResetStatus(Integer resetStatus) {
+        this.resetStatus = resetStatus;
+    }
+
+    public int getAcceptStatus() {
+        return acceptStatus;
+    }
+
+    public void setAcceptStatus(int acceptStatus) {
+        this.acceptStatus = acceptStatus;
     }
 }
