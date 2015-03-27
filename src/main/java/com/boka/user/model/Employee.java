@@ -16,6 +16,8 @@ public class Employee extends Designer {
     private Integer resetStatus;
     // 接受加入状态
     private int acceptStatus;
+    // 员工序列号
+    private String empSerial;
 
     public Employee() {
         product = ProductType.FZONE;
@@ -60,5 +62,13 @@ public class Employee extends Designer {
 
     public void setAcceptStatus(int acceptStatus) {
         this.acceptStatus = acceptStatus;
+    }
+
+    public String getEmpSerial() {
+        return empSerial;
+    }
+
+    public void setEmpSerial(String empSerial) {
+        this.empSerial = empSerial;
     }
 }

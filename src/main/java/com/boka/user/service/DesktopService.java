@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.Constant;
 import com.boka.common.dto.ResultTO;
 import com.boka.user.model.Designer;
+import com.boka.user.model.Employee;
 import com.boka.user.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,38 @@ public class DesktopService {
         ResultTO result = restTemplate.getForObject("http://m.lianglichina.com/shop/{id}/emp/list", ResultTO.class, id);
         if (result.getResult() != null)
             return JSON.parseArray(result.getResult().toString(), Designer.class);
+        else
+            return null;
+    }
+
+    public String regUser(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reg/user", emp, ResultTO.class);
+        if (result.isSuccess())
+            return result.getResult().toString();
+        else
+            return null;
+    }
+
+    public String joinShop(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/join/shop", emp, ResultTO.class);
+        if (result.isSuccess())
+            return result.getResult().toString();
+        else
+            return null;
+    }
+
+    public String bindShop(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/bind/shop", emp, ResultTO.class);
+        if (result.isSuccess())
+            return result.getResult().toString();
+        else
+            return null;
+    }
+
+    public String regShop(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reg/shop", emp, ResultTO.class);
+        if (result.isSuccess())
+            return result.getResult().toString();
         else
             return null;
     }

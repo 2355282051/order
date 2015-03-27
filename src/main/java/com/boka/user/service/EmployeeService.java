@@ -14,9 +14,11 @@ public class EmployeeService {
 
     public void acceptByShop(UserTO user) {
         employeeRepository.updateAccept(user.getId());
+        //TODO 同步老系统
     }
 
     public void refuseByShop(UserTO user) {
         employeeRepository.updateRefuse(user.getId());
+        //TODO 同步老系统
     }
 }

@@ -39,6 +39,9 @@ public class BaseInfoService {
     private ShopService shopService;
 
     @Autowired
+    private DesktopService desktopService;
+
+    @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
@@ -138,7 +141,14 @@ public class BaseInfoService {
         bean.setReserveInfo(reserveInfo);
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+        //同步老系统
+        String id = desktopService.regUser(bean);
+        if (id == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        bean.setId(id);
         bean = employeeRepository.save(bean);
+
         user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         user.setCreateDate(bean.getCreateDate());
         //生成token
@@ -188,6 +198,9 @@ public class BaseInfoService {
             shop = shopService.getShop(user.getShop().getId());
             user.setAdminStatus(StatusConstant.TRUE);
             shop.setAdmin(user.getShop().getAdmin());
+            //同步老系统
+            String empSerial = desktopService.bindShop(bean);
+            bean.setEmpSerial(empSerial);
             //更新门店管理员信息
             if (!shopService.updateShopAdmin(shop)) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
@@ -197,11 +210,15 @@ public class BaseInfoService {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
             user.getShop().setAdmin(user.getShop().getCreator());
+            //同步老系统
+            String empSerial = desktopService.regShop(bean);
+            bean.setEmpSerial(empSerial);
             shop = shopService.addShop(user.getShop());
-
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
+            //同步老系统
+            desktopService.joinShop(bean);
         }
         if (shop == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);

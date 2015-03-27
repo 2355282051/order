@@ -1,6 +1,9 @@
 package com.boka.user.model;
 
+import com.sun.org.apache.xml.internal.resolver.Catalog;
+
 import java.util.Date;
+import java.util.List;
 
 public class Shop {
 
@@ -26,6 +29,10 @@ public class Shop {
     private String admin;
     // 管理时间
     private Date adminDate;
+    //电话
+    private String phone;
+    //类型
+    private List<Catalog> catalogs;
 
     public String getCreator() {
         return creator;
@@ -113,5 +120,21 @@ public class Shop {
 
     public void setAdminDate(Date adminDate) {
         this.adminDate = adminDate;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public List<Catalog> getCatalogs() {
+        return catalogs;
+    }
+
+    public void setCatalogs(List<Catalog> catalogs) {
+        this.catalogs = catalogs;
     }
 }
