@@ -1,7 +1,5 @@
 package com.boka.user.model;
 
-import com.sun.org.apache.xml.internal.resolver.Catalog;
-
 import java.util.Date;
 import java.util.List;
 
