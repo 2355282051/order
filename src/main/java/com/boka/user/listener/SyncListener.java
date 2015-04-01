@@ -31,7 +31,7 @@ public class SyncListener implements ServletContextListener {
         final DesignerService designerService = context.getBean("designerService", DesignerService.class);
 
         Properties properties = new Properties();
-        properties.put(PropertyKeyConst.ConsumerId, "CID_1772604614-107");
+        properties.put(PropertyKeyConst.ConsumerId, "CID_1772604614-115");
         properties.put(PropertyKeyConst.AccessKey, "YXax9hijbGKnkmAx");
         properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
         Consumer consumer = ONSFactory.createConsumer(properties);
