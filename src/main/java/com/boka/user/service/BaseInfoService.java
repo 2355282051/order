@@ -316,6 +316,8 @@ public class BaseInfoService {
         result.setAdminStatus(bean.getAdminStatus());
         result.setShop(bean.getShop());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        //同步老版本登陆
+        desktopService.login(bean);
         return result;
     }
 

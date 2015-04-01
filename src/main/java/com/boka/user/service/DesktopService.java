@@ -61,4 +61,9 @@ public class DesktopService {
             return null;
     }
 
+    public boolean login(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/login", emp, ResultTO.class);
+        return result.isSuccess();
+    }
+
 }
