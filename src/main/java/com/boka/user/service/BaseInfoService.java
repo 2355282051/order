@@ -215,10 +215,11 @@ public class BaseInfoService {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
             user.getShop().setAdmin(user.getShop().getCreator());
+            shop = shopService.addShop(user.getShop());
+            bean.setShop(shop);
             //同步老系统
             String empSerial = desktopService.regShop(bean);
             bean.setEmpSerial(empSerial);
-            shop = shopService.addShop(user.getShop());
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
