@@ -1,5 +1,6 @@
 package com.boka.user.service;
 
+import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
 import com.boka.common.dto.ResultTO;
@@ -117,6 +118,7 @@ public class BaseInfoService {
         bean.setActivatedStatus(user.getActivatedStatus());
         bean.setSalt(RandomUtil.randomSalt());
         bean.setInviteCode(user.getInviteCode());
+        bean.setPassword(user.getPassword());
         ReserveInfo reserveInfo = new ReserveInfo();
         reserveInfo.setInAdvanceMin(0);
         reserveInfo.setInAdvanceMax(10);
@@ -139,14 +141,17 @@ public class BaseInfoService {
         reserveInfo.setInAdvanceMin(0);
         reserveInfo.setInAdvanceMax(10);
         bean.setReserveInfo(reserveInfo);
-        //MD5加盐
-        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+
         //同步老系统
         String id = desktopService.regUser(bean);
         if (id == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }else if ("0".equals(id)) {
+            throw new CommonException(ExceptionCode.MOBILE_EXISTS);
         }
         bean.setId(id);
+        //MD5加盐
+        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         bean = employeeRepository.save(bean);
 
         user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
