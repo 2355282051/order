@@ -312,6 +312,7 @@ public class BaseInfoService {
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
+        result.setEmpSerial(bean.getEmpSerial());
         result.setExpireDate(bean.getExpireDate());
         result.setAdminStatus(bean.getAdminStatus());
         result.setShop(bean.getShop());

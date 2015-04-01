@@ -63,6 +63,9 @@ public class UserTO {
     //重置密码状态
     private Integer resetStatus;
 
+    // 员工序列号
+    private String empSerial;
+
     public String getId() {
         return id;
     }
@@ -245,5 +248,13 @@ public class UserTO {
 
     public void setResetStatus(Integer resetStatus) {
         this.resetStatus = resetStatus;
+    }
+
+    public String getEmpSerial() {
+        return empSerial;
+    }
+
+    public void setEmpSerial(String empSerial) {
+        this.empSerial = empSerial;
     }
 }
