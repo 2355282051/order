@@ -226,8 +226,14 @@ public class BaseInfoService {
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
+            bean.setShop(shop);
+            bean.setName(user.getName());
+            bean.setRealName(user.getRealName());
+            bean.setSex(user.getSex());
             //同步老系统
-            desktopService.joinShop(bean);
+            if (!desktopService.joinShop(bean)) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
         }
         if (shop == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);

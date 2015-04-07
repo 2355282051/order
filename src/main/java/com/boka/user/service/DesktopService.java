@@ -38,12 +38,9 @@ public class DesktopService {
             return null;
     }
 
-    public String joinShop(Employee emp) {
+    public boolean joinShop(Employee emp) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/join/shop", emp, ResultTO.class);
-        if (result.isSuccess())
-            return result.getResult().toString();
-        else
-            return null;
+        return result.isSuccess();
     }
 
     public String bindShop(Employee emp) {
