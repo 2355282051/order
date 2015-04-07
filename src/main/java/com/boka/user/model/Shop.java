@@ -21,6 +21,8 @@ public class Shop {
     private int s3Status;
     //连锁URL
     private String chainUrl;
+    //连锁名称
+    private String chainName;
     // 创建人
     private String creator;
     // 管理人
@@ -134,5 +136,13 @@ public class Shop {
 
     public void setCatalogs(List<Catalog> catalogs) {
         this.catalogs = catalogs;
+    }
+
+    public String getChainName() {
+        return chainName;
+    }
+
+    public void setChainName(String chainName) {
+        this.chainName = chainName;
     }
 }
