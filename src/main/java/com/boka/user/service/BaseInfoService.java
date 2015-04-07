@@ -217,6 +217,9 @@ public class BaseInfoService {
             user.getShop().setAdmin(user.getShop().getCreator());
             shop = shopService.addShop(user.getShop());
             bean.setShop(shop);
+            bean.setName(user.getName());
+            bean.setRealName(user.getRealName());
+            bean.setSex(user.getSex());
             //同步老系统
             String empSerial = desktopService.regShop(bean);
             bean.setEmpSerial(empSerial);
@@ -318,8 +321,6 @@ public class BaseInfoService {
         result.setAdminStatus(bean.getAdminStatus());
         result.setShop(bean.getShop());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
-        //同步老版本登陆
-        desktopService.login(bean);
         return result;
     }
 

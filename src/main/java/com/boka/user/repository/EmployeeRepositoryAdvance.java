@@ -8,5 +8,5 @@ public interface EmployeeRepositoryAdvance {
 
     public void updateRefuse(String id);
 
-    public void updateAccept(String id);
+    public void updateAccept(Employee emp);
 }

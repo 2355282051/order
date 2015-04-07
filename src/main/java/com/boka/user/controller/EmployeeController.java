@@ -33,7 +33,7 @@ public class EmployeeController {
     private AuthUtil authUtil;
 
     @RequestMapping(value = "/{product}/shop/accept/{status}", method = RequestMethod.POST)
-    public ResultTO shopAccept(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user, @PathVariable("status") int status) {
+    public ResultTO shopAccept(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user, @PathVariable("status") String status) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -43,7 +43,7 @@ public class EmployeeController {
             if(Assert.isNull(user.getProduct())) {
                 user.setProduct(product);
             }
-            if (status == StatusConstant.TRUE) {
+            if ("1".equals(status)) {
                 employeeService.acceptByShop(user);
             }else {
                 employeeService.refuseByShop(user);

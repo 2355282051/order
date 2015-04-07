@@ -1,6 +1,7 @@
 package com.boka.user.dto;
 
 import com.boka.user.model.Location;
+import com.boka.user.model.Profession;
 import com.boka.user.model.Region;
 import com.boka.user.model.Shop;
 
@@ -65,6 +66,15 @@ public class UserTO {
 
     // 员工序列号
     private String empSerial;
+
+    // 接受加入状态
+    private int acceptStatus;
+
+    // 月薪
+    private Double salary;
+
+    //职业
+    private Profession profession;
 
     public String getId() {
         return id;
@@ -256,5 +266,29 @@ public class UserTO {
 
     public void setEmpSerial(String empSerial) {
         this.empSerial = empSerial;
+    }
+
+    public int getAcceptStatus() {
+        return acceptStatus;
+    }
+
+    public void setAcceptStatus(int acceptStatus) {
+        this.acceptStatus = acceptStatus;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public Profession getProfession() {
+        return profession;
+    }
+
+    public void setProfession(Profession profession) {
+        this.profession = profession;
     }
 }

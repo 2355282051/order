@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Employee extends Designer {
 
     //职业
-    private int profession;
+    private Profession profession;
     //真实姓名
     private String realName;
     //管理员状态
@@ -18,17 +18,19 @@ public class Employee extends Designer {
     private int acceptStatus;
     // 员工序列号
     private String empSerial;
+    // 月薪
+    private Double salary;
 
     public Employee() {
         product = ProductType.FZONE;
         regProduct = ProductType.DESKTOP;
     }
 
-    public int getProfession() {
+    public Profession getProfession() {
         return profession;
     }
 
-    public void setProfession(int profession) {
+    public void setProfession(Profession profession) {
         this.profession = profession;
     }
 
@@ -70,5 +72,13 @@ public class Employee extends Designer {
 
     public void setEmpSerial(String empSerial) {
         this.empSerial = empSerial;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
 }
