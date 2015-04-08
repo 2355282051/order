@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.List;
+
 public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
 
 	@Autowired
@@ -55,5 +57,15 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     public Employee findByEmpIdAndShop(String shopId, String empId) {
         Query query = new Query(Criteria.where("shop._id").is(shopId).and("empId").is(empId));
         return ops.findOne(query, Employee.class);
+    }
+
+    @Override
+    public List<Employee> findByShopAndProfession(String id, String pid) {
+        Criteria criteria = Criteria.where("shop._id").is(id);
+        if (!pid.equals("-1")) {
+            criteria.and("profession._id").is(pid);
+        }
+        Query query = new Query(criteria);
+        return ops.find(query, Employee.class);
     }
 }

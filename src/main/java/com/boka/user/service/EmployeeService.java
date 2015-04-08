@@ -9,6 +9,8 @@ import com.boka.user.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("employeeService")
 public class EmployeeService {
 
@@ -52,5 +54,9 @@ public class EmployeeService {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
 
         employeeRepository.updateRefuse(user.getId());
+    }
+
+    public List<Employee> getShopEmployee(String id, String pid) {
+        return employeeRepository.findByShopAndProfession(id, pid);
     }
 }

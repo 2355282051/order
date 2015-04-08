@@ -61,4 +61,21 @@ public class EmployeeController {
         return result;
     }
 
+    @RequestMapping(value = "/employee/shop/{id}/get/p/{pid}", method = RequestMethod.GET)
+    public ResultTO getShopEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("pid") String pid) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+            result.setResult(employeeService.getShopEmployee(id, pid));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "获取门店的员工信息,{},{},{}", userId, deviceId, id);
+        return result;
+    }
+
 }

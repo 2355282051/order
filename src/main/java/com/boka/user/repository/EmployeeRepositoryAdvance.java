@@ -2,6 +2,8 @@ package com.boka.user.repository;
 
 import com.boka.user.model.Employee;
 
+import java.util.List;
+
 public interface EmployeeRepositoryAdvance {
 
 	public Employee findByMobile(String mobile, String product);
@@ -11,4 +13,6 @@ public interface EmployeeRepositoryAdvance {
     public void updateAccept(Employee emp);
 
     public Employee findByEmpIdAndShop(String id, String empId);
+
+    public List<Employee> findByShopAndProfession(String id, String pid);
 }
