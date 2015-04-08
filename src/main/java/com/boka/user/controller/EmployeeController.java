@@ -62,7 +62,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/employee/shop/{id}/get/p/{pid}", method = RequestMethod.GET)
-    public ResultTO getShopEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("pid") String pid) {
+    public ResultTO getShopEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("pid") String pid, String keyword) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -70,7 +70,7 @@ public class EmployeeController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             userId = map.get("userId");
-            result.setResult(employeeService.getShopEmployee(id, pid));
+            result.setResult(employeeService.getShopEmployee(id, pid, keyword));
         } catch (Exception e) {
             e.printStackTrace();
         }

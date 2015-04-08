@@ -1,5 +1,6 @@
 package com.boka.user.repository.impl;
 
+import com.boka.common.util.Assert;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.model.Employee;
 import com.boka.user.repository.EmployeeRepositoryAdvance;
@@ -60,12 +61,15 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     }
 
     @Override
-    public List<Employee> findByShopAndProfession(String id, String pid) {
+    public List<Employee> findByShopAndProfession(String id, String pid, String keyword) {
         Criteria criteria = Criteria.where("shop._id").is(id);
         if (!pid.equals("-1")) {
             criteria.and("profession._id").is(pid);
         }
         Query query = new Query(criteria);
+        if (Assert.isNotNull(keyword)) {
+            query.addCriteria(Criteria.where("name").regex(keyword, "i").orOperator(Criteria.where("empId").regex(keyword, "i")));
+        }
         return ops.find(query, Employee.class);
     }
 }

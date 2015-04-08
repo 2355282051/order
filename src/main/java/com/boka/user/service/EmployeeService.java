@@ -56,7 +56,7 @@ public class EmployeeService {
         employeeRepository.updateRefuse(user.getId());
     }
 
-    public List<Employee> getShopEmployee(String id, String pid) {
-        return employeeRepository.findByShopAndProfession(id, pid);
+    public List<Employee> getShopEmployee(String id, String pid, String keyword) {
+        return employeeRepository.findByShopAndProfession(id, pid, keyword);
     }
 }
