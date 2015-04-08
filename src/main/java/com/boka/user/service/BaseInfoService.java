@@ -204,6 +204,10 @@ public class BaseInfoService {
             shop = shopService.getShop(user.getShop().getId());
             user.setAdminStatus(StatusConstant.TRUE);
             shop.setAdmin(user.getShop().getAdmin());
+            bean.setShop(shop);
+            bean.setName(user.getName());
+            bean.setRealName(user.getRealName());
+            bean.setSex(user.getSex());
             //同步老系统
             String empSerial = desktopService.bindShop(bean);
             bean.setEmpSerial(empSerial);
