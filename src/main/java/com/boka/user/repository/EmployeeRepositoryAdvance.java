@@ -9,4 +9,6 @@ public interface EmployeeRepositoryAdvance {
     public void updateRefuse(String id);
 
     public void updateAccept(Employee emp);
+
+    public Employee findByEmpIdAndShop(String id, String empId);
 }

@@ -33,6 +33,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
         query.fields().include("password");
         query.fields().include("resetStatus");
         query.fields().include("empSerial");
+        query.fields().include("empId");
 		return ops.findOne(query, Employee.class);
 	}
 
@@ -46,7 +47,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     @Override
     public void updateAccept(Employee emp) {
         Query query = new Query(Criteria.where("_id").is(emp.getId()));
-        Update update = new Update().set("acceptStatus",1).set("empId", emp.getEmpId()).set("salary", emp.getSalary()).set("avatar", emp.getAvatar()).set("profession", emp.getProfession());
+        Update update = new Update().set("acceptStatus",1).set("empId", emp.getEmpId()).set("salary", emp.getSalary()).set("avatar", emp.getAvatar()).set("profession", emp.getProfession()).set("empSerial", emp.getEmpSerial());
         ops.updateFirst(query,update,Employee.class);
+    }
+
+    @Override
+    public Employee findByEmpIdAndShop(String shopId, String empId) {
+        Query query = new Query(Criteria.where("shop._id").is(shopId).and("empId").is(empId));
+        return ops.findOne(query, Employee.class);
     }
 }

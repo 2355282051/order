@@ -59,9 +59,12 @@ public class DesktopService {
             return null;
     }
 
-    public boolean acceptByShop(Employee emp) {
+    public String acceptByShop(Employee emp) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/accept/shop", emp, ResultTO.class);
-        return result.isSuccess();
+        if (result.isSuccess())
+            return result.getResult().toString();
+        else
+            return null;
     }
 
     public boolean refuseByShop(Employee emp) {
