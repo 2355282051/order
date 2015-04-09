@@ -341,7 +341,4 @@ public class BaseInfoController {
         return result;
     }
 
-
-
-
 }

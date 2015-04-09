@@ -65,7 +65,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/desktop/shop/{id}/get/p/{pid}", method = RequestMethod.GET)
-    public ResultTO getShopEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("pid") String pid, String keyword) {
+    public ResultTO getShopEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("pid") String pid, String keyword, int page) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         String userId = null;
@@ -73,8 +73,10 @@ public class EmployeeController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             userId = map.get("userId");
-            result.setResult(employeeService.getShopEmployee(id, pid, keyword));
+            result.setResult(employeeService.getShopEmployee(id, pid, keyword, page));
         } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
             e.printStackTrace();
         }
         LogUtil.action(ServiceType.USER, "获取门店的员工信息,{},{},{}", userId, deviceId, id);
@@ -105,7 +107,58 @@ public class EmployeeController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户编辑,{},{},{}", userId, deviceId, ProductType.DESKTOP);
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/employee/get/{id}", method = RequestMethod.GET)
+    public ResultTO getEmployeeInfo(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(employeeService.getEmployeeInfo(id));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/shop/{id}/accept/{status}/get", method = RequestMethod.GET)
+    public ResultTO getShopAcceptEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("status") String status) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(employeeService.getShopAcceptEmployee(id, status));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/employee/{id}/leave", method = RequestMethod.GET)
+    public ResultTO employeeLeave(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            employeeService.employeeLeave(id);
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/employee/add", method = RequestMethod.POST)
+    public ResultTO addEmployee(HttpServletRequest request, @RequestBody Employee emp) {
+        ResultTO result = new ResultTO();
+        try {
+            employeeService.addEmployee(emp);
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
         return result;
     }
 

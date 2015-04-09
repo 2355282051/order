@@ -71,4 +71,12 @@ public class DesktopService {
         ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/refuse/shop", emp, ResultTO.class);
         return result.isSuccess();
     }
+
+    public String addUser(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/add/user", emp, ResultTO.class);
+        if (result.isSuccess())
+            return result.getResult().toString();
+        else
+            return null;
+    }
 }

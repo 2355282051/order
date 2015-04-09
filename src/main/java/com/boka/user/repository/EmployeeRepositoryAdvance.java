@@ -14,5 +14,7 @@ public interface EmployeeRepositoryAdvance {
 
     public Employee findByEmpIdAndShop(String id, String empId);
 
-    public List<Employee> findByShopAndProfession(String id, String pid, String keyword);
+    public List<Employee> findByShopAndProfession(String id, String pid, String keyword, int page);
+
+    public List<Employee> findByShopAndAccept(String id, String status);
 }

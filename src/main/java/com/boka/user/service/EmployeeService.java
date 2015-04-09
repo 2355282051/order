@@ -2,6 +2,7 @@ package com.boka.user.service;
 
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
+import com.boka.common.util.Assert;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
 import com.boka.user.repository.BaseInfoRepository;
@@ -56,8 +57,8 @@ public class EmployeeService {
         employeeRepository.updateRefuse(user.getId());
     }
 
-    public List<Employee> getShopEmployee(String id, String pid, String keyword) {
-        return employeeRepository.findByShopAndProfession(id, pid, keyword);
+    public List<Employee> getShopEmployee(String id, String pid, String keyword, int page) {
+        return employeeRepository.findByShopAndProfession(id, pid, keyword, page);
     }
 
     public void edit(Employee emp) {
@@ -103,5 +104,34 @@ public class EmployeeService {
         }
 
         employeeRepository.save(bean);
+
+        //TODO 同步老系统
+
+    }
+
+    public Employee getEmployeeInfo(String id) {
+        Employee bean = employeeRepository.findOne(id);
+        if (bean == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        return bean;
+    }
+
+    public List<Employee> getShopAcceptEmployee(String id, String status) {
+        return employeeRepository.findByShopAndAccept(id, status);
+    }
+
+    public void employeeLeave(String id) {
+        employeeRepository.updateRefuse(id);
+        //TODO 同步老系统
+    }
+
+    public void addEmployee(Employee emp) {
+        String id = desktopService.addUser(emp);
+        if (Assert.isNull(id)) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        emp.setId(id);
+        employeeRepository.save(emp);
     }
 }

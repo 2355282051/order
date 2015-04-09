@@ -1,10 +1,13 @@
 package com.boka.user.repository.impl;
 
+import com.boka.common.constant.PageConstant;
 import com.boka.common.util.Assert;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.model.Employee;
 import com.boka.user.repository.EmployeeRepositoryAdvance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -43,7 +46,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     @Override
     public void updateRefuse(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update().set("acceptStatus",0).set("shop", null);
+        Update update = new Update().set("acceptStatus",0).set("shop", null).set("empId", null).set("empSerial", null).set("salary", null).set("acceptStatus", 0).set("adminStatus", 0);
         ops.updateFirst(query,update,Employee.class);
     }
 
@@ -61,15 +64,23 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     }
 
     @Override
-    public List<Employee> findByShopAndProfession(String id, String pid, String keyword) {
+    public List<Employee> findByShopAndProfession(String id, String pid, String keyword, int page) {
         Criteria criteria = Criteria.where("shop._id").is(id);
         if (!pid.equals("-1")) {
             criteria.and("profession._id").is(pid);
         }
         Query query = new Query(criteria);
         if (Assert.isNotNull(keyword)) {
-            query.addCriteria(Criteria.where("name").regex(keyword, "i").orOperator(Criteria.where("empId").regex(keyword, "i")));
+            query.addCriteria(Criteria.where("realName").regex(keyword, "i"));
         }
+        Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
+        query.with(pageable);
+        return ops.find(query, Employee.class);
+    }
+
+    @Override
+    public List<Employee> findByShopAndAccept(String id, String status) {
+        Query query = new Query(Criteria.where("shop._id").is(id).and("acceptStatus").is(status));
         return ops.find(query, Employee.class);
     }
 }
