@@ -11,11 +11,11 @@ public class ReserveInfo {
     //预约结束时间
     private Date endTime;
     //预约间隔
-    private int interval;
+    private Integer interval;
     //最少提前几天预约
-    private int inAdvanceMin;
+    private Integer inAdvanceMin;
     //最多提前几天预约
-    private int inAdvanceMax;
+    private Integer inAdvanceMax;
 
     public Integer getStatus() {
         return status;
@@ -41,27 +41,27 @@ public class ReserveInfo {
         this.endTime = endTime;
     }
 
-    public int getInterval() {
+    public Integer getInterval() {
         return interval;
     }
 
-    public void setInterval(int interval) {
+    public void setInterval(Integer interval) {
         this.interval = interval;
     }
 
-    public int getInAdvanceMin() {
+    public Integer getInAdvanceMin() {
         return inAdvanceMin;
     }
 
-    public void setInAdvanceMin(int inAdvanceMin) {
+    public void setInAdvanceMin(Integer inAdvanceMin) {
         this.inAdvanceMin = inAdvanceMin;
     }
 
-    public int getInAdvanceMax() {
+    public Integer getInAdvanceMax() {
         return inAdvanceMax;
     }
 
-    public void setInAdvanceMax(int inAdvanceMax) {
+    public void setInAdvanceMax(Integer inAdvanceMax) {
         this.inAdvanceMax = inAdvanceMax;
     }
 }

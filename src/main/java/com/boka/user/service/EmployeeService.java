@@ -59,4 +59,49 @@ public class EmployeeService {
     public List<Employee> getShopEmployee(String id, String pid, String keyword) {
         return employeeRepository.findByShopAndProfession(id, pid, keyword);
     }
+
+    public void edit(Employee emp) {
+        Employee bean = employeeRepository.findOne(emp.getId());
+        if (bean == null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        if(emp.getName() != null) {
+            bean.setName(emp.getName());
+        }
+        if(emp.getEmpId() != null) {
+            bean.setEmpId(emp.getEmpId());
+        }
+        if(emp.getRealName() != null) {
+            bean.setRealName(emp.getRealName());
+        }
+        if(emp.getProfession() != null) {
+            bean.setProfession(emp.getProfession());
+        }
+        if(emp.getSalary() != null) {
+            bean.setSalary(emp.getSalary());
+        }
+        if(emp.getSex() != 0) {
+            bean.setSex(emp.getSex());
+        }
+        if(emp.getAvatar() != null) {
+            bean.setAvatar(emp.getAvatar());
+        }
+        if(emp.getAvatar() != null) {
+            bean.setAvatar(emp.getAvatar());
+        }
+        if (emp.getReserveInfo() != null && emp.getReserveInfo().getStatus() != null) {
+            bean.getReserveInfo().setStatus(emp.getReserveInfo().getStatus());
+        }
+        if (emp.getReserveInfo() != null && emp.getReserveInfo().getStartTime() != null) {
+            bean.getReserveInfo().setStartTime(emp.getReserveInfo().getStartTime());
+        }
+        if (emp.getReserveInfo() != null && emp.getReserveInfo().getEndTime() != null) {
+            bean.getReserveInfo().setEndTime(emp.getReserveInfo().getEndTime());
+        }
+        if (emp.getReserveInfo() != null && emp.getReserveInfo().getInterval() != null && emp.getReserveInfo().getInterval() != 0) {
+            bean.getReserveInfo().setInterval(emp.getReserveInfo().getInterval());
+        }
+
+        employeeRepository.save(bean);
+    }
 }
