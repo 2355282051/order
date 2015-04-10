@@ -255,6 +255,24 @@ public class BaseInfoService {
         bean.setUpdateDate(Calendar.getInstance().getTime());
         bean.setLastLoginDate(bean.getCreateDate());
         bean.setLoc(user.getLoc());
+        ReserveInfo reserveInfo = new ReserveInfo();
+        reserveInfo.setStatus(1);
+        Calendar start = Calendar.getInstance();
+        start.set(Calendar.HOUR_OF_DAY, 10);
+        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setStartTime(start.getTime());
+        Calendar end = Calendar.getInstance();
+        end.set(Calendar.HOUR_OF_DAY, 22);
+        end.set(Calendar.MINUTE, 0);
+        end.set(Calendar.SECOND, 0);
+        end.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setEndTime(end.getTime());
+        reserveInfo.setInterval(30);
+        reserveInfo.setInAdvanceMin(0);
+        reserveInfo.setInAdvanceMax(10);
+        bean.setReserveInfo(reserveInfo);
         if(Assert.isNotNull(bean.getMobile())) {
             bean.setActivatedStatus(StatusConstant.activated);
         }

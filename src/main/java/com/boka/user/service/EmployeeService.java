@@ -3,9 +3,12 @@ package com.boka.user.service;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.Assert;
+import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
+import com.boka.user.model.EmployeeLeave;
 import com.boka.user.repository.BaseInfoRepository;
+import com.boka.user.repository.EmployeeLeaveRepository;
 import com.boka.user.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,9 @@ public class EmployeeService {
 
     @Autowired
     private EmployeeRepository employeeRepository;
+
+    @Autowired
+    private EmployeeLeaveRepository employeeLeaveRepository;
 
     @Autowired
     private DesktopService desktopService;
@@ -125,16 +131,33 @@ public class EmployeeService {
 
     public void employeeLeave(String id) {
         Employee emp = employeeRepository.findOne(id);
+        EmployeeLeave empLeave = employeeLeaveRepository.findByShopAndEmp(emp.getShop().getId(), id);
+        if (empLeave != null) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
         desktopService.leave(emp);
         employeeRepository.updateRefuse(id);
+        empLeave = new EmployeeLeave();
+        empLeave.setShop(emp.getShop());
+        empLeave.setEmp(emp);
+        employeeLeaveRepository.save(empLeave);
     }
 
     public void addEmployee(Employee emp) {
+        emp.setAcceptStatus(StatusConstant.TRUE);
         String id = desktopService.addUser(emp);
         if (Assert.isNull(id)) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         emp.setId(id);
         employeeRepository.save(emp);
+    }
+
+    public EmployeeLeave getEmployeeLeave(String id) {
+        return employeeLeaveRepository.findOne(id);
+    }
+
+    public List<EmployeeLeave> getEmployeeLeaveList(String id, String keyword, int page) {
+        return employeeLeaveRepository.findByShop(id, keyword, page);
     }
 }

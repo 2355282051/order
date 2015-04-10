@@ -162,4 +162,30 @@ public class EmployeeController {
         return result;
     }
 
+    @RequestMapping(value = "/desktop/employee/{id}/leave/get", method = RequestMethod.GET)
+    public ResultTO getEmployeeLeave(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(employeeService.getEmployeeLeave(id));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/shop/{id}/employee/leave/list/get", method = RequestMethod.GET)
+    public ResultTO getEmployeeLeaveList(HttpServletRequest request, @PathVariable("id") String id, int page, String keyword) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(employeeService.getEmployeeLeaveList(id, keyword, page));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }
