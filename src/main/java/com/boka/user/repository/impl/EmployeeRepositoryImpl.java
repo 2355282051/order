@@ -46,7 +46,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     @Override
     public void updateRefuse(String id) {
         Query query = new Query(Criteria.where("_id").is(id));
-        Update update = new Update().set("acceptStatus",0).set("shop", null).set("empId", null).set("empSerial", null).set("salary", null).set("acceptStatus", 0).set("adminStatus", 0);
+        Update update = new Update().set("acceptStatus",0).set("shop", null).set("empId", null).set("empSerial", null).set("salary", null).set("acceptStatus", 0).set("adminStatus", 0).set("applyDate", null);
         ops.updateFirst(query,update,Employee.class);
     }
 

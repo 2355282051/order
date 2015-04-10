@@ -3,6 +3,8 @@ package com.boka.user.model;
 import com.boka.common.constant.ProductType;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "user_info")
 public class Employee extends Designer {
 
@@ -20,6 +22,8 @@ public class Employee extends Designer {
     private String empSerial;
     // 月薪
     private Double salary;
+    // 申请加入门店时间
+    private Date applyDate;
 
     public Employee() {
         product = ProductType.FZONE;
@@ -80,5 +84,13 @@ public class Employee extends Designer {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    public Date getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(Date applyDate) {
+        this.applyDate = applyDate;
     }
 }

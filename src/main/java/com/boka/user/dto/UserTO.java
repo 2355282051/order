@@ -76,6 +76,9 @@ public class UserTO {
     //职业
     private Profession profession;
 
+    //最后登录时间
+    private Date lastLoginDate;
+
     public String getId() {
         return id;
     }
@@ -290,5 +293,13 @@ public class UserTO {
 
     public void setProfession(Profession profession) {
         this.profession = profession;
+    }
+
+    public Date getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
     }
 }

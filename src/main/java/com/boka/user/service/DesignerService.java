@@ -136,10 +136,7 @@ public class DesignerService {
                 }
             }
         }else {
-            result = desktopService.getDesigner(id);
-            if (result == null || result.size() == 0) {
-                result = designerRepository.findByShop(id);
-            }
+            result = designerRepository.findByShop(id);
             List<String> ids = new ArrayList<>();
             if (result != null && result.size() != 0) {
                 for (Designer d : result) {

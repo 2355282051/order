@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
+import java.util.Date;
 
 @Service
 public class BaseInfoService {
@@ -203,7 +204,7 @@ public class BaseInfoService {
             //认领门店
             shop = shopService.getShop(user.getShop().getId());
             user.setAdminStatus(StatusConstant.TRUE);
-            user.setAcceptStatus(StatusConstant.TRUE);
+            bean.setAcceptStatus(StatusConstant.TRUE);
             shop.setAdmin(user.getShop().getAdmin());
             bean.setShop(shop);
             bean.setName(user.getName());
@@ -221,7 +222,7 @@ public class BaseInfoService {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
             user.getShop().setAdmin(user.getShop().getCreator());
-            user.setAcceptStatus(StatusConstant.TRUE);
+            bean.setAcceptStatus(StatusConstant.TRUE);
             shop = shopService.addShop(user.getShop());
             bean.setShop(shop);
             bean.setName(user.getName());
@@ -237,6 +238,7 @@ public class BaseInfoService {
             bean.setName(user.getName());
             bean.setRealName(user.getRealName());
             bean.setSex(user.getSex());
+            bean.setApplyDate(new Date());
             //同步老系统
             if (!desktopService.joinShop(bean)) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
@@ -335,6 +337,7 @@ public class BaseInfoService {
         result.setAdminStatus(bean.getAdminStatus());
         result.setShop(bean.getShop());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
+        result.setLastLoginDate(bean.getLastLoginDate());
         return result;
     }
 
