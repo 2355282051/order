@@ -103,9 +103,11 @@ public class EmployeeService {
             bean.getReserveInfo().setInterval(emp.getReserveInfo().getInterval());
         }
 
-        employeeRepository.save(bean);
+        if (!desktopService.editUser(bean)) {
+            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
 
-        //TODO 同步老系统
+        employeeRepository.save(bean);
 
     }
 
@@ -122,8 +124,9 @@ public class EmployeeService {
     }
 
     public void employeeLeave(String id) {
+        Employee emp = employeeRepository.findOne(id);
+        desktopService.leave(emp);
         employeeRepository.updateRefuse(id);
-        //TODO 同步老系统
     }
 
     public void addEmployee(Employee emp) {

@@ -79,4 +79,14 @@ public class DesktopService {
         else
             return null;
     }
+
+    public boolean editUser(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/edit/user", emp, ResultTO.class);
+        return result.isSuccess();
+    }
+
+    public boolean leave(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/employee/leave", emp, ResultTO.class);
+        return result.isSuccess();
+    }
 }

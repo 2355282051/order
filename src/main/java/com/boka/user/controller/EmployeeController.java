@@ -136,7 +136,7 @@ public class EmployeeController {
         return result;
     }
 
-    @RequestMapping(value = "/desktop/employee/{id}/leave", method = RequestMethod.GET)
+    @RequestMapping(value = "/desktop/employee/{id}/leave", method = RequestMethod.POST)
     public ResultTO employeeLeave(HttpServletRequest request, @PathVariable("id") String id) {
         ResultTO result = new ResultTO();
         try {
