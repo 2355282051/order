@@ -203,6 +203,7 @@ public class BaseInfoService {
             //认领门店
             shop = shopService.getShop(user.getShop().getId());
             user.setAdminStatus(StatusConstant.TRUE);
+            user.setAcceptStatus(StatusConstant.TRUE);
             shop.setAdmin(user.getShop().getAdmin());
             bean.setShop(shop);
             bean.setName(user.getName());
@@ -220,6 +221,7 @@ public class BaseInfoService {
             //注册门店
             user.setAdminStatus(StatusConstant.TRUE);
             user.getShop().setAdmin(user.getShop().getCreator());
+            user.setAcceptStatus(StatusConstant.TRUE);
             shop = shopService.addShop(user.getShop());
             bean.setShop(shop);
             bean.setName(user.getName());

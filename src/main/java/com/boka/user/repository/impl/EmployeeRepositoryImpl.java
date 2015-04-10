@@ -65,7 +65,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
 
     @Override
     public List<Employee> findByShopAndProfession(String id, String pid, String keyword, int page) {
-        Criteria criteria = Criteria.where("shop._id").is(id);
+        Criteria criteria = Criteria.where("shop._id").is(id).and("acceptStatus").ne(StatusConstant.FALSE);
         if (!pid.equals("-1")) {
             criteria.and("profession._id").is(pid);
         }
@@ -79,7 +79,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     }
 
     @Override
-    public List<Employee> findByShopAndAccept(String id, String status) {
+    public List<Employee> findByShopAndAccept(String id, int status) {
         Query query = new Query(Criteria.where("shop._id").is(id).and("acceptStatus").is(status));
         return ops.find(query, Employee.class);
     }

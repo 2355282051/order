@@ -124,7 +124,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/desktop/shop/{id}/accept/{status}/get", method = RequestMethod.GET)
-    public ResultTO getShopAcceptEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("status") String status) {
+    public ResultTO getShopAcceptEmployee(HttpServletRequest request, @PathVariable("id") String id, @PathVariable("status") int status) {
         ResultTO result = new ResultTO();
         try {
             result.setResult(employeeService.getShopAcceptEmployee(id, status));

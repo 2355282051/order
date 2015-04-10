@@ -119,7 +119,7 @@ public class EmployeeService {
         return bean;
     }
 
-    public List<Employee> getShopAcceptEmployee(String id, String status) {
+    public List<Employee> getShopAcceptEmployee(String id, int status) {
         return employeeRepository.findByShopAndAccept(id, status);
     }
 
