@@ -95,8 +95,7 @@ public class EmployeeController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            emp.setProduct(ProductType.DESKTOP);
-            emp.setId(userId);
+            emp.setProduct(ProductType.FZONE);
             employeeService.edit(emp);
         } catch (AuthException ae) {
             result.setCode(403);
@@ -157,6 +156,7 @@ public class EmployeeController {
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
+            result.setMsg(e.getMessage());
             e.printStackTrace();
         }
         return result;

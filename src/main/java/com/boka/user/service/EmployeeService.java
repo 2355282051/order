@@ -1,5 +1,6 @@
 package com.boka.user.service;
 
+import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.Assert;
@@ -7,12 +8,16 @@ import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
 import com.boka.user.model.EmployeeLeave;
+import com.boka.user.model.ReserveInfo;
+import com.boka.user.model.Shop;
 import com.boka.user.repository.BaseInfoRepository;
 import com.boka.user.repository.EmployeeLeaveRepository;
 import com.boka.user.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service("employeeService")
@@ -26,6 +31,9 @@ public class EmployeeService {
 
     @Autowired
     private DesktopService desktopService;
+
+    @Autowired
+    private ShopService shopService;
 
     public void acceptByShop(UserTO user) {
         Employee emp = employeeRepository.findOne(user.getId());
@@ -144,12 +152,57 @@ public class EmployeeService {
     }
 
     public void addEmployee(Employee emp) {
+        //判断员工工号是否存在
+        if(employeeRepository.findByEmpIdAndShop(emp.getShop().getId(), emp.getEmpId()) != null) {
+            throw new CommonException(ExceptionCode.EMPID_EXISTS);
+        }
+
+        //如果手机号已存在,则更新归属,如果已绑过门店,则返回提示
+        Employee bean = employeeRepository.findByMobile(emp.getMobile(), ProductType.FZONE);
+        if (bean != null) {
+            if (bean.getShop() != null && Assert.isNotNull(bean.getShop().getId())) {
+                throw new CommonException(ExceptionCode.EMP_BINDED);
+            }
+            Shop shop = shopService.getShop(emp.getShop().getId());
+            emp.setShop(shop);
+            bean.setShop(shop);
+            bean.setRealName(emp.getRealName());
+            bean.setEmpId(emp.getEmpId());
+            bean.setSalary(emp.getSalary());
+            bean.setProfession(emp.getProfession());
+            bean.setAcceptStatus(StatusConstant.TRUE);
+            bean.setApplyDate(new Date());
+            //同步老系统
+            String id = desktopService.addUser(emp);
+            emp.setId(id);
+            employeeRepository.save(bean);
+            return;
+        }
+
         emp.setAcceptStatus(StatusConstant.TRUE);
         String id = desktopService.addUser(emp);
         if (Assert.isNull(id)) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         emp.setId(id);
+        ReserveInfo reserveInfo = new ReserveInfo();
+        reserveInfo.setStatus(1);
+        Calendar start = Calendar.getInstance();
+        start.set(Calendar.HOUR_OF_DAY, 10);
+        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.SECOND, 0);
+        start.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setStartTime(start.getTime());
+        Calendar end = Calendar.getInstance();
+        end.set(Calendar.HOUR_OF_DAY, 22);
+        end.set(Calendar.MINUTE, 0);
+        end.set(Calendar.SECOND, 0);
+        end.set(Calendar.MILLISECOND, 0);
+        reserveInfo.setEndTime(end.getTime());
+        reserveInfo.setInterval(30);
+        reserveInfo.setInAdvanceMin(0);
+        reserveInfo.setInAdvanceMax(10);
+        emp.setReserveInfo(reserveInfo);
         employeeRepository.save(emp);
     }
 
