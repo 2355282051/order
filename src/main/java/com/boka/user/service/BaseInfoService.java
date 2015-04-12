@@ -319,6 +319,7 @@ public class BaseInfoService {
         result.setName(bean.getName());
         result.setSex(bean.getSex());
         result.setExpireDate(bean.getExpireDate());
+        result.setLastLoginDate(bean.getLastLoginDate());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
     }
