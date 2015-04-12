@@ -4,6 +4,7 @@ import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.Assert;
+import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
@@ -13,6 +14,7 @@ import com.boka.user.model.Shop;
 import com.boka.user.repository.BaseInfoRepository;
 import com.boka.user.repository.EmployeeLeaveRepository;
 import com.boka.user.repository.EmployeeRepository;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -185,6 +187,9 @@ public class EmployeeService {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         emp.setId(id);
+        emp.setSalt(RandomUtil.randomSalt());
+        String secretPassword = DigestUtils.md5Hex(emp.getSalt() + emp.getMobile());
+        emp.setPassword(secretPassword);
         ReserveInfo reserveInfo = new ReserveInfo();
         reserveInfo.setStatus(1);
         Calendar start = Calendar.getInstance();
