@@ -505,15 +505,15 @@ public class BaseInfoService {
     }
 
     public void forgetPassword(UserTO user) throws CommonException {
-        //如果是靓丽前台,则查询博卡账户
-        if (user.getProduct().equals(ProductType.DESKTOP)) {
-            user.setProduct(ProductType.FZONE);
-        }
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
         }
 
+        //如果是靓丽前台,则查询博卡账户
+        if (user.getProduct().equals(ProductType.DESKTOP)) {
+            user.setProduct(ProductType.FZONE);
+        }
         User bean = baseInfoRepository.findByMobile(user.getMobile(), user.getProduct());
         if (bean == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
