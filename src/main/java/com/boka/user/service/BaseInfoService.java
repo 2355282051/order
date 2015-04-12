@@ -354,6 +354,7 @@ public class BaseInfoService {
         result.setEmpId(bean.getEmpId());
         result.setExpireDate(bean.getExpireDate());
         result.setAdminStatus(bean.getAdminStatus());
+        result.setResetStatus(bean.getResetStatus());
         result.setShop(bean.getShop());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         result.setLastLoginDate(bean.getLastLoginDate());

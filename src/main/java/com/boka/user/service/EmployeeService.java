@@ -203,6 +203,7 @@ public class EmployeeService {
         reserveInfo.setInAdvanceMin(0);
         reserveInfo.setInAdvanceMax(10);
         emp.setReserveInfo(reserveInfo);
+        emp.setResetStatus(1);
         employeeRepository.save(emp);
     }
 
