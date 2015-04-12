@@ -56,6 +56,9 @@ public class User {
 
     private Date expireDate; // 会员失效时间
 
+    //重置密码状态
+    private Integer resetStatus;
+
     public String getId() {
         return id;
     }
@@ -226,5 +229,13 @@ public class User {
 
     public void setExpireDate(Date expireDate) {
         this.expireDate = expireDate;
+    }
+
+    public Integer getResetStatus() {
+        return resetStatus;
+    }
+
+    public void setResetStatus(Integer resetStatus) {
+        this.resetStatus = resetStatus;
     }
 }

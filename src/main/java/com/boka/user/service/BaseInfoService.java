@@ -505,6 +505,10 @@ public class BaseInfoService {
     }
 
     public void forgetPassword(UserTO user) throws CommonException {
+        //如果是靓丽前台,则查询博卡账户
+        if (user.getProduct().equals(ProductType.DESKTOP)) {
+            user.setProduct(ProductType.FZONE);
+        }
         //验证码检验
         if (!authUtil.authMobile(user.getMobile(), user.getAuthcode(), user.getProduct())) {
             throw new CommonException(ExceptionCode.MOBILE_AUTH_FAILD);
@@ -515,6 +519,7 @@ public class BaseInfoService {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
         if(user.getPassword() != null) {
+            bean.setResetStatus(0);
             bean.setUpdateDate(Calendar.getInstance().getTime());
             //MD5加盐
             bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
