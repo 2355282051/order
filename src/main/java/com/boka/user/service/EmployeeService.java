@@ -197,9 +197,7 @@ public class EmployeeService {
             }
             //同步老系统
             Employee item = desktopService.addUser(emp);
-            emp.setId(bean.getId());
-            emp.setEmpSerial(item.getEmpSerial());
-            System.out.println(JSON.toJSONString(item));
+            bean.setEmpSerial(item.getEmpSerial());
             employeeRepository.save(bean);
             return;
         }
