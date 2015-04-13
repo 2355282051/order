@@ -8,6 +8,7 @@ import com.boka.user.repository.EmployeeRepositoryAdvance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -74,7 +75,9 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
             query.addCriteria(Criteria.where("realName").regex(keyword, "i"));
         }
         Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
-        query.with(pageable);
+        Sort.Order order = new Sort.Order(Sort.Direction.DESC, "createDate");
+        Sort sort = new Sort(order);
+        query.with(pageable).with(sort);
         return ops.find(query, Employee.class);
     }
 
