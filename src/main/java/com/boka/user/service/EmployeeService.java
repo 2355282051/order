@@ -195,9 +195,9 @@ public class EmployeeService {
                 bean.setReserveInfo(reserveInfo);
             }
             //同步老系统
-            String empSerial = desktopService.bindShop(emp);
+            Employee item = desktopService.addUser(emp);
             emp.setId(bean.getId());
-            emp.setEmpSerial(empSerial);
+            emp.setEmpSerial(item.getEmpSerial());
             employeeRepository.save(bean);
             return;
         }
