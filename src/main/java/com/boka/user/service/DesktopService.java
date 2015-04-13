@@ -72,10 +72,10 @@ public class DesktopService {
         return result.isSuccess();
     }
 
-    public String addUser(Employee emp) {
+    public Employee addUser(Employee emp) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/add/user", emp, ResultTO.class);
         if (result.isSuccess())
-            return result.getResult().toString();
+            return JSON.parseObject(result.getResult().toString(), Employee.class);
         else
             return null;
     }

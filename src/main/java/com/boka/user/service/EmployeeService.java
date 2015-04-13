@@ -175,18 +175,20 @@ public class EmployeeService {
             bean.setAcceptStatus(StatusConstant.TRUE);
             bean.setApplyDate(new Date());
             //同步老系统
-            String id = desktopService.addUser(emp);
-            emp.setId(id);
+            String empSerial = desktopService.bindShop(emp);
+            emp.setId(bean.getId());
+            emp.setEmpSerial(empSerial);
             employeeRepository.save(bean);
             return;
         }
 
         emp.setAcceptStatus(StatusConstant.TRUE);
-        String id = desktopService.addUser(emp);
-        if (Assert.isNull(id)) {
+        Employee item = desktopService.addUser(emp);
+        if (Assert.isNull(item.getId()) || Assert.isNull(item.getEmpSerial())) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
-        emp.setId(id);
+        emp.setId(item.getId());
+        emp.setEmpSerial(item.getEmpSerial());
         emp.setSalt(RandomUtil.randomSalt());
         String secretPassword = DigestUtils.md5Hex(emp.getSalt() + emp.getMobile());
         emp.setPassword(secretPassword);
