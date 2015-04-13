@@ -41,6 +41,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
         query.fields().include("resetStatus");
         query.fields().include("empSerial");
         query.fields().include("empId");
+        query.fields().include("lastLoginDate");
 		return ops.findOne(query, Employee.class);
 	}
 
