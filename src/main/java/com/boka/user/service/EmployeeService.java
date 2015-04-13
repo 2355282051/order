@@ -1,5 +1,6 @@
 package com.boka.user.service;
 
+import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -198,6 +199,7 @@ public class EmployeeService {
             Employee item = desktopService.addUser(emp);
             emp.setId(bean.getId());
             emp.setEmpSerial(item.getEmpSerial());
+            System.out.println(JSON.toJSONString(item));
             employeeRepository.save(bean);
             return;
         }
