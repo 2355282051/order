@@ -11,6 +11,9 @@
   <listener>
      <listener-class>com.boka.user.listener.InitConfigListener</listener-class>
   </listener>
+  <listener>
+     <listener-class>com.boka.user.listener.SyncListener</listener-class>
+  </listener>
   <filter>
     <filter-name>Set Character Encoding</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
