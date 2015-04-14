@@ -250,7 +250,8 @@ public class EmployeeService {
         item.setResetStatus(0);
         item.setUpdateDate(Calendar.getInstance().getTime());
         //MD5加盐
-        item.setPassword(DigestUtils.md5Hex(RandomUtil.randomSalt() + emp.getPassword()));
+        item.setSalt(RandomUtil.randomSalt());
+        item.setPassword(DigestUtils.md5Hex(item.getSalt() + emp.getPassword()));
         employeeRepository.save(item);
     }
 }
