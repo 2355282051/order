@@ -231,7 +231,6 @@ public class BaseInfoService {
             //同步老系统
             String empSerial = desktopService.regShop(bean);
             bean.setEmpSerial(empSerial);
-            System.out.println(JSON.toJSONString(bean));
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
@@ -277,8 +276,9 @@ public class BaseInfoService {
         if(Assert.isNotNull(bean.getMobile())) {
             bean.setActivatedStatus(StatusConstant.activated);
         }
-        System.out.println("new"+JSON.toJSONString(bean));
         employeeRepository.save(bean);
+        Employee test = employeeRepository.findOne(bean.getId());
+        JSON.toJSONString("test:"+test);
 
         UserTO result = new UserTO();
         result.setId(bean.getId());
