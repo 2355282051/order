@@ -277,8 +277,6 @@ public class BaseInfoService {
             bean.setActivatedStatus(StatusConstant.activated);
         }
         employeeRepository.save(bean);
-        Employee test = employeeRepository.findOne(bean.getId());
-        System.out.println(JSON.toJSONString(test));
 
         UserTO result = new UserTO();
         result.setId(bean.getId());
