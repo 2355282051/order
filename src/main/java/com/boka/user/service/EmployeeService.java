@@ -263,9 +263,5 @@ public class EmployeeService {
         return employeeRepository.findManagerByShop(id);
     }
 
-    public void test() {
-        Employee emp = employeeRepository.findOne("122892");
-        emp.setAcceptStatus(StatusConstant.TRUE);
-        employeeRepository.save(emp);
-    }
+
 }

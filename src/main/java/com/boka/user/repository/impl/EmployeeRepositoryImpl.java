@@ -25,23 +25,6 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
 	@Override
 	public Employee findByMobile(String mobile, String product) {
 		Query query = new Query(Criteria.where("mobile").is(mobile).and("product").is(product).and("activatedStatus").gte(StatusConstant.inactive));
-		//设置显示字段
-		query.fields().include("id");
-		query.fields().include("avatar");
-		query.fields().include("activatedStatus");
-		query.fields().include("mobile");
-		query.fields().include("name");
-		query.fields().include("sex");
-		query.fields().include("expireDate");
-		query.fields().include("adminStatus");
-		query.fields().include("shop.id");
-		query.fields().include("shop.name");
-        query.fields().include("salt");
-        query.fields().include("password");
-        query.fields().include("resetStatus");
-        query.fields().include("empSerial");
-        query.fields().include("empId");
-        query.fields().include("lastLoginDate");
 		return ops.findOne(query, Employee.class);
 	}
 
