@@ -277,6 +277,7 @@ public class BaseInfoService {
         if(Assert.isNotNull(bean.getMobile())) {
             bean.setActivatedStatus(StatusConstant.activated);
         }
+        System.out.println("new"+JSON.toJSONString(bean));
         employeeRepository.save(bean);
 
         UserTO result = new UserTO();
