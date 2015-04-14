@@ -188,4 +188,20 @@ public class EmployeeController {
         return result;
     }
 
+    @RequestMapping(value = "/desktop/reset/password", method = RequestMethod.POST)
+    public ResultTO getEmployeeLeaveList(HttpServletRequest request, Employee emp) {
+        ResultTO result = new ResultTO();
+        try {
+            Map<String, String> map = authUtil.auth(request);
+            String userId = map.get("userId");
+            emp.setId(userId);
+            employeeService.resetPassword(emp);
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 }

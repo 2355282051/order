@@ -241,4 +241,16 @@ public class EmployeeService {
     public List<EmployeeLeave> getEmployeeLeaveList(String id, String keyword, int page) {
         return employeeLeaveRepository.findByShop(id, keyword, page);
     }
+
+    public void resetPassword(Employee emp) {
+        Employee item = employeeRepository.findOne(emp.getId());
+        if(item == null) {
+            throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
+        }
+        item.setResetStatus(0);
+        item.setUpdateDate(Calendar.getInstance().getTime());
+        //MD5加盐
+        item.setPassword(DigestUtils.md5Hex(RandomUtil.randomSalt() + emp.getPassword()));
+        employeeRepository.save(item);
+    }
 }
