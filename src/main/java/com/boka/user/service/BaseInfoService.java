@@ -278,7 +278,7 @@ public class BaseInfoService {
         }
         employeeRepository.save(bean);
         Employee test = employeeRepository.findOne(bean.getId());
-        JSON.toJSONString("test:"+test);
+        System.out.println(JSON.toJSONString(test));
 
         UserTO result = new UserTO();
         result.setId(bean.getId());
