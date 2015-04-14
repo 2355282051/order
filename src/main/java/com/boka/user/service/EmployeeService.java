@@ -160,13 +160,13 @@ public class EmployeeService {
             throw new CommonException(ExceptionCode.EMPID_EXISTS);
         }
 
+        Shop shop = shopService.getShop(emp.getShop().getId());
         //如果手机号已存在,则更新归属,如果已绑过门店,则返回提示
         Employee bean = employeeRepository.findByMobile(emp.getMobile(), ProductType.FZONE);
         if (bean != null) {
             if (bean.getShop() != null && Assert.isNotNull(bean.getShop().getId())) {
                 throw new CommonException(ExceptionCode.EMP_BINDED);
             }
-            Shop shop = shopService.getShop(emp.getShop().getId());
             emp.setShop(shop);
             bean.setShop(shop);
             bean.setRealName(emp.getRealName());
@@ -208,6 +208,7 @@ public class EmployeeService {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         emp.setId(item.getId());
+        emp.setShop(shop);
         emp.setEmpSerial(item.getEmpSerial());
         emp.setSalt(RandomUtil.randomSalt());
         String secretPassword = DigestUtils.md5Hex(emp.getSalt() + emp.getMobile());
