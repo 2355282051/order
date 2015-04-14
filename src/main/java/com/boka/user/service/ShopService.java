@@ -35,7 +35,7 @@ public class ShopService {
     }
 
     public Shop addShop(Shop shop) {
-        ResultTO result = restTemplate.postForObject("http://13312345678/shop/add", shop, ResultTO.class);
+        ResultTO result = restTemplate.postForObject("http://api.bokao2o.com/shop/add", shop, ResultTO.class);
         if (result != null)
             return JSON.parseObject(result.getResult().toString(), Shop.class);
         else
