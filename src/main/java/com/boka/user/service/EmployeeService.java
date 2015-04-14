@@ -252,9 +252,6 @@ public class EmployeeService {
         //MD5加盐
         item.setSalt(RandomUtil.randomSalt());
         item.setPassword(DigestUtils.md5Hex(item.getSalt() + emp.getPassword()));
-        System.out.println(item.getSalt());
-        System.out.println(emp.getPassword());
-        System.out.println(item.getPassword());
         employeeRepository.save(item);
     }
 }

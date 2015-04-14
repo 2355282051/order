@@ -189,7 +189,7 @@ public class EmployeeController {
     }
 
     @RequestMapping(value = "/desktop/reset/password", method = RequestMethod.POST)
-    public ResultTO getEmployeeLeaveList(HttpServletRequest request, Employee emp) {
+    public ResultTO getEmployeeLeaveList(HttpServletRequest request, @RequestBody Employee emp) {
         ResultTO result = new ResultTO();
         try {
             Map<String, String> map = authUtil.auth(request);
