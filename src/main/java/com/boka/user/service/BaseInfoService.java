@@ -231,6 +231,7 @@ public class BaseInfoService {
             //同步老系统
             String empSerial = desktopService.regShop(bean);
             bean.setEmpSerial(empSerial);
+            System.out.println(JSON.toJSONString(bean));
         }else {
             //加入门店
             shop = shopService.getShop(user.getShop().getId());
