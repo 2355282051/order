@@ -199,84 +199,86 @@ public class BaseInfoService {
 
     private UserTO desktopActivate(UserTO user) {
         Employee bean = employeeRepository.findOne(user.getId());
-        Shop shop;
-        if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
-            //认领门店
-            shop = shopService.getShop(user.getShop().getId());
-            user.setAdminStatus(StatusConstant.TRUE);
-            bean.setAcceptStatus(StatusConstant.TRUE);
-            shop.setAdmin(user.getShop().getAdmin());
-            bean.setShop(shop);
-            bean.setName(user.getName());
-            bean.setRealName(user.getRealName());
-            bean.setSex(user.getSex());
-            //同步老系统
-            String empSerial = desktopService.bindShop(bean);
-            bean.setEmpSerial(empSerial);
-            //更新门店管理员信息
-            if (!shopService.updateShopAdmin(shop)) {
-                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-            }
-
-        } else if (user.getShop().getCreator() != null) {
-            //注册门店
-            user.setAdminStatus(StatusConstant.TRUE);
-            user.getShop().setAdmin(user.getShop().getCreator());
-            bean.setAcceptStatus(StatusConstant.TRUE);
-            shop = shopService.addShop(user.getShop());
-            bean.setShop(shop);
-            bean.setName(user.getName());
-            bean.setRealName(user.getRealName());
-            bean.setSex(user.getSex());
-            //同步老系统
-            String empSerial = desktopService.regShop(bean);
-            bean.setEmpSerial(empSerial);
-        }else {
-            //加入门店
-            shop = shopService.getShop(user.getShop().getId());
-            bean.setShop(shop);
-            bean.setName(user.getName());
-            bean.setRealName(user.getRealName());
-            bean.setSex(user.getSex());
-            bean.setApplyDate(new Date());
-            //同步老系统
-            if (!desktopService.joinShop(bean)) {
-                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-            }
-        }
-        if (shop == null) {
-            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
-        }
-        bean.setShop(shop);
-        bean.setName(user.getName());
-        bean.setAvatar(user.getAvatar());
-        bean.setSex(user.getSex());
-        bean.setAdminStatus(user.getAdminStatus());
-        bean.setUpdateDate(Calendar.getInstance().getTime());
-        bean.setLastLoginDate(bean.getCreateDate());
-        bean.setLoc(user.getLoc());
-        ReserveInfo reserveInfo = new ReserveInfo();
-        reserveInfo.setStatus(1);
-        Calendar start = Calendar.getInstance();
-        start.set(Calendar.HOUR_OF_DAY, 10);
-        start.set(Calendar.MINUTE, 0);
-        start.set(Calendar.SECOND, 0);
-        start.set(Calendar.MILLISECOND, 0);
-        reserveInfo.setStartTime(start.getTime());
-        Calendar end = Calendar.getInstance();
-        end.set(Calendar.HOUR_OF_DAY, 22);
-        end.set(Calendar.MINUTE, 0);
-        end.set(Calendar.SECOND, 0);
-        end.set(Calendar.MILLISECOND, 0);
-        reserveInfo.setEndTime(end.getTime());
-        reserveInfo.setInterval(30);
-        reserveInfo.setInAdvanceMin(0);
-        reserveInfo.setInAdvanceMax(10);
-        bean.setReserveInfo(reserveInfo);
-        if(Assert.isNotNull(bean.getMobile())) {
-            bean.setActivatedStatus(StatusConstant.activated);
-        }
+        bean.setAcceptStatus(1);
         employeeRepository.save(bean);
+//        Shop shop;
+//        if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
+//            //认领门店
+//            shop = shopService.getShop(user.getShop().getId());
+//            user.setAdminStatus(StatusConstant.TRUE);
+//            bean.setAcceptStatus(StatusConstant.TRUE);
+//            shop.setAdmin(user.getShop().getAdmin());
+//            bean.setShop(shop);
+//            bean.setName(user.getName());
+//            bean.setRealName(user.getRealName());
+//            bean.setSex(user.getSex());
+//            //同步老系统
+//            String empSerial = desktopService.bindShop(bean);
+//            bean.setEmpSerial(empSerial);
+//            //更新门店管理员信息
+//            if (!shopService.updateShopAdmin(shop)) {
+//                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+//            }
+//
+//        } else if (user.getShop().getCreator() != null) {
+//            //注册门店
+//            user.setAdminStatus(StatusConstant.TRUE);
+//            user.getShop().setAdmin(user.getShop().getCreator());
+//            bean.setAcceptStatus(StatusConstant.TRUE);
+//            shop = shopService.addShop(user.getShop());
+//            bean.setShop(shop);
+//            bean.setName(user.getName());
+//            bean.setRealName(user.getRealName());
+//            bean.setSex(user.getSex());
+//            //同步老系统
+//            String empSerial = desktopService.regShop(bean);
+//            bean.setEmpSerial(empSerial);
+//        }else {
+//            //加入门店
+//            shop = shopService.getShop(user.getShop().getId());
+//            bean.setShop(shop);
+//            bean.setName(user.getName());
+//            bean.setRealName(user.getRealName());
+//            bean.setSex(user.getSex());
+//            bean.setApplyDate(new Date());
+//            //同步老系统
+//            if (!desktopService.joinShop(bean)) {
+//                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+//            }
+//        }
+//        if (shop == null) {
+//            throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+//        }
+//        bean.setShop(shop);
+//        bean.setName(user.getName());
+//        bean.setAvatar(user.getAvatar());
+//        bean.setSex(user.getSex());
+//        bean.setAdminStatus(user.getAdminStatus());
+//        bean.setUpdateDate(Calendar.getInstance().getTime());
+//        bean.setLastLoginDate(bean.getCreateDate());
+//        bean.setLoc(user.getLoc());
+//        ReserveInfo reserveInfo = new ReserveInfo();
+//        reserveInfo.setStatus(1);
+//        Calendar start = Calendar.getInstance();
+//        start.set(Calendar.HOUR_OF_DAY, 10);
+//        start.set(Calendar.MINUTE, 0);
+//        start.set(Calendar.SECOND, 0);
+//        start.set(Calendar.MILLISECOND, 0);
+//        reserveInfo.setStartTime(start.getTime());
+//        Calendar end = Calendar.getInstance();
+//        end.set(Calendar.HOUR_OF_DAY, 22);
+//        end.set(Calendar.MINUTE, 0);
+//        end.set(Calendar.SECOND, 0);
+//        end.set(Calendar.MILLISECOND, 0);
+//        reserveInfo.setEndTime(end.getTime());
+//        reserveInfo.setInterval(30);
+//        reserveInfo.setInAdvanceMin(0);
+//        reserveInfo.setInAdvanceMax(10);
+//        bean.setReserveInfo(reserveInfo);
+//        if(Assert.isNotNull(bean.getMobile())) {
+//            bean.setActivatedStatus(StatusConstant.activated);
+//        }
+//        employeeRepository.save(bean);
 
         UserTO result = new UserTO();
         result.setId(bean.getId());
