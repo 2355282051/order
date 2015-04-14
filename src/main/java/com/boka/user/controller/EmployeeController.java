@@ -223,17 +223,4 @@ public class EmployeeController {
         return result;
     }
 
-    @RequestMapping(value = "/desktop/test", method = RequestMethod.GET)
-    public ResultTO test(HttpServletRequest request) {
-        ResultTO result = new ResultTO();
-        try {
-            employeeService.test();
-        } catch (Exception e) {
-            result.setCode(500);
-            result.setSuccess(false);
-            e.printStackTrace();
-        }
-        return result;
-    }
-
 }
