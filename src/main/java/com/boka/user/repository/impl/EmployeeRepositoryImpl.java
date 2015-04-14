@@ -87,4 +87,10 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
         Query query = new Query(Criteria.where("shop._id").is(id).and("acceptStatus").is(status));
         return ops.find(query, Employee.class);
     }
+
+    @Override
+    public List<Employee> findManagerByShop(String id) {
+        Query query = new Query(Criteria.where("shop._id").is(id).and("profession._id").all("12633","12634"));
+        return ops.find(query, Employee.class);
+    }
 }

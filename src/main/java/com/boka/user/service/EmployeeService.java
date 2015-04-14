@@ -257,4 +257,8 @@ public class EmployeeService {
         item.setPassword(DigestUtils.md5Hex(item.getSalt() + emp.getPassword()));
         employeeRepository.save(item);
     }
+
+    public List<Employee> getShopManager(String id) {
+        return employeeRepository.findManagerByShop(id);
+    }
 }
