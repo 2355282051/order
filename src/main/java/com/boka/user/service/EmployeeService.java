@@ -247,6 +247,9 @@ public class EmployeeService {
         if(item == null) {
             throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
         }
+        if (!desktopService.resetPassword(emp)) {
+            throw new CommonException(ExceptionCode.USER_NOT_EXISTS);
+        }
         item.setResetStatus(0);
         item.setUpdateDate(Calendar.getInstance().getTime());
         //MD5加盐

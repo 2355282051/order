@@ -1,12 +1,9 @@
 package com.boka.user.service;
 
 import com.alibaba.fastjson.JSON;
-import com.boka.common.constant.Constant;
 import com.boka.common.dto.ResultTO;
-import com.boka.user.dto.UserTO;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Employee;
-import com.boka.user.model.Shop;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -87,6 +84,11 @@ public class DesktopService {
 
     public boolean leave(Employee emp) {
         ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/employee/leave", emp, ResultTO.class);
+        return result.isSuccess();
+    }
+
+    public boolean resetPassword(Employee emp) {
+        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reset/password", emp, ResultTO.class);
         return result.isSuccess();
     }
 }
