@@ -340,6 +340,8 @@ public class BaseInfoService {
         } else if (!DigestUtils.md5Hex(bean.getSalt() + user.getPassword()).equals(bean.getPassword())) {
             throw new LoginException(ExceptionCode.PASSWORD_ERROR);
         }
+        bean.setLastLoginDate(new Date());
+        employeeRepository.save(bean);
 
         UserTO result = new UserTO();
         result.setId(bean.getId());

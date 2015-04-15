@@ -33,6 +33,8 @@ public class Shop {
     private String phone;
     //类型
     private List<Catalog> catalogs;
+    //位置
+    private Location loc;
 
     public String getCreator() {
         return creator;
@@ -144,5 +146,13 @@ public class Shop {
 
     public void setChainName(String chainName) {
         this.chainName = chainName;
+    }
+
+    public Location getLoc() {
+        return loc;
+    }
+
+    public void setLoc(Location loc) {
+        this.loc = loc;
     }
 }

@@ -83,6 +83,25 @@ public class EmployeeController {
         return result;
     }
 
+    @RequestMapping(value = "/desktop/shop/{id}/manager/get", method = RequestMethod.GET)
+    public ResultTO getShopManager(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        String userId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            userId = map.get("userId");
+            result.setResult(employeeService.getShopManager(id));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "获取门店的店长经理信息,{},{},{}", userId, deviceId, id);
+        return result;
+    }
+
     @RequestMapping(value = "/desktop/employee/edit", method = RequestMethod.POST)
     public ResultTO editUser(HttpServletRequest request,@RequestBody Employee emp) {
         ResultTO result = new ResultTO();
@@ -180,6 +199,22 @@ public class EmployeeController {
         ResultTO result = new ResultTO();
         try {
             result.setResult(employeeService.getEmployeeLeaveList(id, keyword, page));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/desktop/reset/password", method = RequestMethod.POST)
+    public ResultTO getEmployeeLeaveList(HttpServletRequest request, @RequestBody Employee emp) {
+        ResultTO result = new ResultTO();
+        try {
+            Map<String, String> map = authUtil.auth(request);
+            String userId = map.get("userId");
+            emp.setId(userId);
+            employeeService.resetPassword(emp);
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
