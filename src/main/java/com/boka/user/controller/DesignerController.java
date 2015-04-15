@@ -155,4 +155,25 @@ public class DesignerController {
         return result;
     }
 
+
+    @RequestMapping(value="/designer/inc/{id}/fans",method=RequestMethod.POST)
+    public ResultTO incFansCount(HttpServletRequest request, @PathVariable("id") String id) {
+        ResultTO result = new ResultTO();
+        try {
+            authUtil.preAuth(request);
+            designerService.incFansCount(id);
+        } catch (AuthException ae) {
+            result.setCode(403);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+
 }

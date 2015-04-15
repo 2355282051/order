@@ -168,6 +168,10 @@ public class DesignerService {
         designerRepository.incReserveCount(id);
     }
 
+    public void incFansCount(String id) {
+        designerRepository.incFansCount(id);
+    }
+
     public void syncDesktopDesigner(Designer designer) {
         Designer item = designerRepository.findOne(designer.getId());
         if (item == null)
