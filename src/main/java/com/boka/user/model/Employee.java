@@ -32,7 +32,7 @@ public class Employee extends Designer {
     @Override
     public void setAvatar(String avatar) {
         if (avatar != null && avatar.indexOf("http") == -1) {
-            this.avatar = URLConstant.FZONE_HEADER_URL + avatar;
+            this.avatar = URLConstant.HEADER_URL + avatar;
         } else {
             this.avatar = avatar;
         }
