@@ -20,4 +20,6 @@ public interface DesignerRepositoryAdvance {
 	public void incReserveCount(String id);
 
 	public List<Designer> findByIds(List<String> ids);
+
+	public void incFansCount(String id);
 }

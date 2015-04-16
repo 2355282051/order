@@ -155,4 +155,11 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		Query query = new Query(Criteria.where("_id").in(ids));
 		return ops.find(query, Designer.class);
 	}
+
+	@Override
+	public void incFansCount(String id) {
+		Query query = new Query(Criteria.where("_id").is(id));
+		Update update = new Update().inc("fansCount", 1);
+		ops.updateFirst(query, update, Designer.class);
+	}
 }
