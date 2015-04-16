@@ -22,7 +22,7 @@ public class User {
     //密码
     private String password;
     //头像
-    private String avatar;
+    protected String avatar;
     //创建时间
     private Date createDate;
     //更新时间
