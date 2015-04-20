@@ -60,6 +60,26 @@ public class DesignerTO {
     private String signature;
     // 评论
     private List<CommentTO> comments;
+    //产品
+    private String product;
+    //注册产品
+    private String regProduct;
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public String getRegProduct() {
+        return regProduct;
+    }
+
+    public void setRegProduct(String regProduct) {
+        this.regProduct = regProduct;
+    }
 
     public String getEmpId() {
         return empId;
@@ -112,6 +132,8 @@ public class DesignerTO {
         this.commentCount = bean.getCommentCount();
         this.likeCount = bean.getLikeCount();
         this.signature = bean.getSignature();
+        this.product = bean.getProduct();
+        this.regProduct = bean.getRegProduct();
     }
 
     public String getId() {
