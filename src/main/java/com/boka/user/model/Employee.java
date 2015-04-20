@@ -1,6 +1,7 @@
 package com.boka.user.model;
 
 import com.boka.common.constant.ProductType;
+import com.boka.common.constant.URLConstant;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -26,6 +27,15 @@ public class Employee extends Designer {
     public Employee() {
         product = ProductType.FZONE;
         regProduct = ProductType.DESKTOP;
+    }
+
+    @Override
+    public void setAvatar(String avatar) {
+        if (avatar != null && avatar.indexOf("http") == -1) {
+            this.avatar = URLConstant.HEADER_URL + avatar;
+        } else {
+            this.avatar = avatar;
+        }
     }
 
     public Profession getProfession() {
