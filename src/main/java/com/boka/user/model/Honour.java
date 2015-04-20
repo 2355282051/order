@@ -17,7 +17,7 @@ public class Honour {
     private String id;
     // 发型师ID
     private String designerId;
-    // 发型量信息
+    // 发型师信息
     private Designer designer;
     // 主题
     private String title;

@@ -75,6 +75,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("reservedCnt");
 		query.fields().include("grade");
 		query.fields().include("haircutPrice");
+		query.fields().include("modelingPrice");
 		query.fields().include("shampooPrice");
 		query.fields().include("commentCount");
 		query.fields().include("likeCount");
@@ -100,6 +101,7 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		query.fields().include("reservedCnt");
 		query.fields().include("grade");
 		query.fields().include("haircutPrice");
+		query.fields().include("modelingPrice");
 		query.fields().include("shampooPrice");
 		query.fields().include("commentCount");
 		query.fields().include("likeCount");
