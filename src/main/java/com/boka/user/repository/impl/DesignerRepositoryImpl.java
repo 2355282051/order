@@ -164,4 +164,11 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		Update update = new Update().inc("fansCount", 1);
 		ops.updateFirst(query, update, Designer.class);
 	}
+
+	@Override
+	public void incLikeCount(String id, int num) {
+		Query query = new Query(Criteria.where("_id").is(id));
+		Update update = new Update().inc("likeCount", num);
+		ops.updateFirst(query, update, Designer.class);
+	}
 }

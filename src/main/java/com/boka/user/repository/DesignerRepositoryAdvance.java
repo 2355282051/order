@@ -22,4 +22,6 @@ public interface DesignerRepositoryAdvance {
 	public List<Designer> findByIds(List<String> ids);
 
 	public void incFansCount(String id);
+
+	public void incLikeCount(String id, int num);
 }
