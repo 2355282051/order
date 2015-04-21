@@ -46,7 +46,9 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 
 	@Override
 	public List<User> findUserByOpenId(String openId) {
-		Query query = new Query(Criteria.where("wechatId").is(openId).orOperator(Criteria.where("qqId").is(openId)));
+		Criteria criteria = new Criteria();
+		criteria.orOperator(Criteria.where("wechatId").is(openId), Criteria.where("qqId").is(openId));
+		Query query = new Query(criteria);
 		return ops.find(query, User.class);
 	}
 }
