@@ -56,6 +56,9 @@ public class DesignerTO {
     private int commentCount;
     //喜欢数
     private int likeCount;
+    // 点过赞
+    private int liked;
+
     // 个性签名
     private String signature;
     // 评论
@@ -310,5 +313,13 @@ public class DesignerTO {
 
     public void setModelingPrice(double modelingPrice) {
         this.modelingPrice = modelingPrice;
+    }
+
+    public int isLiked() {
+        return liked;
+    }
+
+    public void setLiked(int liked) {
+        this.liked = liked;
     }
 }
