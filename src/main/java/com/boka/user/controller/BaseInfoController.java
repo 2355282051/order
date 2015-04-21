@@ -14,6 +14,7 @@ import com.boka.common.util.StringUtils;
 import com.boka.user.dto.PasswordTO;
 import com.boka.common.dto.ResultTO;
 import com.boka.user.dto.UserTO;
+import com.boka.user.model.User;
 import com.boka.user.service.BaseInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -177,7 +178,12 @@ public class BaseInfoController {
     public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
         ResultTO result = new ResultTO();
         try {
-            result.setResult(baseInfoService.getUserById(userId));
+            User user = baseInfoService.getUserById(userId);
+            if(user != null) {
+                result.setResult(true);
+            } else {
+                result.setResult(false);
+            }
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
