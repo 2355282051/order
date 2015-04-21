@@ -172,6 +172,22 @@ public class BaseInfoController {
         return result;
     }
 
+
+    @RequestMapping(value = "/{product}/u/{userId}/checked", method = RequestMethod.GET)
+    public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
+        ResultTO result = new ResultTO();
+        try {
+            result.setResult(baseInfoService.getUserById(userId));
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "检测用户ID是否存在,{},{},{}", userId, product);
+        return result;
+    }
+
+
     @RequestMapping(value = "/{product}/logout", method = RequestMethod.GET)
     public ResultTO logoutUser(HttpServletRequest request, @PathVariable String product) {
         ResultTO result = new ResultTO();
