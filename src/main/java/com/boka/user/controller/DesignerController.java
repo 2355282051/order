@@ -4,6 +4,7 @@ import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
+import com.boka.common.exception.CommonException;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.model.Location;
@@ -97,6 +98,10 @@ public class DesignerController {
         ResultTO result = new ResultTO();
         try {
             result.setResult(designerService.getUserInfo(id, request.getHeader("access_token"), request.getHeader("device_id")));
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+           result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);

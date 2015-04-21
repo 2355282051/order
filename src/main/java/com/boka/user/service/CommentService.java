@@ -26,17 +26,16 @@ public class CommentService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public List<CommentTO> getReserveComment(String designerId, String accessToken, String deviceId) {
-        List<CommentTO> orders = new ArrayList<CommentTO>();
-        ResultTO result = restTemplate.exchange(Constant.RESERVE_URL + "/comment/designer/{designerId}",
+    public int getReserveCommentCnt(String designerId, String accessToken, String deviceId) {
+        ResultTO result = restTemplate.exchange(Constant.RESERVE_URL + "/comment/count/designer/{designerId}",
                 HttpMethod.GET,
                 new HttpEntity<String>(getHttpHeaders(accessToken, deviceId)),
                 ResultTO.class, designerId).getBody();
         logger.info(result);
         if(result != null && result.getCode() == 200) {
-            orders = JSON.parseArray(result.getResult().toString(), CommentTO.class);
+            return Integer.valueOf(result.getResult().toString());
         }
-        return orders;
+        return 0;
     }
 
     private HttpHeaders getHttpHeaders(String accessToken, String deviceId) {

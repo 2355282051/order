@@ -83,14 +83,14 @@ public class DesignerService {
 
         DesignerTO result = new DesignerTO(bean);
         if(accessToken != null) {
-            List<CommentTO> comments = commentService.getReserveComment(designerId, accessToken, deviceId);
-            if(comments != null) {
-                result.setCommentCount(comments.size());
-                result.setComments(comments);
-            } else {
-                result.setCommentCount(0);
-                result.setComments(new ArrayList<CommentTO>());
-            }
+            int designerCommentCnt = commentService.getReserveCommentCnt(designerId, accessToken, deviceId);
+            //if(comments != null) {
+                result.setCommentCount(designerCommentCnt);
+//                result.setComments(comments);
+//            } else {
+//                result.setCommentCount(0);
+//                result.setComments(new ArrayList<CommentTO>());
+//            }
         }
         result.setMobile(bean.getMobile());
         return result;
