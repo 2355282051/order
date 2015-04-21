@@ -99,8 +99,6 @@ public class DesignerController {
         try {
             Map<String, String> map = authUtil.preAuth(request);
             String userId = map.get("userId");
-
-
             result.setResult(designerService.getUserInfo(id, userId, request.getHeader("access_token"), request.getHeader("device_id")));
         } catch (CommonException ce) {
             result.setCode(400);
