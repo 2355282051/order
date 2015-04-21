@@ -2,6 +2,8 @@ package com.boka.user.repository;
 
 import com.boka.user.model.User;
 
+import java.util.List;
+
 public interface BaseInfoRepositoryAdvance {
 
 
@@ -16,5 +18,8 @@ public interface BaseInfoRepositoryAdvance {
      * @param user
      */
     public void updateBindUser(User user);
+
+
+    public List<User> findUserByOpenId(String openId);
 
 }

@@ -1,8 +1,8 @@
 package com.boka.user.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
+import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -10,9 +10,7 @@ import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
-import com.boka.common.util.StringUtils;
 import com.boka.user.dto.PasswordTO;
-import com.boka.common.dto.ResultTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.service.BaseInfoService;
@@ -21,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -178,8 +176,8 @@ public class BaseInfoController {
     public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
         ResultTO result = new ResultTO();
         try {
-            User user = baseInfoService.getUserById(userId);
-            if(user != null) {
+            List<User> users = baseInfoService.getUserByOpenId(userId);
+            if(users != null && users.size() > 0) {
                 result.setResult(true);
             } else {
                 result.setResult(false);

@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BaseInfoService {
@@ -598,6 +599,11 @@ public class BaseInfoService {
 
     public User getUserById(String userId) {
         return baseInfoRepository.findOne(userId);
+    }
+
+
+    public List<User> getUserByOpenId(String openId) {
+        return baseInfoRepository.findUserByOpenId(openId);
     }
 
 
