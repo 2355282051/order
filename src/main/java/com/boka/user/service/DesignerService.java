@@ -6,12 +6,10 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.DistanceUtil;
 import com.boka.user.dto.CommentTO;
 import com.boka.user.dto.DesignerTO;
-import com.boka.user.model.Designer;
-import com.boka.user.model.DesignerStar;
-import com.boka.user.model.Location;
-import com.boka.user.model.Shop;
+import com.boka.user.model.*;
 import com.boka.user.repository.DesignerRepository;
 import com.boka.user.repository.DesignerStarRepository;
+import com.boka.user.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -26,9 +24,10 @@ public class DesignerService {
 
     @Autowired
     private DesignerRepository designerRepository;
-
     @Autowired
     private DesignerStarRepository designerStarRepository;
+    @Autowired
+    private LikeRepository likeRepository;
 
     @Autowired
     private ShopService shopService;
@@ -41,6 +40,9 @@ public class DesignerService {
 
     @Resource
     private CommentService commentService;
+
+
+
 
     public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
         if (loc.getLat() == null || loc.getLng() == null)
@@ -75,7 +77,7 @@ public class DesignerService {
         return result;
     }
 
-    public DesignerTO getUserInfo(String designerId, String accessToken, String deviceId) throws CommonException {
+    public DesignerTO getUserInfo(String designerId, String userId, String accessToken, String deviceId) throws CommonException {
         Designer bean = designerRepository.findOne(designerId);
         if (bean == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
@@ -91,6 +93,13 @@ public class DesignerService {
 //                result.setCommentCount(0);
 //                result.setComments(new ArrayList<CommentTO>());
 //            }
+        }
+
+        if(Assert.isNotNull(userId)) {
+            Like like = likeRepository.findByDesignerIdAndUserId(designerId, userId);
+            if(like != null) {
+                result.setLiked(1);
+            }
         }
         result.setMobile(bean.getMobile());
         return result;

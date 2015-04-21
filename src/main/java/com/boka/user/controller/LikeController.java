@@ -44,6 +44,10 @@ public class LikeController {
             result.setCode(403);
             result.setSuccess(false);
             result.setMsg(ae.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
@@ -70,6 +74,10 @@ public class LikeController {
             result.setCode(403);
             result.setSuccess(false);
             result.setMsg(ae.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
