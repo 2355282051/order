@@ -68,6 +68,10 @@ public class DesignerTO {
     //注册产品
     private String regProduct;
 
+    private int honourStatus; // 是否有风采
+
+    private int workStatus; // 是否有作品
+
     public String getProduct() {
         return product;
     }
@@ -321,5 +325,25 @@ public class DesignerTO {
 
     public void setLiked(int liked) {
         this.liked = liked;
+    }
+
+    public int getLiked() {
+        return liked;
+    }
+
+    public int getHonourStatus() {
+        return honourStatus;
+    }
+
+    public void setHonourStatus(int honourStatus) {
+        this.honourStatus = honourStatus;
+    }
+
+    public int getWorkStatus() {
+        return workStatus;
+    }
+
+    public void setWorkStatus(int workStatus) {
+        this.workStatus = workStatus;
     }
 }
