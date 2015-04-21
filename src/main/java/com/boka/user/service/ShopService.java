@@ -27,7 +27,7 @@ public class ShopService {
     }
 
     public boolean updateShopAdmin(Shop shop) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/update/admin", shop, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.UPDATE_SHOP_ADMIN_URL, shop, ResultTO.class);
         if (result != null)
             return result.isSuccess();
         else
@@ -35,7 +35,7 @@ public class ShopService {
     }
 
     public Shop addShop(Shop shop) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.65/shop/add", shop, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.ADD_SHOP_INFO_URL, shop, ResultTO.class);
         if (result != null)
             return JSON.parseObject(result.getResult().toString(), Shop.class);
         else

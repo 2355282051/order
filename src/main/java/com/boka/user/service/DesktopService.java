@@ -1,6 +1,7 @@
 package com.boka.user.service;
 
 import com.alibaba.fastjson.JSON;
+import com.boka.common.constant.Constant;
 import com.boka.common.dto.ResultTO;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Employee;
@@ -28,7 +29,7 @@ public class DesktopService {
     }
 
     public String regUser(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reg/user", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_REG_USER_URL, emp, ResultTO.class);
         if (result.isSuccess())
             return result.getResult().toString();
         else
@@ -36,12 +37,12 @@ public class DesktopService {
     }
 
     public boolean joinShop(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/join/shop", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_JOIN_SHOP_URL, emp, ResultTO.class);
         return result.isSuccess();
     }
 
     public String bindShop(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/bind/shop", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_BIND_SHOP_URL, emp, ResultTO.class);
         if (result.isSuccess())
             return result.getResult().toString();
         else
@@ -49,7 +50,7 @@ public class DesktopService {
     }
 
     public String regShop(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reg/shop", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_REG_SHOP_URL, emp, ResultTO.class);
         if (result.isSuccess())
             return result.getResult().toString();
         else
@@ -57,7 +58,7 @@ public class DesktopService {
     }
 
     public String acceptByShop(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/accept/shop", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
         if (result.isSuccess())
             return result.getResult().toString();
         else
@@ -65,12 +66,12 @@ public class DesktopService {
     }
 
     public boolean refuseByShop(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/refuse/shop", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_REFUSE_SHOP_URL, emp, ResultTO.class);
         return result.isSuccess();
     }
 
     public Employee addUser(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/add/user", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_ADD_USER_URL, emp, ResultTO.class);
         if (result.isSuccess())
             return JSON.parseObject(result.getResult().toString(), Employee.class);
         else
@@ -78,17 +79,17 @@ public class DesktopService {
     }
 
     public boolean editUser(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/edit/user", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_EDIT_USER_URL, emp, ResultTO.class);
         return result.isSuccess();
     }
 
     public boolean leave(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/employee/leave", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_LEAVE_EMP_URL, emp, ResultTO.class);
         return result.isSuccess();
     }
 
     public boolean resetPassword(Employee emp) {
-        ResultTO result = restTemplate.postForObject("http://192.168.2.66:8080/desktop/sync/reset/password", emp, ResultTO.class);
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_RESET_PWD_URL, emp, ResultTO.class);
         return result.isSuccess();
     }
 }
