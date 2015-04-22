@@ -256,7 +256,7 @@ public class EmployeeService {
         properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
         Producer producer = ONSFactory.createProducer(properties);
         producer.start();
-        Message msg = new Message("queue_sms", "send_sms", JSON.toJSONString(sms).getBytes("UTF-8"));
+        Message msg = new Message("queue_sms", "send", JSON.toJSONString(sms).getBytes("UTF-8"));
         msg.setKey(sms.getPhone());
         SendResult sendResult = producer.send(msg);
         producer.shutdown();
