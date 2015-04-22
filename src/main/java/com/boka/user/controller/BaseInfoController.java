@@ -1,8 +1,8 @@
 package com.boka.user.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
+import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -10,17 +10,16 @@ import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
-import com.boka.common.util.StringUtils;
 import com.boka.user.dto.PasswordTO;
-import com.boka.common.dto.ResultTO;
 import com.boka.user.dto.UserTO;
+import com.boka.user.model.User;
 import com.boka.user.service.BaseInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -171,6 +170,27 @@ public class BaseInfoController {
         LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, product);
         return result;
     }
+
+
+    @RequestMapping(value = "/{product}/u/{userId}/checked", method = RequestMethod.GET)
+    public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
+        ResultTO result = new ResultTO();
+        try {
+            List<User> users = baseInfoService.getUserByOpenId(userId);
+            if(users != null && users.size() > 0) {
+                result.setResult(true);
+            } else {
+                result.setResult(false);
+            }
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "检测用户ID是否存在,{},{},{}", userId, product);
+        return result;
+    }
+
 
     @RequestMapping(value = "/{product}/logout", method = RequestMethod.GET)
     public ResultTO logoutUser(HttpServletRequest request, @PathVariable String product) {

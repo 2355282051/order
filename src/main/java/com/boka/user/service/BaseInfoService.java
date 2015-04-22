@@ -28,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BaseInfoService {
@@ -394,10 +395,14 @@ public class BaseInfoService {
         bean.setLoc(user.getLoc());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
-        // 同步Show用户信息
-        if (!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
-            user.setId(bean.getId());
-            syncUser(user);
+
+
+        if(Assert.isNotNull(user.getName())) {
+            // 同步Show用户信息
+            if (!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
+                user.setId(bean.getId());
+                syncUser(user);
+            }
         }
         // 将新的用户ID绑定到access_token上
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
@@ -594,6 +599,11 @@ public class BaseInfoService {
 
     public User getUserById(String userId) {
         return baseInfoRepository.findOne(userId);
+    }
+
+
+    public List<User> getUserByOpenId(String openId) {
+        return baseInfoRepository.findUserByOpenId(openId);
     }
 
 

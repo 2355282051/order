@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
+import java.util.List;
+
 public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 
 	@Autowired
@@ -39,5 +41,14 @@ public class BaseInfoRepositoryImpl implements BaseInfoRepositoryAdvance {
 		Query query = new Query(Criteria.where("_id").is(new ObjectId(user.getId())));
 		Update update = new Update().set("activatedStatus", user.getActivatedStatus());
 		ops.updateFirst(query, update, User.class);
+	}
+
+
+	@Override
+	public List<User> findUserByOpenId(String openId) {
+		Criteria criteria = new Criteria();
+		criteria.orOperator(Criteria.where("wechatId").is(openId), Criteria.where("qqId").is(openId));
+		Query query = new Query(criteria);
+		return ops.find(query, User.class);
 	}
 }

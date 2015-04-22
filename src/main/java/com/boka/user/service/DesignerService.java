@@ -9,6 +9,7 @@ import com.boka.user.dto.DesignerTO;
 import com.boka.user.model.*;
 import com.boka.user.repository.DesignerRepository;
 import com.boka.user.repository.DesignerStarRepository;
+import com.boka.user.repository.HonourRepository;
 import com.boka.user.repository.LikeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -28,6 +29,8 @@ public class DesignerService {
     private DesignerStarRepository designerStarRepository;
     @Autowired
     private LikeRepository likeRepository;
+    @Autowired
+    private HonourRepository honourRepository;
 
     @Autowired
     private ShopService shopService;
@@ -102,6 +105,12 @@ public class DesignerService {
             }
         }
         result.setMobile(bean.getMobile());
+
+        long honourCount = honourRepository.countHonourByDesigner(designerId);
+
+        if(honourCount > 0) {
+            result.setHonourStatus(1);
+        }
         return result;
     }
 
