@@ -1,17 +1,16 @@
 package com.boka.user.service;
 
 import com.alibaba.fastjson.JSON;
+import com.aliyun.openservices.ons.api.*;
 import com.boka.common.constant.ProductType;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.Assert;
+import com.boka.common.util.RandomGenerateUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
-import com.boka.user.model.Employee;
-import com.boka.user.model.EmployeeLeave;
-import com.boka.user.model.ReserveInfo;
-import com.boka.user.model.Shop;
+import com.boka.user.model.*;
 import com.boka.user.repository.BaseInfoRepository;
 import com.boka.user.repository.EmployeeLeaveRepository;
 import com.boka.user.repository.EmployeeRepository;
@@ -22,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 @Service("employeeService")
 public class EmployeeService {
@@ -154,7 +154,7 @@ public class EmployeeService {
         employeeLeaveRepository.save(empLeave);
     }
 
-    public void addEmployee(Employee emp) {
+    public void addEmployee(Employee emp) throws Exception {
         //判断员工工号是否存在
         if(employeeRepository.findByEmpIdAndShop(emp.getShop().getId(), emp.getEmpId()) != null) {
             throw new CommonException(ExceptionCode.EMPID_EXISTS);
@@ -199,10 +199,18 @@ public class EmployeeService {
             Employee item = desktopService.addUser(emp);
             bean.setEmpSerial(item.getEmpSerial());
             employeeRepository.save(bean);
+            //发短信
+            RequestSms sms = new RequestSms();
+            sms.setContent("您的店长已奖你添加到《靓丽前台》，可使用您的《发界》帐号密码登录，如忘记密码可在靓丽前台选择“忘记密码”。可下载《靓丽前台》客户端登录。");
+            sms.setPhone(emp.getMobile());
+            sms.setDevice_id(emp.getMobile());
+            sendSms(sms);
             return;
         }
 
         emp.setAcceptStatus(StatusConstant.TRUE);
+        String password = RandomGenerateUtil.getRandomS(1, 6);
+        emp.setPassword(password);
         Employee item = desktopService.addUser(emp);
         if (Assert.isNull(item.getId()) || Assert.isNull(item.getEmpSerial())) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
@@ -211,7 +219,7 @@ public class EmployeeService {
         emp.setShop(shop);
         emp.setEmpSerial(item.getEmpSerial());
         emp.setSalt(RandomUtil.randomSalt());
-        String secretPassword = DigestUtils.md5Hex(emp.getSalt() + emp.getMobile());
+        String secretPassword = DigestUtils.md5Hex(emp.getSalt() + emp.getPassword());
         emp.setPassword(secretPassword);
         ReserveInfo reserveInfo = new ReserveInfo();
         reserveInfo.setStatus(1);
@@ -233,6 +241,25 @@ public class EmployeeService {
         emp.setReserveInfo(reserveInfo);
         emp.setResetStatus(1);
         employeeRepository.save(emp);
+        //发短信
+        RequestSms sms = new RequestSms();
+        sms.setContent("您的店长已将你添加到《靓丽前台》，您的岗位："+emp.getProfession().getName()+"。初始密码"+password+"。可下载《靓丽前台》客户端登录。");
+        sms.setDevice_id(emp.getMobile());
+        sms.setPhone(emp.getMobile());
+        sendSms(sms);
+    }
+
+    private void sendSms(RequestSms sms) throws Exception {
+        Properties properties = new Properties();
+        properties.put(PropertyKeyConst.ProducerId, "PID_1772604614-106");
+        properties.put(PropertyKeyConst.AccessKey, "YXax9hijbGKnkmAx");
+        properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
+        Producer producer = ONSFactory.createProducer(properties);
+        producer.start();
+        Message msg = new Message("queue_sms", "send_sms", JSON.toJSONString(sms).getBytes("UTF-8"));
+        msg.setKey(sms.getPhone());
+        SendResult sendResult = producer.send(msg);
+        producer.shutdown();
     }
 
     public EmployeeLeave getEmployeeLeave(String id) {
