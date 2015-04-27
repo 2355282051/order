@@ -415,6 +415,7 @@ public class BaseInfoService {
         result.setSex(bean.getSex());
         result.setQqId(bean.getQqId());
         result.setWechatId(bean.getWechatId());
+        result.setAccess_token(user.getAccess_token());
         return result;
 
     }
