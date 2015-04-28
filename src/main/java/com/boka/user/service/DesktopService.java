@@ -65,13 +65,10 @@ public class DesktopService {
     public String acceptByShop(Employee emp) {
         logger.info("+++++++++++++++" + JSON.toJSON(emp));
         logger.info("+++++++++++++++" + Constant.SYNC_ACCEPT_SHOP_URL);
-        ResponseEntity<ResultTO>  response = restTemplate.postForEntity(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
-        if(response.getStatusCode() == HttpStatus.OK) {
-            ResultTO result = response.getBody();
-            logger.info("###############" + JSON.toJSON(result));
-            if (result.isSuccess() && result.getResult() != null)
-                return result.getResult().toString();
-        }
+        ResultTO result = restTemplate.postForObject(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
+        logger.info("###############" + JSON.toJSON(result));
+        if (result.isSuccess() && result.getResult() != null)
+            return result.getResult().toString();
         return null;
     }
 
