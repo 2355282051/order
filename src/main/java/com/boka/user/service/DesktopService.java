@@ -5,6 +5,7 @@ import com.boka.common.constant.Constant;
 import com.boka.common.dto.ResultTO;
 import com.boka.user.model.Designer;
 import com.boka.user.model.Employee;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,8 @@ import java.util.List;
  */
 @Service
 public class DesktopService {
+
+    private static Logger logger = Logger.getLogger(DesktopService.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -59,7 +62,8 @@ public class DesktopService {
 
     public String acceptByShop(Employee emp) {
         ResultTO result = restTemplate.postForObject(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
-        if (result.isSuccess())
+        logger.info("###############" + JSON.toJSON(result));
+        if (result.isSuccess() && result.getResult() != null)
             return result.getResult().toString();
         else
             return null;
