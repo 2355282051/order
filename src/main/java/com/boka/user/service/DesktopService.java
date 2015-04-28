@@ -63,7 +63,6 @@ public class DesktopService {
     }
 
     public String acceptByShop(Employee emp) {
-        logger.info("+++++++++++++++" + JSON.toJSON(emp));
         logger.info("+++++++++++++++" + Constant.SYNC_ACCEPT_SHOP_URL);
         ResultTO result = restTemplate.postForObject(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
         logger.info("###############" + JSON.toJSON(result));
