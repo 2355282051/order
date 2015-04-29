@@ -401,6 +401,9 @@ public class BaseInfoService {
             bean.setName(user.getName());
             bean.setSex(user.getSex());
         } else {
+            bean.setAvatar(user.getAvatar());
+            bean.setName(user.getName());
+            bean.setSex(user.getSex());
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
         bean.setLoc(user.getLoc());
