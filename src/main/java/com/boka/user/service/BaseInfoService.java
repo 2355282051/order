@@ -1,9 +1,7 @@
 package com.boka.user.service;
 
-import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
-import com.boka.common.constant.URLConstant;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
@@ -13,6 +11,7 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.dto.Device;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +47,9 @@ public class BaseInfoService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Resource
+    private DeviceService deviceService;
 
     @Autowired
     private AuthUtil authUtil;
@@ -320,6 +323,14 @@ public class BaseInfoService {
         result.setName(bean.getName());
         result.setSex(bean.getSex());
         result.setExpireDate(bean.getExpireDate());
+        // FIXME
+        // 临时给iPad会员过期使用，后期可以去掉
+        if(user.getProduct().equals(ProductType.VOLUME)) {
+            Device device = deviceService.getDeviceInfo(deviceId);
+            if(device.getAppVersion().equals("1.3.0") && device.getPhoneType().contains("iPad") || device.getPhoneType().contains("ipad")) {
+                result.setExpireDate(null);
+            }
+        }
         result.setLastLoginDate(bean.getLastLoginDate());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
