@@ -397,15 +397,12 @@ public class BaseInfoService {
             bean.setActivatedStatus(StatusConstant.openauth_inactive);
             bean.setQqId(user.getQqId());
             bean.setWechatId(user.getWechatId());
-            bean.setAvatar(user.getAvatar());
-            bean.setName(user.getName());
-            bean.setSex(user.getSex());
         } else {
-            bean.setAvatar(user.getAvatar());
-            bean.setName(user.getName());
-            bean.setSex(user.getSex());
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
+        bean.setAvatar(user.getAvatar());
+        bean.setName(user.getName());
+        bean.setSex(user.getSex());
         bean.setLoc(user.getLoc());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
