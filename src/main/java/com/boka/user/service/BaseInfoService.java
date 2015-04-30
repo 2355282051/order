@@ -403,17 +403,21 @@ public class BaseInfoService {
         } else {
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
-        bean.setAvatar(user.getAvatar());
-        bean.setName(user.getName());
+        if(Assert.isNotNull(user.getAvatar())){
+            bean.setAvatar(user.getAvatar());
+        }
+        if(Assert.isNotNull(user.getName())) {
+            bean.setName(user.getName());
+        }
         bean.setSex(user.getSex());
         bean.setLoc(user.getLoc());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
 
-        if(Assert.isNotNull(user.getName())) {
-            // 同步Show用户信息
-            syncUser(user);
-        }
+//        if(Assert.isNotNull(user.getName())) {
+//            // 同步Show用户信息
+//            syncUser(user);
+//        }
         // 将新的用户ID绑定到access_token上
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         UserTO result = new UserTO();
