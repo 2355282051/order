@@ -469,11 +469,10 @@ public class BaseInfoService {
             bean.setMobile(user.getMobile());
             bean.setSalt(RandomUtil.randomSalt());
             bean.setActivatedStatus(StatusConstant.activated);
-            //MD5加盐
-            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         }
         bean.setUpdateDate(Calendar.getInstance().getTime());
-
+        //MD5加盐
+        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
         result.setId(bean.getId());
