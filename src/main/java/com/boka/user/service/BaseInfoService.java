@@ -327,7 +327,10 @@ public class BaseInfoService {
         // 临时给iPad会员过期使用，后期可以去掉
         if(user.getProduct().equals(ProductType.VOLUME)) {
             Device device = deviceService.getDeviceInfo(deviceId);
-            if(device.getAppVersion().equals("1.3.0") && device.getPhoneType().contains("iPad") || device.getPhoneType().contains("ipad")) {
+            if(device != null) {
+//                if(device.getAppVersion().equals("1.3.0") && device.getPhoneType().contains("iPad") || device.getPhoneType().contains("ipad")) {
+//                    result.setExpireDate(null);
+//                }
                 result.setExpireDate(null);
             }
         }
