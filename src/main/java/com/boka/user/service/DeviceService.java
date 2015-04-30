@@ -27,7 +27,7 @@ public class DeviceService {
 
     public Device getDeviceInfo(String deviceId) {
         ResultTO result = restTemplate.getForObject(SystemConstant.MESSAGE_URL + "/app/{appName}/d/{deviceId}", ResultTO.class, ProductType.BEAUTY, deviceId);
-        if(result != null && result.getCode() == 200) {
+        if(result != null && result.getCode() == 200 && result.getResult() != null) {
             return JSON.parseObject(result.getResult().toString(), Device.class);
         }
         return null;
