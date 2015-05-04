@@ -13,6 +13,8 @@ public class SystemConstant extends Constant {
 
     public static boolean ONS_STARTED = false;
 
+    public static String MESSAGE_URL="http://192.168.2.65/message";
+
 
     public static void loadConfig() {
         loadCommonConf();
@@ -23,6 +25,11 @@ public class SystemConstant extends Constant {
         if(PropertiesParse.getProperty("ONS_STARTED")!=null){
             SystemConstant.ONS_STARTED= Boolean.parseBoolean(PropertiesParse.getProperty("ONS_STARTED"));
             logger.info("*******Constant.ONS_STARTED:" + SystemConstant.ONS_STARTED);
+        }
+
+        if(PropertiesParse.getProperty("MESSAGE_URL")!=null){
+            SystemConstant.MESSAGE_URL= PropertiesParse.getProperty("MESSAGE_URL");
+            logger.info("*******Constant.MESSAGE_URL:" + SystemConstant.MESSAGE_URL);
         }
     }
 

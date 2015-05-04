@@ -1,9 +1,7 @@
 package com.boka.user.service;
 
-import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.Constant;
 import com.boka.common.constant.ProductType;
-import com.boka.common.constant.URLConstant;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
@@ -13,6 +11,7 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.dto.Device;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
@@ -26,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -47,6 +47,9 @@ public class BaseInfoService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Resource
+    private DeviceService deviceService;
 
     @Autowired
     private AuthUtil authUtil;
@@ -320,6 +323,17 @@ public class BaseInfoService {
         result.setName(bean.getName());
         result.setSex(bean.getSex());
         result.setExpireDate(bean.getExpireDate());
+        // FIXME
+        // 临时给iPad会员过期使用，后期可以去掉
+        if(user.getProduct().equals(ProductType.VOLUME)) {
+            Device device = deviceService.getDeviceInfo(deviceId);
+            if(device != null) {
+//                if(device.getAppVersion().equals("1.3.0") && device.getPhoneType().contains("iPad") || device.getPhoneType().contains("ipad")) {
+//                    result.setExpireDate(null);
+//                }
+                result.setExpireDate(null);
+            }
+        }
         result.setLastLoginDate(bean.getLastLoginDate());
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
@@ -386,24 +400,24 @@ public class BaseInfoService {
             bean.setActivatedStatus(StatusConstant.openauth_inactive);
             bean.setQqId(user.getQqId());
             bean.setWechatId(user.getWechatId());
-            bean.setAvatar(user.getAvatar());
-            bean.setName(user.getName());
-            bean.setSex(user.getSex());
         } else {
             bean.setUpdateDate(Calendar.getInstance().getTime());
         }
+        if(Assert.isNotNull(user.getAvatar())){
+            bean.setAvatar(user.getAvatar());
+        }
+        if(Assert.isNotNull(user.getName())) {
+            bean.setName(user.getName());
+        }
+        bean.setSex(user.getSex());
         bean.setLoc(user.getLoc());
         bean.setLastLoginDate(Calendar.getInstance().getTime());
         bean = baseInfoRepository.save(bean);
 
-
-        if(Assert.isNotNull(user.getName())) {
-            // 同步Show用户信息
-            if (!bean.getAvatar().equals(user.getAvatar()) || bean.getSex() != user.getSex() || !bean.getName().equals(user.getName())) {
-                user.setId(bean.getId());
-                syncUser(user);
-            }
-        }
+//        if(Assert.isNotNull(user.getName())) {
+//            // 同步Show用户信息
+//            syncUser(user);
+//        }
         // 将新的用户ID绑定到access_token上
         authUtil.saveOpenAuthToken(user.getAccess_token(), bean.getId(), deviceId);
         UserTO result = new UserTO();
@@ -415,6 +429,7 @@ public class BaseInfoService {
         result.setSex(bean.getSex());
         result.setQqId(bean.getQqId());
         result.setWechatId(bean.getWechatId());
+        result.setAccess_token(user.getAccess_token());
         return result;
 
     }
@@ -458,11 +473,10 @@ public class BaseInfoService {
             bean.setMobile(user.getMobile());
             bean.setSalt(RandomUtil.randomSalt());
             bean.setActivatedStatus(StatusConstant.activated);
-            //MD5加盐
-            bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         }
         bean.setUpdateDate(Calendar.getInstance().getTime());
-
+        //MD5加盐
+        bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
         baseInfoRepository.save(bean);
         UserTO result = new UserTO();
         result.setId(bean.getId());

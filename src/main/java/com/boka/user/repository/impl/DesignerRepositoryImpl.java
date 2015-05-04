@@ -42,19 +42,24 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 		GeoResults<Designer> list = ops.geoNear(nearQuery, Designer.class);
 		List<Designer> result = new ArrayList<>();
 		for (GeoResult<Designer> item : list) {
-			Designer user = new Designer();
-			user.setId(item.getContent().getId());
-			user.setDistance(item.getDistance().getValue());
-			user.setAvatar(item.getContent().getAvatar());
-			user.setSex(item.getContent().getSex());
-			user.setAddress(item.getContent().getAddress());
-			user.setRegion(item.getContent().getRegion());
-			user.setLevel(item.getContent().getLevel());
-			user.setName(item.getContent().getName());
-			user.setReserveCnt(item.getContent().getReserveCnt());
-			user.setShop(item.getContent().getShop());
-			user.setScore(item.getContent().getScore());
-			result.add(user);
+
+			Designer dbDesigner = item.getContent();
+
+			Designer designer = new Designer();
+			designer.setId(dbDesigner.getId());
+			designer.setDistance(item.getDistance().getValue());
+			designer.setAvatar(dbDesigner.getAvatar());
+			designer.setSex(dbDesigner.getSex());
+			designer.setAddress(dbDesigner.getAddress());
+			designer.setRegion(dbDesigner.getRegion());
+			designer.setLevel(dbDesigner.getLevel());
+			designer.setName(dbDesigner.getName());
+			designer.setReserveCnt(dbDesigner.getReserveCnt());
+			designer.setShop(dbDesigner.getShop());
+			designer.setScore(dbDesigner.getScore());
+			designer.setHaircutPrice(dbDesigner.getHaircutPrice());
+			designer.setModelingPrice(dbDesigner.getModelingPrice());
+			result.add(designer);
 		}
 		return result;
 	}

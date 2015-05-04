@@ -208,14 +208,20 @@ public class DesignerService {
         if (designer.getReserveInfo().getEndTime() != null)
             item.getReserveInfo().setEndTime(designer.getReserveInfo().getEndTime());
 
-        if (designer.getReserveInfo().getInterval() != 0)
+        if (designer.getReserveInfo().getInterval() != 0) {
+
             item.getReserveInfo().setInterval(designer.getReserveInfo().getInterval());
+        }
 
         if (Assert.isNotNull(designer.getEmpId()))
             item.setEmpId(designer.getEmpId());
 
-        if (designer.getShop() != null && Assert.isNotNull(designer.getShop().getId()))
-            item.getShop().setId(designer.getShop().getId());
+        if (designer.getShop() != null)
+            if(item.getShop() != null) {
+                item.getShop().setId(designer.getShop().getId());
+            } else {
+                item.setShop(designer.getShop());
+            }
 
         if (Assert.isNotNull(designer.getName()))
             item.setName(designer.getName());

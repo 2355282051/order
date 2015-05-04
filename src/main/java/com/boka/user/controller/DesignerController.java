@@ -5,6 +5,7 @@ import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
+import com.boka.common.util.AdcodeUtil;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
@@ -38,6 +39,7 @@ public class DesignerController {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
+            city = AdcodeUtil.getCity(city);
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
@@ -60,6 +62,7 @@ public class DesignerController {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
+            city = AdcodeUtil.getCity(city);
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             Location loc = new Location(lat, lng);
@@ -128,6 +131,7 @@ public class DesignerController {
         String deviceId = null;
         String userId = null;
         try {
+            city = AdcodeUtil.getCity(city);
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             userId = map.get("userId");
