@@ -136,8 +136,8 @@ public class EmployeeService {
         return bean;
     }
 
-    public List<Employee> getShopAcceptEmployee(String id, int status) {
-        return employeeRepository.findByShopAndAccept(id, status);
+    public List<Employee> getShopAcceptEmployee(String id, int status, int page) {
+        return employeeRepository.findByShopAndAccept(id, status, page);
     }
 
     public void employeeLeave(String id) {

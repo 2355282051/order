@@ -66,8 +66,10 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
     }
 
     @Override
-    public List<Employee> findByShopAndAccept(String id, int status) {
+    public List<Employee> findByShopAndAccept(String id, int status, int page) {
         Query query = new Query(Criteria.where("shop._id").is(id).and("acceptStatus").is(status));
+        Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
+        query.with(pageable);
         return ops.find(query, Employee.class);
     }
 
