@@ -56,7 +56,8 @@ public class EmployeeRepositoryImpl implements EmployeeRepositoryAdvance {
         }
         Query query = new Query(criteria);
         if (Assert.isNotNull(keyword)) {
-            query.addCriteria(Criteria.where("realName").regex(keyword, "i"));
+            Criteria cr = new Criteria();
+            query.addCriteria(cr.orOperator(Criteria.where("realName").regex(keyword, "i"),Criteria.where("mobile").regex(keyword, "i"),Criteria.where("empId").regex(keyword, "i")));
         }
         Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
         Sort.Order order = new Sort.Order(Sort.Direction.DESC, "createDate");
