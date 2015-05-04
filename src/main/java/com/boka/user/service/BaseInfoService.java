@@ -207,6 +207,9 @@ public class BaseInfoService {
         if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
             //认领门店
             shop = shopService.getShop(user.getShop().getId());
+            if (Assert.isNotNull(shop.getAdmin()) || Assert.isNotNull(bean.getShop().getId())) {
+                throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+            }
             user.setAdminStatus(StatusConstant.TRUE);
             bean.setAcceptStatus(StatusConstant.TRUE);
             shop.setAdmin(user.getShop().getAdmin());
