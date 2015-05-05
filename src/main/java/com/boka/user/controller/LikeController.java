@@ -36,9 +36,12 @@ public class LikeController {
             if (Assert.isNull(designerId)) {
                 throw new CommonException(ExceptionCode.PARAM_NULL);
             }
-            Map<String, String> map = authUtil.auth(request);
+            Map<String, String> map = authUtil.preAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
+            if (Assert.isNull(userId)) {
+                userId = deviceId;
+            }
             likeService.like(designerId, userId);
         } catch (AuthException ae) {
             result.setCode(403);
@@ -66,9 +69,12 @@ public class LikeController {
             if (Assert.isNull(designerId)) {
                 throw new CommonException(ExceptionCode.PARAM_NULL);
             }
-            Map<String, String> map = authUtil.auth(request);
+            Map<String, String> map = authUtil.preAuth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
+            if (Assert.isNull(userId)) {
+                userId = deviceId;
+            }
             likeService.cancelLike(designerId, userId);
         } catch (AuthException ae) {
             result.setCode(403);
