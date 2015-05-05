@@ -1,5 +1,6 @@
 package com.boka.user.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
@@ -118,12 +119,13 @@ public class DesignerController {
         } catch (CommonException ce) {
             result.setCode(400);
             result.setSuccess(false);
-           result.setMsg(ce.getMessage());
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
             e.printStackTrace();
         }
+        System.out.println(JSON.toJSONString(result));
 //        LogUtil.action("获取发型师基本信息,{},{},{}", userId, deviceId, id);
         return result;
     }
