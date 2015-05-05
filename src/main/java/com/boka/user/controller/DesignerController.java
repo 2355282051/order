@@ -111,6 +111,9 @@ public class DesignerController {
             if (Assert.isNotNull(access_token)) {
                 userId = hashOps.get(access_token, "userId");
             }
+            if (Assert.isNull(userId)) {
+                userId = request.getHeader("device_id");
+            }
             result.setResult(designerService.getUserInfo(id, userId, access_token, request.getHeader("device_id")));
         } catch (CommonException ce) {
             result.setCode(400);
