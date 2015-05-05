@@ -125,7 +125,6 @@ public class DesignerController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        System.out.println(JSON.toJSONString(result));
 //        LogUtil.action("获取发型师基本信息,{},{},{}", userId, deviceId, id);
         return result;
     }
