@@ -9,6 +9,7 @@ import com.boka.common.exception.ExceptionCode;
 import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
+import com.boka.common.util.DateUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.Device;
@@ -95,6 +96,9 @@ public class BaseInfoService {
         bean.setInviteCode(user.getInviteCode());
         //MD5加盐
         bean.setPassword(DigestUtils.md5Hex(bean.getSalt() + user.getPassword()));
+        if(bean.getProduct().equals(ProductType.VOLUME)) {
+            bean.setExpireDate(DateUtil.parseDate("2018-01-01"));
+        }
         bean = baseInfoRepository.save(bean);
         user.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         user.setCreateDate(bean.getCreateDate());
