@@ -1,5 +1,6 @@
 package com.boka.user.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
@@ -111,11 +112,14 @@ public class DesignerController {
             if (Assert.isNotNull(access_token)) {
                 userId = hashOps.get(access_token, "userId");
             }
+            if (Assert.isNull(userId)) {
+                userId = request.getHeader("device_id");
+            }
             result.setResult(designerService.getUserInfo(id, userId, access_token, request.getHeader("device_id")));
         } catch (CommonException ce) {
             result.setCode(400);
             result.setSuccess(false);
-           result.setMsg(ce.getMessage());
+            result.setMsg(ce.getMessage());
         } catch (Exception e) {
             result.setCode(500);
             result.setSuccess(false);
