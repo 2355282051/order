@@ -1,19 +1,17 @@
 package com.boka.user.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
+import com.boka.common.services.RedisService;
 import com.boka.common.util.AdcodeUtil;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.model.Location;
 import com.boka.user.service.DesignerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,18 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class DesignerController {
 
-    @Autowired
+    @Resource
     private DesignerService designerService;
-
-    @Autowired
+    @Resource
     private AuthUtil authUtil;
+    @Resource
+    private RedisService redisService;
 
-    @Resource(name = "redisTemplate")
-    private HashOperations<String, String, String> hashOps;
+
 
     @RequestMapping(value = "/designer/near/c/{city}", method = RequestMethod.GET)
     public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
@@ -110,7 +109,7 @@ public class DesignerController {
             String userId = null;
             String access_token = request.getHeader("access_token");
             if (Assert.isNotNull(access_token)) {
-                userId = hashOps.get(access_token, "userId");
+                userId = redisService.hget(access_token, "userId", 0, TimeUnit.DAYS);
             }
             if (Assert.isNull(userId)) {
                 userId = request.getHeader("device_id");

@@ -32,10 +32,13 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 	public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
 		Point point = new Point(loc.getLng(), loc.getLat());
 		NearQuery nearQuery = NearQuery.near(point, Metrics.KILOMETERS);
-		Query query = new Query(Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE));
+		Criteria criteria = Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE).and("workCount").gt(0);
 		if (Assert.isNotNull(keyword)) {
-			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
+			criteria.and("name").regex(keyword, "i");
 		}
+
+		Query query = new Query(criteria);
+
 		nearQuery.query(query);
 		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
 		nearQuery.with(pageable);
@@ -66,10 +69,12 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 
 	@Override
 	public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page) {
-		Query query = new Query(Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE));
+
+		Criteria criteria = Criteria.where("shop.region.city").is(city).and("product").is(ProductType.FZONE);
 		if (Assert.isNotNull(keyword)) {
-			query.addCriteria(Criteria.where("name").regex(keyword, "i"));
+			criteria.and("name").regex(keyword, "i");
 		}
+		Query query = new Query(criteria);
 		query.fields().include("id");
 		query.fields().include("name");
 		query.fields().include("shop.name");
