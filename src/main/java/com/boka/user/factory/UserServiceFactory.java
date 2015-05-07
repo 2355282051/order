@@ -2,6 +2,7 @@ package com.boka.user.factory;
 
 import com.boka.user.service.UserService;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class UserServiceFactory {
 
     public static UserService getService(HttpServletRequest request, String product) {
-        WebApplicationContext context = (WebApplicationContext)request.getSession().getServletContext().getAttribute("WEBAPPLICATIONCONTEXT");
+        WebApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(request.getSession().getServletContext());
         return context.getBean(product+"UserService", UserService.class);
     }
 }
