@@ -12,6 +12,6 @@ public class UserServiceFactory {
 
     public static UserService getService(HttpServletRequest request, String product) {
         WebApplicationContext context = (WebApplicationContext)request.getSession().getServletContext().getAttribute("WEBAPPLICATIONCONTEXT");
-        return context.getBean(product, UserService.class);
+        return context.getBean(product+"UserService", UserService.class);
     }
 }
