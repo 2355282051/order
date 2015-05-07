@@ -13,9 +13,9 @@ import com.boka.user.dto.OrderTO;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.User;
 import com.boka.user.model.VipPack;
-import com.boka.user.service.BaseInfoService;
 import com.boka.user.service.OrderService;
 import com.boka.user.service.VipPackService;
+import com.boka.user.service.impl.BeautyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +28,7 @@ import java.util.Map;
 public class OpenAuthController {
 
     @Autowired
-    private BaseInfoService baseInfoService;
+    private BeautyUserService baseInfoService;
     @Resource
     private OrderService orderService;
     @Resource

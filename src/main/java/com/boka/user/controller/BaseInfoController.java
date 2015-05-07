@@ -29,9 +29,6 @@ public class BaseInfoController {
 
     private static Logger logger = Logger.getLogger(BaseInfoController.class);
 
-//    @Autowired
-//    private BaseInfoService baseInfoService;
-
     @Autowired
     private AuthUtil authUtil;
 

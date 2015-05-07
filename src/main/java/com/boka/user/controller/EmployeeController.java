@@ -5,14 +5,11 @@ import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
-import com.boka.common.exception.LoginException;
 import com.boka.common.util.Assert;
 import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
-import com.boka.user.constant.StatusConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.Employee;
-import com.boka.user.service.BaseInfoService;
 import com.boka.user.service.EmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +22,6 @@ import java.util.Map;
 public class EmployeeController {
 
     private static Logger logger = Logger.getLogger(EmployeeController.class);
-
-    @Autowired
-    private BaseInfoService baseInfoService;
 
     @Autowired
     private EmployeeService employeeService;
