@@ -31,6 +31,7 @@ public class DesktopService {
             return JSON.parseArray(result.getResult().toString(), Designer.class);
         else
             return null;
+
     }
 
     public String regUser(Employee emp) {
@@ -63,9 +64,7 @@ public class DesktopService {
     }
 
     public String acceptByShop(Employee emp) {
-        logger.info("+++++++++++++++" + Constant.SYNC_ACCEPT_SHOP_URL);
         ResultTO result = restTemplate.postForObject(Constant.SYNC_ACCEPT_SHOP_URL, emp, ResultTO.class);
-        logger.info("###############" + JSON.toJSON(result));
         if (result.isSuccess() && result.getResult() != null)
             return result.getResult().toString();
         return null;

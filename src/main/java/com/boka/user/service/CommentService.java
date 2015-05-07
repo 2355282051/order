@@ -31,7 +31,6 @@ public class CommentService {
                 HttpMethod.GET,
                 new HttpEntity<String>(getHttpHeaders(accessToken, deviceId)),
                 ResultTO.class, designerId).getBody();
-        logger.info(result);
         if(result != null && result.getCode() == 200) {
             return Integer.valueOf(result.getResult().toString());
         }

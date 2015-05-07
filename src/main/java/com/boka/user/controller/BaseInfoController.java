@@ -12,8 +12,8 @@ import com.boka.common.util.AuthUtil;
 import com.boka.common.util.LogUtil;
 import com.boka.user.dto.PasswordTO;
 import com.boka.user.dto.UserTO;
+import com.boka.user.factory.UserServiceFactory;
 import com.boka.user.model.User;
-import com.boka.user.service.BaseInfoService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,14 +21,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
-
+/*
+* 用户相关基本操作控制器
+* */
 @RestController
 public class BaseInfoController {
 
     private static Logger logger = Logger.getLogger(BaseInfoController.class);
 
-    @Autowired
-    private BaseInfoService baseInfoService;
+//    @Autowired
+//    private BaseInfoService baseInfoService;
+
     @Autowired
     private AuthUtil authUtil;
 
@@ -42,7 +45,7 @@ public class BaseInfoController {
             if(Assert.isNull(user.getProduct())) {
                 user.setProduct(product);
             }
-            result.setResult(baseInfoService.reg(user, deviceId));
+            result.setResult(UserServiceFactory.getService(request, product).reg(user, deviceId));
         } catch (CommonException ce) {
             result.setCode(500);
             result.setSuccess(false);
@@ -71,7 +74,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(product);
             user.setId(userId);
-            result.setResult(baseInfoService.activate(user));
+            result.setResult(UserServiceFactory.getService(request,product).activate(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -96,7 +99,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.auth(request);
             userId = map.get("userId");
             deviceId = map.get("deviceId");
-            baseInfoService.changePassword(userId, password);
+            UserServiceFactory.getService(request,product).changePassword(userId, password);
             Map<String, String> newAuth = authUtil.changeAuth(request);
             access_token = newAuth.get("access_token");
             result.setResult(access_token);
@@ -131,7 +134,7 @@ public class BaseInfoController {
             deviceId = map.get("deviceId");
             user.setProduct(product);
             user.setId(userId);
-            result.setResult(baseInfoService.edit(user));
+            result.setResult(UserServiceFactory.getService(request,product).edit(user));
         } catch (AuthException ae) {
             result.setCode(403);
             result.setSuccess(false);
@@ -153,7 +156,7 @@ public class BaseInfoController {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
             user.setProduct(product);
-            result.setResult(baseInfoService.login(user, deviceId));
+            result.setResult(UserServiceFactory.getService(request,product).login(user, deviceId));
         } catch (LoginException le) {
             result.setCode(401);
             result.setSuccess(false);
@@ -176,7 +179,7 @@ public class BaseInfoController {
     public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
         ResultTO result = new ResultTO();
         try {
-            List<User> users = baseInfoService.getUserByOpenId(userId);
+            List<User> users = UserServiceFactory.getService(request,product).getUserByOpenId(userId);
             if(users != null && users.size() > 0) {
                 result.setResult(true);
             } else {
@@ -226,7 +229,7 @@ public class BaseInfoController {
             user.setProduct(product);
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
-            result.setResult(baseInfoService.openAuth(user, deviceId));
+            result.setResult(UserServiceFactory.getService(request,product).openAuth(user, deviceId));
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
@@ -257,7 +260,7 @@ public class BaseInfoController {
             user.setProduct(product);
             user.setId(userId);
             user.setAccess_token(request.getHeader("access_token"));
-            result.setResult(baseInfoService.bindMobile(user, deviceId));
+            result.setResult(UserServiceFactory.getService(request,product).bindMobile(user, deviceId));
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
@@ -324,7 +327,7 @@ public class BaseInfoController {
             user.setAuthcode(password.getAuthcode());
             user.setPassword(password.getNewPassword());
             user.setProduct(product);
-            baseInfoService.forgetPassword(user);
+            UserServiceFactory.getService(request,product).forgetPassword(user);
         } catch (AuthException le) {
             result.setCode(403);
             result.setSuccess(false);
