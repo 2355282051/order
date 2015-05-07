@@ -203,6 +203,10 @@ public class BaseInfoService {
 
     private UserTO desktopActivate(UserTO user) {
         Employee bean = employeeRepository.findOne(user.getId());
+        System.out.println(user.getId()+"+");
+        if (bean == null) {
+            System.out.println("wrong");
+        }
         Shop shop;
         if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
             //认领门店
