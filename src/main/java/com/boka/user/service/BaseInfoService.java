@@ -207,15 +207,11 @@ public class BaseInfoService {
 
     private UserTO desktopActivate(UserTO user) {
         Employee bean = employeeRepository.findOne(user.getId());
-        System.out.println(user.getId()+"+");
-        if (bean == null) {
-            System.out.println("wrong");
-        }
         Shop shop;
         if (user.getShop().getCreator() == null && user.getShop().getAdmin() != null) {
             //认领门店
             shop = shopService.getShop(user.getShop().getId());
-            if (Assert.isNotNull(shop.getAdmin()) || Assert.isNotNull(bean.getShop().getId())) {
+            if (Assert.isNotNull(shop.getAdmin()) || (bean.getShop() != null && Assert.isNotNull(bean.getShop().getAdmin()))) {
                 throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
             }
             user.setAdminStatus(StatusConstant.TRUE);
