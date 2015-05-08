@@ -166,7 +166,7 @@ public class DesktopUserService extends UserService {
         if (Assert.isNotNull(shop.getAdmin())) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
-        if (bean.getShop() == null || Assert.isNull(bean.getShop().getId())) {
+        if (user.getShop() == null || Assert.isNull(bean.getShop().getId())) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
         }
         user.setAdminStatus(StatusConstant.TRUE);
