@@ -129,8 +129,8 @@ public class VolumeUserService extends UserService {
         result.setExpireDate(bean.getExpireDate());
         // FIXME
         // 临时给iPad会员过期使用，后期可以去掉
-        Device device = deviceService.getDeviceInfo(deviceId);
-        if(device != null) {
+        Device device = deviceService.getDeviceInfo(ProductType.VOLUME, deviceId);
+        if(device == null) {
             result.setExpireDate(null);
         }
         result.setLastLoginDate(bean.getLastLoginDate());
