@@ -99,32 +99,6 @@ public class DesignerRepositoryImpl implements DesignerRepositoryAdvance {
 	}
 
 	@Override
-	public List<Designer> findCountryDesigners(Location loc, int page) {
-		Query query = new Query(Criteria.where("product").is(ProductType.FZONE));
-		query.fields().include("id");
-		query.fields().include("name");
-		query.fields().include("shop.name");
-		query.fields().include("level");
-		query.fields().include("rank");
-		query.fields().include("score");
-		query.fields().include("avatar");
-		query.fields().include("reservedCnt");
-		query.fields().include("grade");
-		query.fields().include("haircutPrice");
-		query.fields().include("modelingPrice");
-		query.fields().include("shampooPrice");
-		query.fields().include("commentCount");
-		query.fields().include("likeCount");
-		Sort.Order order = new Sort.Order(Sort.Direction.DESC, "level");
-		Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "rank");
-		Sort.Order order2 = new Sort.Order(Sort.Direction.DESC, "score");
-		Sort sort = new Sort(order, order1, order2);
-		Pageable pageable = new PageRequest(page-1, PageConstant.DEFAULT_LIST_SIZE);
-		query.with(pageable).with(sort);
-		return ops.find(query,Designer.class);
-	}
-
-	@Override
 	public List<Designer> findByShop(String id) {
 		Query query = new Query(Criteria.where("product").is(ProductType.FZONE).and("shop._id").is(id));
 		query.fields().include("id");

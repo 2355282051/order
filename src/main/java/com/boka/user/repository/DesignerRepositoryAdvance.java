@@ -11,8 +11,6 @@ public interface DesignerRepositoryAdvance {
 
 	public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page);
 
-	public List<Designer> findCountryDesigners(Location loc, int page);
-
 	public List<Designer> findByShop(String id);
 
 	public List<Designer> findByS3Shop(String custId, String compId);

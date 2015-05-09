@@ -32,8 +32,6 @@ public class DesignerController {
     @Resource
     private RedisService redisService;
 
-
-
     @RequestMapping(value = "/designer/near/c/{city}", method = RequestMethod.GET)
     public ResultTO getNearDesigners(HttpServletRequest request, Double lat, Double lng, int page, @PathVariable("city") String city, String keyword) {
         ResultTO result = new ResultTO();
@@ -77,28 +75,6 @@ public class DesignerController {
             e.printStackTrace();
         }
         LogUtil.action(ServiceType.USER, "获取同城发型师用户,{},{},{},{},{}", city, lat, lng, deviceId, ProductType.BEAUTY);
-        return result;
-    }
-
-    @RequestMapping(value = "/designer/country", method = RequestMethod.GET)
-    public ResultTO getCountryDesigners(HttpServletRequest request, Double lat, Double lng, int page) {
-        ResultTO result = new ResultTO();
-        String deviceId = null;
-        try {
-            Map<String, String> map = authUtil.preAuth(request);
-            deviceId = map.get("deviceId");
-            Location loc = new Location(lat, lng);
-            result.setResult(designerService.findCountyDesigners(loc, page));
-        } catch (AuthException ae) {
-            result.setCode(403);
-            result.setSuccess(false);
-            result.setMsg(ae.getMessage());
-        } catch (Exception e) {
-            result.setCode(500);
-            result.setSuccess(false);
-            e.printStackTrace();
-        }
-        LogUtil.action(ServiceType.USER, "获取全国发型师用户,{},{},{},{}", lat, lng, deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -178,7 +154,6 @@ public class DesignerController {
         return result;
     }
 
-
     @RequestMapping(value="/designer/inc/{id}/fans",method=RequestMethod.POST)
     public ResultTO incFansCount(HttpServletRequest request, @PathVariable("id") String id) {
         ResultTO result = new ResultTO();
@@ -196,7 +171,5 @@ public class DesignerController {
         }
         return result;
     }
-
-
 
 }
