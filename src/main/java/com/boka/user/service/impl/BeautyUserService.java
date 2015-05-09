@@ -127,17 +127,6 @@ public class BeautyUserService extends UserService {
         result.setMobile(bean.getMobile());
         result.setName(bean.getName());
         result.setSex(bean.getSex());
-
-        // FIXME
-        if(user.getProduct().equals(ProductType.VOLUME) || user.getProduct().equalsIgnoreCase("open")) {
-            // 临时给iPad会员过期使用，后期可以去掉
-            Device device = deviceService.getDeviceInfo(ProductType.VOLUME, deviceId);
-            if(device == null) {
-                result.setExpireDate(null);
-            } else {
-                result.setExpireDate(bean.getExpireDate());
-            }
-        }
         //TODO 不同产品登陆时间记录
         result.setAccess_token(authUtil.getToken(bean.getId(), deviceId));
         return result;
