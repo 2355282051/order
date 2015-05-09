@@ -1,5 +1,6 @@
 package com.boka.user.controller;
 
+import com.boka.common.constant.ProductType;
 import com.boka.common.constant.ServiceType;
 import com.boka.common.dto.ResultTO;
 import com.boka.common.exception.AuthException;
@@ -29,15 +30,16 @@ public class UserController {
     @Autowired
     private AuthUtil authUtil;
 
-    @RequestMapping(value = "/{product}/reg", method = RequestMethod.POST)
-    public ResultTO addUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
+    @RequestMapping(value = "/beauty/reg", method = RequestMethod.POST)
+    public ResultTO addUser(HttpServletRequest request, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
-            user.setProduct(product);
-            result.setResult(UserServiceFactory.getService(request, product).reg(user, deviceId));
+            //FIXME 暂时定位beauty
+            user.setProduct(ProductType.BEAUTY);
+            result.setResult(UserServiceFactory.getService(request, ProductType.BEAUTY).reg(user, deviceId));
         } catch (CommonException ce) {
             result.setCode(500);
             result.setSuccess(false);
@@ -51,7 +53,7 @@ public class UserController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, product);
+        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
@@ -139,15 +141,16 @@ public class UserController {
         return result;
     }
 
-    @RequestMapping(value = "/{product}/login", method = RequestMethod.POST)
-    public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
+    @RequestMapping(value = "/beauty/login", method = RequestMethod.POST)
+    public ResultTO loginUser(HttpServletRequest request, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
         String deviceId = null;
         try {
             Map<String, String> map = authUtil.preAuth(request);
             deviceId = map.get("deviceId");
-            user.setProduct(product);
-            result.setResult(UserServiceFactory.getService(request,product).login(user, deviceId));
+            // FIXME
+            user.setProduct(ProductType.BEAUTY);
+            result.setResult(UserServiceFactory.getService(request, ProductType.BEAUTY).login(user, deviceId));
         } catch (LoginException ae) {
             result.setCode(401);
             result.setSuccess(false);
@@ -161,7 +164,7 @@ public class UserController {
             result.setSuccess(false);
             e.printStackTrace();
         }
-        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, product);
+        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
         return result;
     }
 
