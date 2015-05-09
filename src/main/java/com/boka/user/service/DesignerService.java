@@ -4,7 +4,6 @@ import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
 import com.boka.common.util.Assert;
 import com.boka.common.util.DistanceUtil;
-import com.boka.user.dto.CommentTO;
 import com.boka.user.dto.DesignerTO;
 import com.boka.user.model.*;
 import com.boka.user.repository.DesignerRepository;
@@ -84,6 +83,11 @@ public class DesignerService {
         Designer bean = designerRepository.findOne(designerId);
         if (bean == null) {
             throw new CommonException(ExceptionCode.DATA_NOT_EXISTS);
+        }
+        Shop shop = bean.getShop();
+        if(shop != null && Assert.isNotNull(shop.getId())) {
+            shop = shopService.getShop(shop.getId());
+            bean.setShop(shop);
         }
 
         DesignerTO result = new DesignerTO(bean);
