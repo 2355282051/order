@@ -25,10 +25,13 @@ public class DesignerService {
 
     @Autowired
     private DesignerRepository designerRepository;
+
     @Autowired
     private DesignerStarRepository designerStarRepository;
+
     @Autowired
     private LikeRepository likeRepository;
+
     @Autowired
     private HonourRepository honourRepository;
 
@@ -45,30 +48,17 @@ public class DesignerService {
     private CommentService commentService;
 
 
-
-
     public List<Designer> findNearDesigners(Location loc, String city, String keyword, int page) {
-        if (loc.getLat() == null || loc.getLng() == null)
+        //无经纬度则按照同城查找
+        if (loc.getLat() == null || loc.getLng() == null) {
             return findCityDesigners(loc, city, keyword, page);
-        else
-            return designerRepository.findNearDesigners(loc, city, keyword, page);
+        }
+
+        return designerRepository.findNearDesigners(loc, city, keyword, page);
     }
 
     public List<Designer> findCityDesigners(Location loc, String city, String keyword, int page) {
         List<Designer> result = designerRepository.findCityDesigners(loc, city, keyword, page);
-        //计算距离
-        if (loc.getLat() != null && loc.getLng() != null) {
-            for (Designer item : result) {
-                if (item.getLoc() != null) {
-                    item.setDistance(DistanceUtil.distance(loc.getLat(), loc.getLng(), item.getLoc().getLat(), item.getLoc().getLng()));
-                }
-            }
-        }
-        return result;
-    }
-
-    public List<Designer> findCountyDesigners(Location loc, int page) {
-        List<Designer> result = designerRepository.findCountryDesigners(loc, page);
         //计算距离
         if (loc.getLat() != null && loc.getLng() != null) {
             for (Designer item : result) {
@@ -87,20 +77,14 @@ public class DesignerService {
         }
 
         DesignerTO result = new DesignerTO(bean);
-        if(accessToken != null) {
+        if (accessToken != null) {
             int designerCommentCnt = commentService.getReserveCommentCnt(designerId, accessToken, deviceId);
-            //if(comments != null) {
-                result.setCommentCount(designerCommentCnt);
-//                result.setComments(comments);
-//            } else {
-//                result.setCommentCount(0);
-//                result.setComments(new ArrayList<CommentTO>());
-//            }
+            result.setCommentCount(designerCommentCnt);
         }
 
-        if(Assert.isNotNull(userId)) {
+        if (Assert.isNotNull(userId)) {
             Like like = likeRepository.findByDesignerIdAndUserId(designerId, userId);
-            if(like != null) {
+            if (like != null) {
                 result.setLiked(1);
             }
         }
@@ -108,7 +92,7 @@ public class DesignerService {
 
         long honourCount = honourRepository.countHonourByDesigner(designerId);
 
-        if(honourCount > 0) {
+        if (honourCount > 0) {
             result.setHonourStatus(1);
         }
         return result;
@@ -119,11 +103,11 @@ public class DesignerService {
         List<DesignerStar> result = designerStarRepository.findByCity(city, sort);
         if (result != null && result.size() == 4) {
             return result;
-        }else if (result == null){
+        } else if (result == null) {
             result = designerStarRepository.findByCity("310000", sort);
-        }else if (result.size() < 4){
+        } else if (result.size() < 4) {
             List<DesignerStar> other = designerStarRepository.findByCity("310000", sort);
-            for (int i = 0; i<4 - result.size(); i++) {
+            for (int i = 0; i < 4 - result.size(); i++) {
                 result.add(other.get(i));
             }
         }
@@ -153,7 +137,7 @@ public class DesignerService {
                     }
                 }
             }
-        }else {
+        } else {
             result = desktopService.getDesigner(id);
             if (result == null || result.size() == 0) {
                 result = designerRepository.findByShop(id);
@@ -217,7 +201,7 @@ public class DesignerService {
             item.setEmpId(designer.getEmpId());
 
         if (designer.getShop() != null)
-            if(item.getShop() != null) {
+            if (item.getShop() != null) {
                 item.getShop().setId(designer.getShop().getId());
             } else {
                 item.setShop(designer.getShop());

@@ -7,6 +7,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
+ * 用户服务工厂
  * Created by Admin on 2015/5/5 0005.
  */
 public class UserServiceFactory {

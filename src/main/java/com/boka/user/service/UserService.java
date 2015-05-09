@@ -1,6 +1,5 @@
 package com.boka.user.service;
 
-import com.boka.common.constant.ProductType;
 import com.boka.common.exception.AuthException;
 import com.boka.common.exception.CommonException;
 import com.boka.common.exception.ExceptionCode;
@@ -148,7 +147,9 @@ public abstract class UserService {
         return baseInfoRepository.findUserByOpenId(openId);
     }
 
-    //初始化预约设置
+    /**
+     * 初始化预约设置
+     */
     protected ReserveInfo initReserveInfo() {
         //预约设置信息
         ReserveInfo result = new ReserveInfo();
