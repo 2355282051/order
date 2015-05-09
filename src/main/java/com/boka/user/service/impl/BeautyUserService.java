@@ -129,7 +129,7 @@ public class BeautyUserService extends UserService {
         result.setSex(bean.getSex());
 
         // FIXME
-        if(user.getProduct().equals(ProductType.VOLUME)) {
+        if(user.getProduct().equals(ProductType.VOLUME) || user.getProduct().equalsIgnoreCase("open")) {
             // 临时给iPad会员过期使用，后期可以去掉
             Device device = deviceService.getDeviceInfo(ProductType.VOLUME, deviceId);
             if(device == null) {
