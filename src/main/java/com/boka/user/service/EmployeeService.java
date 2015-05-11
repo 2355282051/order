@@ -9,6 +9,7 @@ import com.boka.common.util.Assert;
 import com.boka.common.util.RandomGenerateUtil;
 import com.boka.common.util.RandomUtil;
 import com.boka.user.constant.StatusConstant;
+import com.boka.user.constant.SystemConstant;
 import com.boka.user.dto.UserTO;
 import com.boka.user.model.*;
 import com.boka.user.repository.BaseInfoRepository;
@@ -250,16 +251,18 @@ public class EmployeeService {
     }
 
     private void sendSms(RequestSms sms) throws Exception {
-        Properties properties = new Properties();
-        properties.put(PropertyKeyConst.ProducerId, "PID_1772604614-106");
-        properties.put(PropertyKeyConst.AccessKey, "YXax9hijbGKnkmAx");
-        properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
-        Producer producer = ONSFactory.createProducer(properties);
-        producer.start();
-        Message msg = new Message("queue_sms", "send", JSON.toJSONString(sms).getBytes("UTF-8"));
-        msg.setKey(sms.getPhone());
-        SendResult sendResult = producer.send(msg);
-        producer.shutdown();
+        if(SystemConstant.ONS_STARTED) {
+            Properties properties = new Properties();
+            properties.put(PropertyKeyConst.ProducerId, "PID_1772604614-106");
+            properties.put(PropertyKeyConst.AccessKey, "YXax9hijbGKnkmAx");
+            properties.put(PropertyKeyConst.SecretKey, "KHL4Gir3e6lnild7SUpJAJtqvZEVXA");
+            Producer producer = ONSFactory.createProducer(properties);
+            producer.start();
+            Message msg = new Message("queue_sms", "send", JSON.toJSONString(sms).getBytes("UTF-8"));
+            msg.setKey(sms.getPhone());
+            SendResult sendResult = producer.send(msg);
+            producer.shutdown();
+        }
     }
 
     public EmployeeLeave getEmployeeLeave(String id) {
