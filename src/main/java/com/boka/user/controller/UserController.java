@@ -168,6 +168,33 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping(value = "/desktop/login", method = RequestMethod.POST)
+    public ResultTO loginDesktopUser(HttpServletRequest request, @RequestBody UserTO user) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            // FIXME
+            user.setProduct(ProductType.DESKTOP);
+            result.setResult(UserServiceFactory.getService(request, ProductType.BEAUTY).login(user, deviceId));
+        } catch (LoginException ae) {
+            result.setCode(401);
+            result.setSuccess(false);
+            result.setMsg(ae.getMessage());
+        } catch (CommonException ce) {
+            result.setCode(400);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "用户登陆,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
     @RequestMapping(value = "/{product}/u/{userId}/checked", method = RequestMethod.GET)
     public ResultTO loginUser(HttpServletRequest request, @PathVariable String product, @PathVariable String userId) {
         ResultTO result = new ResultTO();
