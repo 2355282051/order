@@ -57,6 +57,33 @@ public class UserController {
         return result;
     }
 
+    @RequestMapping(value = "/desktop/reg", method = RequestMethod.POST)
+    public ResultTO addDesktopUser(HttpServletRequest request, @RequestBody UserTO user) {
+        ResultTO result = new ResultTO();
+        String deviceId = null;
+        try {
+            Map<String, String> map = authUtil.preAuth(request);
+            deviceId = map.get("deviceId");
+            //FIXME 暂时定位beauty
+            user.setProduct(ProductType.DESKTOP);
+            result.setResult(UserServiceFactory.getService(request, ProductType.DESKTOP).reg(user, deviceId));
+        } catch (CommonException ce) {
+            result.setCode(500);
+            result.setSuccess(false);
+            result.setMsg(ce.getMessage());
+        } catch (LoginException le) {
+            result.setCode(409);
+            result.setSuccess(false);
+            result.setMsg(le.getMessage());
+        } catch (Exception e) {
+            result.setCode(500);
+            result.setSuccess(false);
+            e.printStackTrace();
+        }
+        LogUtil.action(ServiceType.USER, "用户注册,{},{},{}", user.getId(), deviceId, ProductType.BEAUTY);
+        return result;
+    }
+
     @RequestMapping(value = "/{product}/activate", method = RequestMethod.POST)
     public ResultTO activateUser(HttpServletRequest request, @PathVariable String product, @RequestBody UserTO user) {
         ResultTO result = new ResultTO();
@@ -177,7 +204,7 @@ public class UserController {
             deviceId = map.get("deviceId");
             // FIXME
             user.setProduct(ProductType.DESKTOP);
-            result.setResult(UserServiceFactory.getService(request, ProductType.BEAUTY).login(user, deviceId));
+            result.setResult(UserServiceFactory.getService(request, ProductType.DESKTOP).login(user, deviceId));
         } catch (LoginException ae) {
             result.setCode(401);
             result.setSuccess(false);
